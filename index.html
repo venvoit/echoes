@@ -17,13 +17,13 @@
             --tile-color-bottom: #f8f4e6;
             --tile-border: #e6dfce;
             --tile-shadow-3d: #d1c8b4;
-            --tile-text: #3730a3; /* Deep Indigo */
+            --tile-text: #3730a3;
             
             --primary-btn: #6366f1;
             --accent: #10b981;
             --text-main: #334155;
             --text-light: #64748b;
-            --dev-bg: rgba(30, 41, 59, 0.9);
+            --dev-bg: rgba(30, 41, 59, 0.95);
             --dev-text: #60a5fa;
         }
 
@@ -203,13 +203,30 @@
         }
         .toast-container.show { opacity: 1; transform: translate(-50%, 0); }
 
-        /* DEV PANEL */
+        /* COLLAPSIBLE DEV PANEL */
+        .dev-wrapper {
+            position: fixed; bottom: 15px; right: 15px;
+            display: flex; align-items: center; gap: 10px; z-index: 2000;
+        }
+        .dev-toggle {
+            background: rgba(30, 41, 59, 0.3); border: 1px solid rgba(255,255,255,0.2);
+            color: white; width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);
+            opacity: 0.6; transition: all 0.2s; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .dev-toggle:hover { opacity: 1; background: rgba(30, 41, 59, 0.8); transform: scale(1.05); }
         .dev-panel {
-            position: fixed; bottom: 15px; right: 15px; background: var(--dev-bg); color: var(--dev-text);
+            background: var(--dev-bg); color: var(--dev-text);
             padding: 8px 12px; border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            display: flex; gap: 8px; align-items: center; z-index: 2000; backdrop-filter: blur(10px);
+            display: flex; gap: 8px; align-items: center; backdrop-filter: blur(10px);
+            transition: opacity 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: right center;
+        }
+        .dev-panel.collapsed {
+            opacity: 0; transform: scaleX(0.8) translateX(20px); pointer-events: none;
         }
         .dev-btn { background: rgba(255,255,255,0.1); border: none; color: white; width: 28px; height: 28px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .dev-label { font-size: 0.75rem; font-weight: bold; font-family: monospace; }
 
         /* MODALS */
         .modal-overlay {
@@ -327,13 +344,16 @@
         </div>
     </div>
 
-    <div class="dev-panel">
-        <div class="dev-label">DEV:</div>
-        <button class="dev-btn" onclick="prevDay()"> &lt; </button>
-        <div class="dev-label" id="dayIndicator">DAY 1</div>
-        <button class="dev-btn" onclick="nextDay()"> &gt; </button>
-        <button class="dev-btn" style="background:#8b5cf6;" onclick="openCheat()" title="Cheat Menu"> 💡 </button>
-        <button class="dev-btn" style="background:#b91c1c;" onclick="resetDay()" title="Reset Day"> ↻ </button>
+    <div class="dev-wrapper">
+        <div class="dev-panel collapsed" id="devPanel">
+            <div class="dev-label">DEV:</div>
+            <button class="dev-btn" onclick="prevDay()"> &lt; </button>
+            <div class="dev-label" id="dayIndicator">DAY 1</div>
+            <button class="dev-btn" onclick="nextDay()"> &gt; </button>
+            <button class="dev-btn" style="background:#8b5cf6;" onclick="openCheat()" title="Cheat Menu"> 💡 </button>
+            <button class="dev-btn" style="background:#b91c1c;" onclick="resetDay()" title="Reset Day"> ↻ </button>
+        </div>
+        <button class="dev-toggle" onclick="toggleDev()" title="Toggle Dev Menu">⚙️</button>
     </div>
 
     <div class="modal-overlay" id="introModal" role="dialog" aria-modal="true">
@@ -410,42 +430,42 @@
     </div>
 
     <script>
-        // --- 7 DAYS CONTENT (MATHEMATICALLY SCRUBBED NO Q) ---
+        // --- 7 DAYS CONTENT (100% MATHEMATICALLY SCRUBBED NO Q) ---
         const PUZZLE_DB = [
             { 
                 id: 1, 
                 letters: ["S", "T", "A", "R", "E"], 
-                validWords: ["are", "area", "areas", "arrest", "arresters", "arrests", "ars", "art", "arts", "assert", "asserter", "asserters", "asserts", "assess", "assesses", "aster", "asters", "ate", "ates", "ear", "ears", "ease", "easer", "easers", "eases", "east", "easts", "eat", "eater", "eaters", "eats", "era", "eras", "erase", "eraser", "erasers", "erases", "ere", "err", "errs", "ers", "estate", "estates", "eta", "etas", "rare", "rares", "rarest", "ras", "rat", "rate", "rater", "raters", "rates", "rats", "reassert", "reasserts", "rear", "rears", "rearer", "rearers", "reassess", "reassesses", "res", "reset", "resets", "rest", "restarts", "restart", "restarter", "restarters", "ret", "rete", "retest", "retests", "retreat", "retreater", "retreaters", "retreats", "rets", "sae", "sat", "sea", "sear", "searer", "seas", "seat", "seater", "seaters", "seats", "see", "seer", "seers", "sees", "ser", "sere", "serer", "serrate", "serrates", "set", "seta", "sets", "star", "stare", "starer", "starers", "stares", "start", "starter", "starters", "starts", "stat", "state", "stater", "staters", "states", "stere", "steres", "street", "streets", "stress", "stresses", "tar", "tare", "tares", "tars", "tart", "tarter", "tarts", "taste", "taster", "tasters", "tastes", "tat", "tater", "taters", "tats", "tea", "tear", "tearer", "tearers", "tears", "teas", "tease", "teaser", "teasers", "teases", "teat", "teats", "tee", "tees", "terra", "terras", "terret", "terrets", "tessera", "tesserae", "test", "tester", "testers", "tests", "treat", "treater", "treaters", "treats", "tree", "trees", "tsar", "tsars"] 
+                validWords: ["are", "area", "areas", "arrest", "arrester", "arresters", "arrests", "ars", "art", "arts", "asea", "assert", "asserter", "asserters", "asserts", "assess", "assesses", "aster", "asters", "ate", "ates", "ear", "ears", "ease", "easer", "easers", "eases", "east", "easts", "eat", "eater", "eaters", "eats", "era", "eras", "erase", "eraser", "erasers", "erases", "ere", "err", "errs", "ers", "erst", "estate", "estates", "eta", "etas", "rare", "rares", "rarest", "ras", "raster", "rasters", "rat", "rate", "rater", "raters", "rates", "rats", "rear", "rears", "rearer", "rearers", "reassert", "reasserts", "reassess", "reassesses", "res", "reseat", "reseats", "reset", "resets", "rest", "restart", "restarter", "restarters", "restarts", "ret", "retaste", "retastes", "rete", "retear", "retears", "retest", "retests", "retreat", "retreater", "retreaters", "retreats", "rets", "sae", "sat", "sea", "sear", "searer", "seas", "seat", "seater", "seaters", "seats", "see", "seer", "seers", "sees", "ser", "sere", "serer", "serest", "serrate", "serrates", "set", "seta", "setae", "sets", "star", "stare", "starer", "starers", "stares", "start", "starter", "starters", "starts", "stat", "state", "stater", "staters", "states", "stere", "steres", "stet", "stets", "street", "streets", "stress", "stresses", "tar", "tare", "tares", "tars", "tart", "tartar", "tartars", "tarter", "tarts", "tas", "taste", "taster", "tasters", "tastes", "tat", "tater", "taters", "tats", "tea", "tear", "tearer", "tearers", "tears", "teas", "tease", "teaser", "teasers", "teases", "teat", "teats", "tee", "tees", "terra", "terras", "terret", "terrets", "tessera", "tesserae", "test", "testa", "testae", "testee", "testees", "tester", "testers", "testes", "tests", "treat", "treater", "treaters", "treats", "tree", "trees", "tsar", "tsars", "tatt", "tatter", "tatters", "tatts"] 
             },
             { 
                 id: 2, 
                 letters: ["L", "E", "A", "S", "T"], 
-                validWords: ["ale", "ales", "all", "alls", "als", "alt", "alts", "asea", "asset", "assets", "ate", "ates", "atlas", "atlases", "ease", "easel", "easels", "eases", "east", "easts", "eat", "eats", "eel", "eels", "ell", "ells", "else", "estate", "estates", "eta", "etas", "las", "lase", "lases", "lass", "lasses", "last", "lasts", "lat", "late", "latest", "lats", "lea", "leal", "leas", "lease", "leasees", "leases", "least", "lee", "lees", "less", "lessee", "lessees", "lessest", "lest", "let", "lets", "sae", "sal", "sale", "sales", "sall", "sals", "salt", "salts", "saltest", "sass", "sasses", "sat", "sea", "seas", "seat", "seats", "see", "sees", "sel", "sell", "sells", "sels", "set", "seta", "setae", "sets", "sett", "setts", "slat", "slate", "slates", "slats", "stale", "stales", "stall", "stalls", "stallest", "stat", "state", "stateless", "states", "stats", "steal", "steals", "steel", "steels", "stele", "steles", "stella", "tae", "tael", "taels", "tala", "talas", "tale", "tales", "tall", "tallest", "talls", "tas", "tassel", "tassels", "tasteless", "tat", "tats", "tea", "teal", "teals", "teas", "teasel", "teasels", "teat", "teats", "tee", "tees", "tel", "tela", "telae", "tele", "teles", "tell", "tells", "tels", "test", "testa", "testae", "testee", "testees", "tests", "tets"] 
+                validWords: ["ale", "ales", "all", "alls", "als", "alt", "alts", "asea", "asset", "assets", "ate", "ates", "atlas", "atlases", "atlatl", "atlatls", "ease", "easel", "easels", "eases", "east", "easts", "eat", "eats", "eel", "eels", "ell", "ells", "else", "estate", "estates", "eta", "etas", "las", "lase", "lases", "lass", "lasses", "last", "lasts", "lat", "late", "latest", "lats", "latte", "lattes", "lea", "leal", "leas", "lease", "leasee", "leasees", "leases", "least", "lee", "lees", "less", "lessee", "lessees", "lessest", "lest", "let", "lets", "sae", "sal", "sale", "sales", "sall", "salt", "saltest", "salts", "sass", "sasses", "sat", "sea", "seas", "seat", "seats", "see", "sees", "sel", "sell", "sells", "sels", "set", "seta", "setae", "sets", "sett", "setts", "slat", "slate", "slates", "slats", "stale", "stales", "stall", "stallest", "stalls", "stat", "state", "stateless", "states", "stats", "steal", "steals", "steel", "steels", "stele", "steles", "stella", "stellas", "tae", "tael", "taels", "tala", "talas", "tale", "tales", "tall", "tallest", "talls", "tas", "tassel", "tassels", "tasteless", "taste", "tastes", "tat", "tates", "tats", "tea", "teal", "teals", "teas", "teasel", "teasels", "teat", "teats", "tee", "tees", "tel", "tela", "telae", "tele", "teles", "tell", "tells", "tels", "test", "testa", "testae", "testee", "testees", "tests", "tets"] 
             },
             { 
                 id: 3, 
                 letters: ["T", "E", "N", "S", "I"], 
-                validWords: ["ins", "inset", "insets", "insist", "insistent", "insists", "inst", "intense", "intensest", "intensities", "intent", "intents", "intestine", "intestines", "its", "neist", "ness", "nest", "nests", "net", "nets", "nies", "nine", "nines", "nineteen", "nineteens", "nisi", "nit", "nits", "see", "seen", "sees", "seis", "seise", "seises", "sen", "sene", "sennit", "sennits", "sense", "sensei", "senseis", "senses", "sensi", "sent", "sentient", "sentients", "set", "sets", "sienna", "siennas", "sies", "sin", "sine", "sines", "sins", "sit", "site", "sites", "sits", "snee", "snees", "snit", "snits", "stein", "steins", "stent", "stents", "sties", "teen", "teens", "ten", "tennis", "tennises", "tens", "tense", "tenses", "tensest", "tensities", "tent", "tents", "test", "testes", "testis", "tests", "tet", "tets", "tie", "ties", "tin", "tine", "tines", "tins", "tint", "tints", "tis", "tit", "tits"] 
+                validWords: ["ins", "inset", "insets", "insist", "insistent", "insists", "inst", "intense", "intensest", "intensities", "intent", "intents", "intestine", "intestines", "its", "neist", "ness", "nest", "nests", "net", "nets", "nies", "nine", "nines", "nineteen", "nineteens", "nineties", "nisi", "nit", "nits", "see", "seen", "sees", "seis", "seise", "seises", "sen", "sene", "sennit", "sennits", "sense", "sensei", "senseis", "senses", "sensi", "sent", "sentient", "sentients", "set", "sets", "sienna", "siennas", "sies", "sin", "sine", "sines", "sins", "sit", "site", "sites", "sits", "snee", "snees", "snit", "snits", "stein", "steins", "stent", "stents", "sties", "teen", "teens", "ten", "tennis", "tennises", "tens", "tense", "tenses", "tensest", "tensities", "tent", "tents", "test", "testes", "testis", "tests", "tet", "tets", "tie", "ties", "tin", "tine", "tines", "tins", "tint", "tints", "tis", "tit", "tits"] 
             },
             { 
                 id: 4, 
-                letters: ["G", "R", "E", "N", "S"], 
-                validWords: ["egg", "eggers", "eggs", "egress", "egresses", "eng", "engs", "erg", "ergs", "ern", "erns", "err", "errs", "ers", "gee", "gees", "geese", "gen", "gene", "genes", "genre", "genres", "gens", "gere", "gree", "green", "greener", "greenness", "greennesses", "greens", "grees", "gresser", "nee", "neg", "negs", "reg", "regress", "regresses", "regs", "renege", "reneger", "renegers", "reneges", "res", "see", "seen", "seer", "seers", "sees", "seg", "segs", "sen", "sense", "senses", "senser", "sensers", "ser", "sere", "serene", "serener", "sereneness", "serer", "seres", "sers", "sneer", "sneerer", "sneerers", "sneers"] 
+                letters: ["C", "A", "R", "E", "S"], 
+                validWords: ["ace", "aces", "acre", "acres", "arc", "arcs", "arcsec", "are", "areca", "arecas", "arere", "ares", "arres", "arret", "ars", "caeca", "car", "caracara", "caracaras", "carcase", "carcases", "care", "career", "careers", "carer", "carers", "cares", "cars", "case", "cases", "cease", "ceases", "cee", "cees", "cere", "ceres", "cers", "crase", "crease", "creases", "cree", "crees", "ear", "ears", "ease", "easer", "easers", "eases", "era", "eras", "erase", "eraser", "erasers", "erases", "ere", "eres", "err", "errs", "ers", "escar", "escars", "eses", "raca", "race", "racecar", "racecars", "racer", "racers", "races", "rare", "rares", "rarer", "ras", "rase", "raser", "rasers", "rases", "rear", "rearer", "rearers", "rears", "reassess", "reassesses", "rec", "reccce", "recess", "recesses", "recs", "ree", "rees", "res", "resear", "resee", "resees", "sac", "sacer", "sae", "scar", "scarce", "scarcer", "scare", "scarer", "scarers", "scares", "scars", "scree", "screes", "sea", "sear", "sears", "seas", "sease", "sec", "seces", "see", "seer", "seers", "sees", "ser", "serac", "seracs", "sere", "serer", "seres", "serr", "serra", "serras", "sers"] 
             },
             { 
                 id: 5, 
+                letters: ["G", "R", "E", "N", "S"], 
+                validWords: ["egg", "egger", "eggers", "eggs", "egress", "egresses", "eng", "engs", "erg", "ergs", "ern", "erne", "ernes", "erns", "err", "errs", "ers", "gee", "gees", "geese", "gen", "gene", "genes", "genre", "genres", "gens", "gere", "gree", "green", "greener", "greeners", "greenness", "greennesses", "greens", "grees", "gresser", "nee", "neg", "negs", "reg", "regress", "regresses", "regs", "renege", "reneger", "renegers", "reneges", "res", "see", "seen", "seer", "seers", "sees", "seg", "segs", "sen", "sense", "senses", "senser", "sensers", "ser", "sere", "serene", "serener", "serenes", "sereneness", "serenenesses", "serer", "seres", "sers", "sneer", "sneerer", "sneerers", "sneers"] 
+            },
+            { 
+                id: 6, 
                 letters: ["M", "A", "I", "L", "N"], 
                 validWords: ["ail", "ails", "aim", "aims", "ain", "ains", "ala", "alan", "alans", "alin", "all", "alls", "alma", "almas", "alms", "ama", "amah", "amahs", "amas", "ami", "amia", "amias", "amin", "amins", "amis", "ana", "anal", "anam", "anas", "ani", "anil", "anils", "animal", "animalia", "animals", "anis", "anna", "annal", "annals", "ill", "ills", "in", "inn", "inns", "la", "lam", "lama", "lamas", "lamia", "lamias", "laminin", "laminins", "lams", "lana", "lanai", "lanas", "liana", "lianas", "liin", "lill", "lima", "liman", "limans", "limn", "limns", "lin", "linn", "linns", "lins", "llama", "llamas", "ma", "mail", "maill", "maills", "mailman", "mails", "main", "mains", "mall", "malls", "mama", "mamas", "mamma", "mammal", "mammalia", "mammalian", "mammalians", "mammals", "mammas", "man", "mana", "manana", "mananas", "manas", "mani", "mania", "manias", "manila", "manilas", "manna", "mannas", "mi", "mil", "mill", "mills", "mim", "mina", "minas", "mini", "minimal", "minimill", "minimills", "minims", "na", "naan", "naans", "nail", "nails", "nala", "nalas", "nam", "nana", "nanas", "nanna", "nannas", "nil", "nill", "nills", "nils", "nim", "nims"] 
             },
             { 
-                id: 6, 
-                letters: ["A", "P", "R", "T", "U"], 
-                validWords: ["apart", "apparat", "apt", "arp", "art", "aurar", "pap", "papa", "par", "para", "parr", "parra", "part", "pat", "prat", "prau", "praut", "ptui", "pup", "pupa", "pur", "purpura", "purr", "put", "puta", "putt", "rap", "rapt", "rat", "rattrap", "rut", "tap", "tapa", "tar", "tarp", "tart", "tartar", "tat", "tau", "trap", "trapt", "tut", "uptart", "urp"] 
-            },
-            { 
                 id: 7, 
                 letters: ["D", "E", "M", "I", "S"], 
-                validWords: ["dee", "deed", "deeds", "deem", "deems", "dees", "deism", "deisms", "deme", "demes", "demi", "demies", "demise", "demises", "demiss", "did", "dides", "didies", "die", "died", "dies", "dim", "dime", "dimes", "dimmed", "dims", "dis", "dismes", "dismiss", "dismissed", "dismisses", "eds", "ees", "eme", "emes", "emmes", "idem", "ides", "idism", "ids", "imide", "imides", "ism", "isms", "med", "meed", "meeds", "mesems", "meses", "mid", "midis", "mids", "mis", "misdeem", "misdeems", "misdid", "mise", "mised", "mises", "miss", "missed", "missee", "misseem", "misses", "missis", "sed", "see", "seed", "seeded", "seeds", "seem", "seemed", "seems", "sei", "seism", "seisms", "semi", "semie", "semis", "side", "sided", "sides", "sim", "sissi", "smides"] 
+                validWords: ["dee", "deed", "deeds", "deem", "deems", "dees", "deism", "deisms", "deme", "demes", "demi", "demies", "demise", "demises", "demiss", "did", "dides", "didie", "didies", "die", "died", "dies", "dim", "dime", "dimes", "dimmed", "dims", "dis", "dismes", "dismiss", "dismissed", "dismisses", "eds", "ees", "eme", "emes", "emmes", "idem", "ides", "idism", "idisms", "ids", "imide", "imides", "ism", "isms", "med", "meed", "meeds", "mesems", "meses", "mid", "midis", "mids", "mis", "misdeem", "misdeems", "misdid", "mise", "mised", "mises", "miss", "missed", "missee", "misseem", "misses", "missis", "sed", "see", "seed", "seeded", "seeds", "seem", "seemed", "seems", "sei", "seism", "seisms", "semi", "semie", "semies", "semis", "side", "sided", "sides", "sim", "sissi", "smides"] 
             }
         ];
 
@@ -459,7 +479,7 @@
         ];
 
         const MAX_LIVES = 3;
-        const STATS_KEY = 'echoes_agnes_stats_v8';
+        const STATS_KEY = 'echoes_agnes_stats_v10';
         
         let currentDayIndex = 0; 
         let currentInput = ""; 
@@ -474,6 +494,11 @@
         function init() { 
             loadDay(0); 
             setupKeyboard();
+        }
+
+        // --- DEV MENU TOGGLE ---
+        function toggleDev() {
+            document.getElementById('devPanel').classList.toggle('collapsed');
         }
 
         // --- INTERACTIVE TUTORIAL LOGIC ---

@@ -12,12 +12,11 @@
             --bg-gradient: linear-gradient(135deg, #0ea5e9 0%, #6366f1 50%, #8b5cf6 100%);
             --glass-panel: rgba(255, 255, 255, 0.96);
             
-            /* Enhanced Premium Tile Colors */
             --tile-color-top: #ffffff;
             --tile-color-bottom: #f8f4e6;
             --tile-border: #e6dfce;
             --tile-shadow-3d: #d1c8b4;
-            --tile-text: #3730a3;
+            --tile-text: #3730a3; 
             
             --primary-btn: #6366f1;
             --accent: #10b981;
@@ -63,14 +62,18 @@
         .stats-btn:active { transform: scale(0.95); }
         .stats-btn:hover { background: rgba(255,255,255,0.4); border-color: white; }
         
-        /* LIVES */
-        .lives-container {
-            display: flex; gap: 6px; background: rgba(255,255,255,0.25);
-            padding: 8px 12px; border-radius: 20px; backdrop-filter: blur(8px);
+        /* ROUND INDICATOR */
+        .round-indicator {
+            background: rgba(255,255,255,0.25);
+            padding: 8px 16px; border-radius: 20px; backdrop-filter: blur(8px);
             border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            font-weight: 800; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase;
         }
-        .life-heart { font-size: 1.2rem; transition: opacity 0.3s, filter 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .life-heart.lost { opacity: 0.3; filter: grayscale(100%); transform: scale(0.7); }
+
+        /* MAIN GAME AREA WRAPPER */
+        #mainGameArea {
+            width: 100%; display: flex; flex-direction: column; align-items: center;
+        }
 
         /* MAIN CARD */
         .game-card {
@@ -126,34 +129,43 @@
             background-size: 200% 200%; animation: gradientShift 2s ease infinite;
         }
 
-        /* --- THE PREMIUM 5-TILE ARCH --- */
-        .premium-rack {
-            display: flex; justify-content: center; align-items: center;
-            gap: 10px; margin-top: 15px; margin-bottom: 45px; height: 90px;
+        /* --- GEOMETRIC SHAPE LAYOUTS --- */
+        .shape-container {
+            position: relative; width: 220px; height: 220px; 
+            margin: 10px auto 30px; transition: opacity 0.4s ease;
         }
-
-        .letter-btn {
-            width: 66px; height: 74px; border-radius: 16px;
+        .shape-container.fade-out { opacity: 0; pointer-events: none; }
+        
+        .shape-tile {
+            width: 66px; height: 74px; border-radius: 16px; position: absolute;
             background: linear-gradient(180deg, var(--tile-color-top) 0%, var(--tile-color-bottom) 100%);
             border: 1px solid var(--tile-border); color: var(--tile-text);
             font-size: 2.3rem; font-family: 'Varela Round', sans-serif; font-weight: 900; cursor: pointer;
             display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent;
             text-shadow: 0 1px 1px rgba(255,255,255,0.9), 0 -1px 1px rgba(0,0,0,0.1);
             box-shadow: 0 8px 0 var(--tile-shadow-3d), 0 15px 20px rgba(0,0,0,0.15), inset 0 2px 0 rgba(255,255,255,1);
-            transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1), top 0.5s ease, left 0.5s ease;
         }
-        
-        .premium-rack .letter-btn:nth-child(1) { transform: translateY(12px) rotate(-8deg); }
-        .premium-rack .letter-btn:nth-child(2) { transform: translateY(4px) rotate(-4deg); }
-        .premium-rack .letter-btn:nth-child(3) { transform: translateY(0px) rotate(0deg); } 
-        .premium-rack .letter-btn:nth-child(4) { transform: translateY(4px) rotate(4deg); }
-        .premium-rack .letter-btn:nth-child(5) { transform: translateY(12px) rotate(8deg); }
+        .shape-tile:active, .shape-tile.active-sim {
+            transform: translate(-50%, calc(-50% + 8px)) !important;
+            box-shadow: 0 0px 0 var(--tile-shadow-3d), 0 5px 10px rgba(0,0,0,0.1), inset 0 2px 4px rgba(0,0,0,0.05);
+        }
 
-        .premium-rack .letter-btn:nth-child(1):active, .premium-rack .letter-btn:nth-child(1).active-sim { transform: translateY(20px) rotate(-8deg); box-shadow: 0 0px 0 var(--tile-shadow-3d), 0 5px 10px rgba(0,0,0,0.1), inset 0 2px 4px rgba(0,0,0,0.05); }
-        .premium-rack .letter-btn:nth-child(2):active, .premium-rack .letter-btn:nth-child(2).active-sim { transform: translateY(12px) rotate(-4deg); box-shadow: 0 0px 0 var(--tile-shadow-3d), 0 5px 10px rgba(0,0,0,0.1), inset 0 2px 4px rgba(0,0,0,0.05); }
-        .premium-rack .letter-btn:nth-child(3):active, .premium-rack .letter-btn:nth-child(3).active-sim { transform: translateY(8px) rotate(0deg); box-shadow: 0 0px 0 var(--tile-shadow-3d), 0 5px 10px rgba(0,0,0,0.1), inset 0 2px 4px rgba(0,0,0,0.05); }
-        .premium-rack .letter-btn:nth-child(4):active, .premium-rack .letter-btn:nth-child(4).active-sim { transform: translateY(12px) rotate(4deg); box-shadow: 0 0px 0 var(--tile-shadow-3d), 0 5px 10px rgba(0,0,0,0.1), inset 0 2px 4px rgba(0,0,0,0.05); }
-        .premium-rack .letter-btn:nth-child(5):active, .premium-rack .letter-btn:nth-child(5).active-sim { transform: translateY(20px) rotate(8deg); box-shadow: 0 0px 0 var(--tile-shadow-3d), 0 5px 10px rgba(0,0,0,0.1), inset 0 2px 4px rgba(0,0,0,0.05); }
+        .shape-triangle .tile-0 { top: 15%; left: 50%; }
+        .shape-triangle .tile-1 { top: 85%; left: 15%; }
+        .shape-triangle .tile-2 { top: 85%; left: 85%; }
+
+        .shape-square .tile-0 { top: 20%; left: 20%; }
+        .shape-square .tile-1 { top: 20%; left: 80%; }
+        .shape-square .tile-2 { top: 80%; left: 20%; }
+        .shape-square .tile-3 { top: 80%; left: 80%; }
+
+        .shape-pentagon .tile-0 { top: 10%; left: 50%; }
+        .shape-pentagon .tile-1 { top: 40%; left: 95%; }
+        .shape-pentagon .tile-2 { top: 90%; left: 75%; }
+        .shape-pentagon .tile-3 { top: 90%; left: 25%; }
+        .shape-pentagon .tile-4 { top: 40%; left: 5%; }
 
         /* BUTTONS */
         .controls { display: flex; gap: 14px; width: 100%; max-width: 320px; }
@@ -162,7 +174,7 @@
             font-family: 'Varela Round', sans-serif; cursor: pointer; text-transform: uppercase;
             letter-spacing: 1px; box-shadow: 0 5px 0 rgba(0,0,0,0.1); transition: transform 0.1s, filter 0.2s, opacity 0.2s;
         }
-        .control-btn:active, .control-btn.active-sim { transform: translateY(5px); box-shadow: none; }
+        .control-btn:active, .control-btn.active-sim { transform: translateY(5px); box-shadow: none !important; }
         .btn-del { background: #f1f5f9; color: var(--text-light); flex: 1; border: 1px solid #e2e8f0; }
         .btn-submit { 
             background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color: white; flex: 2; 
@@ -190,8 +202,49 @@
         .attempt-row.clickable:hover { border-color: #c7d2fe; background: #f8fafc; transform: translateX(4px); }
         .attempt-row.clickable:active { transform: scale(0.98); }
         .attempt-row:last-child { margin-bottom: 0; }
+        .round-badge { font-size: 0.75rem; background:#f1f5f9; color:#64748b; padding:4px 8px; border-radius:8px; text-transform:uppercase; font-weight:800; }
         .attempt-score { background: #eef2ff; color: #4f46e5; padding: 4px 12px; border-radius: 12px; font-weight: 800; font-size: 1rem; }
         .empty-slot { background: transparent; border: 2px dashed #cbd5e1; color: #94a3b8; font-weight: 600; box-shadow: none; opacity: 1; animation: none; cursor: default; }
+
+        /* END GAME COMPARISON UI */
+        .comparison-container {
+            background: #f8fafc; border-radius: 16px; padding: 15px;
+            margin-bottom: 20px; border: 1px solid #e2e8f0; text-align: left;
+        }
+        .comp-label {
+            font-size: 0.7rem; color: #64748b; text-transform: uppercase;
+            font-weight: bold; display: flex; justify-content: space-between; margin-bottom: 10px;
+        }
+        .comp-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 0; border-bottom: 1px dashed #cbd5e1;
+        }
+        .comp-row:last-child { border-bottom: none; }
+        .comp-stage { font-size: 0.75rem; color: #94a3b8; font-weight: 800; text-transform: uppercase; width: 40px; }
+        .comp-player { color: #4f46e5; font-weight: 700; flex: 1; text-align: center; }
+        .comp-best { color: #10b981; font-weight: 700; flex: 1; text-align: center; }
+
+        /* FULL SCREEN ADVERT */
+        .full-screen-ad {
+            background: var(--glass-panel); width: 94%; max-width: 450px;
+            border-radius: 28px; padding: 40px 25px; margin-top: 20px;
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.25), inset 0 2px 0 rgba(255,255,255,1);
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* INTERACTIVE TUTORIAL STYLES */
+        .tut-board { background: #f8fafc; padding: 25px 20px; border-radius: 24px; border: 2px solid #e2e8f0; margin: 20px 0; }
+        .tut-input { font-size: 2.2rem; font-weight: 800; letter-spacing: 5px; color: #4f46e5; border-bottom: 3px solid #cbd5e1; margin-bottom: 25px; min-height: 50px; display: flex; justify-content: center; align-items: center; transition: all 0.3s; }
+        .tut-input.invalid { color: #ef4444; border-color: #ef4444; animation: shake 0.4s; }
+        .tut-tiles { display: flex; gap: 12px; justify-content: center; padding-bottom: 10px;}
+        .tut-tile {
+            width: 60px; height: 68px; border-radius: 14px; background: linear-gradient(180deg, var(--tile-color-top) 0%, var(--tile-color-bottom) 100%);
+            border: 1px solid var(--tile-border); color: var(--tile-text); font-size: 1.9rem; font-family: 'Varela Round', sans-serif; font-weight: 900;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; text-shadow: 0 1px 1px rgba(255,255,255,0.9), 0 -1px 1px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 0 var(--tile-shadow-3d), inset 0 2px 0 rgba(255,255,255,1); transition: transform 0.1s, box-shadow 0.1s; -webkit-tap-highlight-color: transparent;
+        }
+        .tut-tile:active { transform: translateY(6px); box-shadow: 0 0 0 var(--tile-shadow-3d); }
 
         /* CUSTOM TOAST */
         .toast-container {
@@ -205,26 +258,20 @@
 
         /* COLLAPSIBLE DEV PANEL */
         .dev-wrapper {
-            position: fixed; bottom: 15px; right: 15px;
-            display: flex; align-items: center; gap: 10px; z-index: 2000;
+            position: fixed; bottom: 15px; right: 15px; display: flex; align-items: center; gap: 10px; z-index: 2000;
         }
         .dev-toggle {
-            background: rgba(30, 41, 59, 0.3); border: 1px solid rgba(255,255,255,0.2);
-            color: white; width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);
+            background: rgba(30, 41, 59, 0.3); border: 1px solid rgba(255,255,255,0.2); color: white; width: 36px; height: 36px; 
+            border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);
             opacity: 0.6; transition: all 0.2s; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         .dev-toggle:hover { opacity: 1; background: rgba(30, 41, 59, 0.8); transform: scale(1.05); }
         .dev-panel {
-            background: var(--dev-bg); color: var(--dev-text);
-            padding: 8px 12px; border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            display: flex; gap: 8px; align-items: center; backdrop-filter: blur(10px);
-            transition: opacity 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: var(--dev-bg); color: var(--dev-text); padding: 8px 12px; border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            display: flex; gap: 8px; align-items: center; backdrop-filter: blur(10px); transition: opacity 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             transform-origin: right center;
         }
-        .dev-panel.collapsed {
-            opacity: 0; transform: scaleX(0.8) translateX(20px); pointer-events: none;
-        }
+        .dev-panel.collapsed { opacity: 0; transform: scaleX(0.8) translateX(20px); pointer-events: none; }
         .dev-btn { background: rgba(255,255,255,0.1); border: none; color: white; width: 28px; height: 28px; border-radius: 8px; cursor: pointer; font-weight: bold; }
         .dev-label { font-size: 0.75rem; font-weight: bold; font-family: monospace; }
 
@@ -241,19 +288,6 @@
         .modal h2 { margin-top: 0; color: #1e293b; font-size: 1.6rem; font-weight: 800; }
         .hidden { display: none !important; }
 
-        /* INTERACTIVE TUTORIAL STYLES */
-        .tut-board { background: #f8fafc; padding: 25px 20px; border-radius: 24px; border: 2px solid #e2e8f0; margin: 20px 0; }
-        .tut-input { font-size: 2.2rem; font-weight: 800; letter-spacing: 5px; color: #4f46e5; border-bottom: 3px solid #cbd5e1; margin-bottom: 25px; min-height: 50px; display: flex; justify-content: center; align-items: center; transition: all 0.3s; }
-        .tut-input.invalid { color: #ef4444; border-color: #ef4444; animation: shake 0.4s; }
-        .tut-tiles { display: flex; gap: 12px; justify-content: center; padding-bottom: 10px;}
-        .tut-tile {
-            width: 60px; height: 68px; border-radius: 14px; background: linear-gradient(180deg, var(--tile-color-top) 0%, var(--tile-color-bottom) 100%);
-            border: 1px solid var(--tile-border); color: var(--tile-text); font-size: 1.9rem; font-family: 'Varela Round', sans-serif; font-weight: 900;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; text-shadow: 0 1px 1px rgba(255,255,255,0.9), 0 -1px 1px rgba(0,0,0,0.1);
-            box-shadow: 0 6px 0 var(--tile-shadow-3d), inset 0 2px 0 rgba(255,255,255,1); transition: transform 0.1s, box-shadow 0.1s; -webkit-tap-highlight-color: transparent;
-        }
-        .tut-tile:active { transform: translateY(6px); box-shadow: 0 0 0 var(--tile-shadow-3d); }
-
         /* DICTIONARY & STATS STYLES */
         .dict-word { font-family: 'Lora', serif; font-size: 2.2rem; color: #4f46e5; font-weight: 700; margin-bottom: 5px; text-transform: lowercase; }
         .dict-phonetic { font-family: 'Varela Round', sans-serif; color: #64748b; font-size: 1rem; margin-bottom: 20px; }
@@ -266,12 +300,23 @@
         .stat-box { background: #f8fafc; padding: 12px; border-radius: 16px; text-align: center; border: 1px solid #e2e8f0; }
         .stat-val { font-size: 1.8rem; font-weight: 800; color: #4f46e5; }
         .stat-label { font-size: 0.75rem; text-transform: uppercase; color: #64748b; font-weight: bold; margin-top: 5px;}
-        .chart-container { text-align: left; margin-top: 10px; }
-        .chart-row { display: flex; align-items: center; margin-bottom: 10px; font-size: 0.85rem; }
-        .chart-label { width: 100px; text-align: right; padding-right: 12px; color: #64748b; font-weight: 700; }
-        .chart-bar-bg { flex-grow: 1; background: #e2e8f0; height: 14px; border-radius: 7px; overflow: hidden; }
-        .chart-bar-fill { background: #6366f1; height: 100%; width: 0%; border-radius: 7px; transition: width 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .chart-val { width: 30px; padding-left: 10px; font-weight: 800; color: #334155; }
+
+        /* --- AD BANNER STYLES --- */
+        .ad-banner {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 2px solid #c7d2fe; border-radius: 20px; padding: 20px 15px; margin-top: 25px;
+        }
+        .ad-title { color: #4f46e5; font-weight: 800; font-size: 1.1rem; margin-bottom: 5px; }
+        .ad-desc { font-size: 0.85rem; color: #64748b; margin-bottom: 15px; line-height: 1.4; }
+        .ad-buttons { display: flex; gap: 10px; justify-content: center; }
+        .ad-btn {
+            flex: 1; padding: 12px 5px; border-radius: 12px; text-decoration: none;
+            font-weight: 800; font-size: 0.85rem; color: white; transition: transform 0.1s;
+            text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .ad-btn:active { transform: scale(0.95); box-shadow: none; }
+        .apple-btn { background: #1e293b; }
+        .google-btn { background: #10b981; }
 
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
         @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
@@ -295,52 +340,62 @@
             <div class="logo-sub">with Agnes T-V</div>
         </div>
         <div class="header-left">
-            <div class="lives-container" id="livesContainer">
-                <div class="life-heart">❤️</div>
-                <div class="life-heart">❤️</div>
-                <div class="life-heart">❤️</div>
-            </div>
+            <div class="round-indicator" id="roundIndicator">ROUND 1 / 3</div>
             <button class="stats-btn" onclick="openStats()" title="View Stats">📊</button>
         </div>
     </header>
 
-    <div class="game-card">
-        <div class="rank-banner" id="agnesBanner">
-            <span style="opacity:0.6;">AGNES SAYS:</span>
-            <span id="bestWordDisplay" style="color: #4f46e5; font-weight:800;">WAITING...</span>
-        </div>
-        
-        <div class="input-display" id="inputDisplay">
-            <span id="currentWord"></span><span class="cursor"></span>
+    <div id="mainGameArea">
+        <div class="game-card">
+            <div class="rank-banner" id="agnesBanner">
+                <span style="opacity:0.6;">AGNES SAYS:</span>
+                <span id="bestWordDisplay" style="color: #4f46e5; font-weight:800;">WAITING...</span>
+            </div>
+            
+            <div class="input-display" id="inputDisplay">
+                <span id="currentWord"></span><span class="cursor"></span>
+            </div>
+
+            <div class="meter-wrapper">
+                <div class="meter-labels">
+                    <span>Strength</span>
+                    <span>Max Possible</span>
+                </div>
+                <div class="strength-meter-bg">
+                    <div class="strength-meter-fill" id="meterFill"></div>
+                </div>
+            </div>
+
+            <div class="shape-container shape-triangle" id="lettersGrid"></div>
+            
+            <div class="controls">
+                <button class="control-btn btn-del" id="btnDel" onclick="deleteChar()">Del</button>
+                <button class="control-btn btn-submit" id="submitBtn" onclick="submitWord()">Submit</button>
+            </div>
         </div>
 
-        <div class="meter-wrapper">
-            <div class="meter-labels">
-                <span>Strength</span>
-                <span>Max Possible</span>
+        <div class="history-card">
+            <div class="history-header">
+                <div class="history-title">Submission Board</div>
+                <div class="history-hint" id="dictHint" style="display:none;">Tap a word for definition!</div>
             </div>
-            <div class="strength-meter-bg">
-                <div class="strength-meter-fill" id="meterFill"></div>
+            <div id="historyList">
+                <div class="attempt-row empty-slot">Round 1</div>
+                <div class="attempt-row empty-slot">Round 2</div>
+                <div class="attempt-row empty-slot">Round 3</div>
             </div>
-        </div>
-
-        <div class="premium-rack" id="lettersGrid"></div>
-        
-        <div class="controls">
-            <button class="control-btn btn-del" id="btnDel" onclick="deleteChar()">Del</button>
-            <button class="control-btn btn-submit" id="submitBtn" onclick="submitWord()">Submit</button>
         </div>
     </div>
 
-    <div class="history-card">
-        <div class="history-header">
-            <div class="history-title">Submission Board</div>
-            <div class="history-hint" id="dictHint" style="display:none;">Tap a word for definition!</div>
-        </div>
-        <div id="historyList">
-            <div class="attempt-row empty-slot">Play 1</div>
-            <div class="attempt-row empty-slot">Play 2</div>
-            <div class="attempt-row empty-slot">Play 3</div>
+    <div class="full-screen-ad hidden" id="fullScreenAd">
+        <img src="susie-icon.png" alt="Two Words with Susie Dent" style="width: 120px; height: 120px; border-radius: 24px; box-shadow: 0 12px 25px rgba(0,0,0,0.2); margin-bottom: 20px;">
+        <h1 style="color: #4f46e5; margin-top: 0; font-weight: 800;">Enjoying Echoes?</h1>
+        <p style="color: #64748b; font-size: 1.1rem; line-height: 1.5; margin-bottom: 35px;">
+            Take your vocabulary to the next level <br>in our hit game <br><strong style="color: #334155;">Two Words with Susie Dent</strong>!
+        </p>
+        <div style="width: 100%; max-width: 300px;">
+            <a href="https://apps.apple.com/by/app/two-words-with-susie-dent/id1514156691" target="_blank" class="control-btn" style="width: 100%; background: #1e293b; color: white; margin-bottom: 15px; text-decoration: none; display: block; box-shadow: 0 6px 0 #0f172a;"> App Store</a>
+            <a href="https://play.google.com/store/apps/details?id=uk.co.twowaymedia.twowords2" target="_blank" class="control-btn" style="width: 100%; background: #10b981; color: white; text-decoration: none; display: block; box-shadow: 0 6px 0 #059669;">▶ Google Play</a>
         </div>
     </div>
 
@@ -360,10 +415,11 @@
         <div class="modal">
             <h2>The Golden Rule 🌟</h2>
             <p style="color:#64748b; font-size: 0.95rem; margin-bottom: 10px; line-height: 1.4;">
-                In Echoes, you can use the same tile <strong>as many times as you want!</strong>
+                In Echoes, you can use the same tile <strong>as many times as you want!</strong><br>
+                Beat all 3 Rounds by finding the longest words possible.
             </p>
             <p style="color:#334155; font-weight: 700; margin-bottom: 5px;">
-                Prove it! Spell <span style="color:#6366f1; font-weight:800; font-size: 1.1rem;">TEST</span> using only these 3 tiles:
+                Try it! Spell <span style="color:#6366f1; font-weight:800; font-size: 1.1rem;">TEST</span> using only these 3 tiles:
             </p>
             
             <div class="tut-board">
@@ -403,14 +459,24 @@
     </div>
 
     <div class="modal-overlay hidden" id="gameOverModal" role="dialog" aria-modal="true">
-        <div class="modal">
+        <div class="modal" style="width: 420px; max-width: 95%;">
             <h2>That's a Wrap!</h2>
             <p style="color:#64748b; margin-bottom:0; font-size:0.9rem;">Your longest word length</p>
             <div class="big-rank" id="finalScore">0</div>
-            <div style="font-size: 1.3rem; color: #4f46e5; font-weight:800; margin-bottom: 25px;" id="finalRank">Rank</div>
-            <button class="control-btn btn-submit" style="width:100%" onclick="shareResult()">Share Score 📤</button>
-            <br><br>
-            <button class="control-btn btn-del" style="background:transparent; border:none;" onclick="openStats()">View Ratings 📊</button>
+            <div style="font-size: 1.3rem; color: #4f46e5; font-weight:800; margin-bottom: 20px;" id="finalRank">Rank</div>
+
+            <div class="comparison-container">
+                <div class="comp-label">
+                    <span style="width:40px;"></span>
+                    <span style="flex:1; text-align:center;">You</span>
+                    <span style="flex:1; text-align:center; color:#10b981;">Agnes's Best</span>
+                </div>
+                <div id="endGameComparison"></div>
+            </div>
+
+            <button class="control-btn btn-submit" style="width:100%; margin-bottom: 12px;" onclick="shareResult()">Share Score 📤</button>
+            <button class="control-btn" style="width:100%; background: #f1f5f9; color: #4f46e5; margin-bottom: 15px; box-shadow: 0 4px 0 #cbd5e1;" onclick="showFullScreenAd()">Continue ➡️</button>
+            <button class="control-btn btn-del" style="background:transparent; border:none; box-shadow:none; padding: 0; font-size: 0.9rem;" onclick="openStats()">View Ratings 📊</button>
         </div>
     </div>
 
@@ -423,49 +489,48 @@
                 <div class="stat-box"><div class="stat-val" id="statMaxStreak">0</div><div class="stat-label">Max Streak</div></div>
                 <div class="stat-box"><div class="stat-val" id="statBestWord">0</div><div class="stat-label">Best Len</div></div>
             </div>
-            <div style="font-size:0.8rem; text-transform:uppercase; color:#94a3b8; font-weight:800; margin-bottom:15px; text-align:left;">Rank Distribution</div>
-            <div id="chartContainer" class="chart-container"></div>
-            <button class="control-btn btn-submit" style="width:100%; margin-top:25px;" onclick="closeModal('statsModal')">Continue</button>
+            
+            <div class="ad-banner">
+                <div class="ad-title">Enjoying Echoes?</div>
+                <div class="ad-desc">
+                    Test your vocabulary further in our hit game <strong>Two Words with Susie Dent</strong>!
+                </div>
+                <div class="ad-buttons">
+                    <a href="https://apps.apple.com/by/app/two-words-with-susie-dent/id1514156691" target="_blank" class="ad-btn apple-btn"> App Store</a>
+                    <a href="https://play.google.com/store/apps/details?id=uk.co.twowaymedia.twowords2" target="_blank" class="ad-btn google-btn">▶ Google Play</a>
+                </div>
+            </div>
+
+            <button class="control-btn btn-del" style="width:100%; margin-top:15px; background: transparent; border: none; box-shadow: none; color: #94a3b8;" onclick="showFullScreenAd()">Close Window</button>
         </div>
     </div>
 
     <script>
-        // --- 7 DAYS CONTENT (100% MATHEMATICALLY SCRUBBED NO Q) ---
+        // --- MULTI-STAGE PUZZLE DB ---
         const PUZZLE_DB = [
             { 
                 id: 1, 
-                letters: ["S", "T", "A", "R", "E"], 
-                validWords: ["are", "area", "areas", "arrest", "arrester", "arresters", "arrests", "ars", "art", "arts", "asea", "assert", "asserter", "asserters", "asserts", "assess", "assesses", "aster", "asters", "ate", "ates", "ear", "ears", "ease", "easer", "easers", "eases", "east", "easts", "eat", "eater", "eaters", "eats", "era", "eras", "erase", "eraser", "erasers", "erases", "ere", "err", "errs", "ers", "erst", "estate", "estates", "eta", "etas", "rare", "rares", "rarest", "ras", "raster", "rasters", "rat", "rate", "rater", "raters", "rates", "rats", "rear", "rears", "rearer", "rearers", "reassert", "reasserts", "reassess", "reassesses", "res", "reseat", "reseats", "reset", "resets", "rest", "restart", "restarter", "restarters", "restarts", "ret", "retaste", "retastes", "rete", "retear", "retears", "retest", "retests", "retreat", "retreater", "retreaters", "retreats", "rets", "sae", "sat", "sea", "sear", "searer", "seas", "seat", "seater", "seaters", "seats", "see", "seer", "seers", "sees", "ser", "sere", "serer", "serest", "serrate", "serrates", "set", "seta", "setae", "sets", "star", "stare", "starer", "starers", "stares", "start", "starter", "starters", "starts", "stat", "state", "stater", "staters", "states", "stere", "steres", "stet", "stets", "street", "streets", "stress", "stresses", "tar", "tare", "tares", "tars", "tart", "tartar", "tartars", "tarter", "tarts", "tas", "taste", "taster", "tasters", "tastes", "tat", "tater", "taters", "tats", "tea", "tear", "tearer", "tearers", "tears", "teas", "tease", "teaser", "teasers", "teases", "teat", "teats", "tee", "tees", "terra", "terras", "terret", "terrets", "tessera", "tesserae", "test", "testa", "testae", "testee", "testees", "tester", "testers", "testes", "tests", "treat", "treater", "treaters", "treats", "tree", "trees", "tsar", "tsars", "tatt", "tatter", "tatters", "tatts"] 
+                rounds: [
+                    { letters: ["E", "A", "T"], validWords: ["ate", "eat", "eta", "tat", "tate", "tea", "teat", "tee", "teet"] },
+                    { letters: ["P", "A", "R", "T"], validWords: ["apart", "apparat", "apt", "arp", "art", "pap", "papa", "par", "para", "parr", "parra", "part", "pat", "prat", "rap", "rapt", "rat", "rattrap", "tap", "tapa", "tar", "tarp", "tart", "tartar", "tat", "trap", "trapt"] },
+                    { letters: ["S", "T", "A", "R", "E"], validWords: ["are", "area", "areas", "arrest", "arrester", "arresters", "arrests", "ars", "art", "arts", "asea", "assert", "asserter", "asserters", "asserts", "assess", "assesses", "aster", "asters", "ate", "ates", "ear", "ears", "ease", "easer", "easers", "eases", "east", "easts", "eat", "eater", "eaters", "eats", "era", "eras", "erase", "eraser", "erasers", "erases", "ere", "err", "errs", "ers", "erst", "estate", "estates", "eta", "etas", "rare", "rares", "rarest", "ras", "raster", "rasters", "rat", "rate", "rater", "raters", "rates", "rats", "rear", "rears", "rearer", "rearers", "reassert", "reasserts", "reassess", "reassesses", "res", "reseat", "reseats", "reset", "resets", "rest", "restart", "restarter", "restarters", "restarts", "ret", "retaste", "retastes", "rete", "retear", "retears", "retest", "retests", "retreat", "retreater", "retreaters", "retreats", "rets", "sae", "sat", "sea", "sear", "searer", "seas", "seat", "seater", "seaters", "seats", "see", "seer", "seers", "sees", "ser", "sere", "serer", "serest", "serrate", "serrates", "set", "seta", "setae", "sets", "star", "stare", "starer", "starers", "stares", "start", "starter", "starters", "starts", "stat", "state", "stater", "staters", "states", "stere", "steres", "stet", "stets", "street", "streets", "stress", "stresses", "tar", "tare", "tares", "tars", "tart", "tartar", "tartars", "tarter", "tarts", "tas", "taste", "taster", "tasters", "tastes", "tat", "tater", "taters", "tats", "tea", "tear", "tearer", "tearers", "tears", "teas", "tease", "teaser", "teasers", "teases", "teat", "teats", "tee", "tees", "terra", "terras", "terret", "terrets", "tessera", "tesserae", "test", "testa", "testae", "testee", "testees", "tester", "testers", "testes", "tests", "treat", "treater", "treaters", "treats", "tree", "trees", "tsar", "tsars", "tatt", "tatter", "tatters", "tatts"] }
+                ]
             },
             { 
                 id: 2, 
-                letters: ["L", "E", "A", "S", "T"], 
-                validWords: ["ale", "ales", "all", "alls", "als", "alt", "alts", "asea", "asset", "assets", "ate", "ates", "atlas", "atlases", "atlatl", "atlatls", "ease", "easel", "easels", "eases", "east", "easts", "eat", "eats", "eel", "eels", "ell", "ells", "else", "estate", "estates", "eta", "etas", "las", "lase", "lases", "lass", "lasses", "last", "lasts", "lat", "late", "latest", "lats", "latte", "lattes", "lea", "leal", "leas", "lease", "leasee", "leasees", "leases", "least", "lee", "lees", "less", "lessee", "lessees", "lessest", "lest", "let", "lets", "sae", "sal", "sale", "sales", "sall", "salt", "saltest", "salts", "sass", "sasses", "sat", "sea", "seas", "seat", "seats", "see", "sees", "sel", "sell", "sells", "sels", "set", "seta", "setae", "sets", "sett", "setts", "slat", "slate", "slates", "slats", "stale", "stales", "stall", "stallest", "stalls", "stat", "state", "stateless", "states", "stats", "steal", "steals", "steel", "steels", "stele", "steles", "stella", "stellas", "tae", "tael", "taels", "tala", "talas", "tale", "tales", "tall", "tallest", "talls", "tas", "tassel", "tassels", "tasteless", "taste", "tastes", "tat", "tates", "tats", "tea", "teal", "teals", "teas", "teasel", "teasels", "teat", "teats", "tee", "tees", "tel", "tela", "telae", "tele", "teles", "tell", "tells", "tels", "test", "testa", "testae", "testee", "testees", "tests", "tets"] 
+                rounds: [
+                    { letters: ["I", "N", "T"], validWords: ["inti", "nit", "tin", "tint"] },
+                    { letters: ["S", "E", "N", "T"], validWords: ["ess", "est", "et", "ne", "nee", "ness", "nest", "nests", "net", "nets", "see", "seen", "sees", "sen", "sene", "sennet", "sennets", "sense", "senses", "sent", "set", "sets", "snee", "snees", "stein", "stent", "stents", "teen", "teens", "ten", "tens", "tense", "tenses", "tensest", "tent", "tents", "test", "testes", "tests", "tet", "tets"] },
+                    { letters: ["L", "E", "A", "S", "T"], validWords: ["ale", "ales", "all", "alls", "als", "alt", "alts", "asea", "asset", "assets", "ate", "ates", "atlas", "atlases", "atlatl", "atlatls", "ease", "easel", "easels", "eases", "east", "easts", "eat", "eats", "eel", "eels", "ell", "ells", "else", "estate", "estates", "eta", "etas", "las", "lase", "lases", "lass", "lasses", "last", "lasts", "lat", "late", "latest", "lats", "latte", "lattes", "lea", "leal", "leas", "lease", "leasee", "leasees", "leases", "least", "lee", "lees", "less", "lessee", "lessees", "lessest", "lest", "let", "lets", "sae", "sal", "sale", "sales", "sall", "salt", "saltest", "salts", "sass", "sasses", "sat", "sea", "seas", "seat", "seats", "see", "sees", "sel", "sell", "sells", "sels", "set", "seta", "setae", "sets", "sett", "setts", "slat", "slate", "slates", "slats", "stale", "stales", "stall", "stallest", "stalls", "stat", "state", "stateless", "states", "stats", "steal", "steals", "steel", "steels", "stele", "steles", "stella", "stellas", "tae", "tael", "taels", "tala", "talas", "tale", "tales", "tall", "tallest", "talls", "tas", "tassel", "tassels", "tasteless", "taste", "tastes", "tat", "tates", "tats", "tea", "teal", "teals", "teas", "teasel", "teasels", "teat", "teats", "tee", "tees", "tel", "tela", "telae", "tele", "teles", "tell", "tells", "tels", "test", "testa", "testae", "testee", "testees", "tests", "tets"] }
+                ]
             },
             { 
                 id: 3, 
-                letters: ["T", "E", "N", "S", "I"], 
-                validWords: ["ins", "inset", "insets", "insist", "insistent", "insists", "inst", "intense", "intensest", "intensities", "intent", "intents", "intestine", "intestines", "its", "neist", "ness", "nest", "nests", "net", "nets", "nies", "nine", "nines", "nineteen", "nineteens", "nineties", "nisi", "nit", "nits", "see", "seen", "sees", "seis", "seise", "seises", "sen", "sene", "sennit", "sennits", "sense", "sensei", "senseis", "senses", "sensi", "sent", "sentient", "sentients", "set", "sets", "sienna", "siennas", "sies", "sin", "sine", "sines", "sins", "sit", "site", "sites", "sits", "snee", "snees", "snit", "snits", "stein", "steins", "stent", "stents", "sties", "teen", "teens", "ten", "tennis", "tennises", "tens", "tense", "tenses", "tensest", "tensities", "tent", "tents", "test", "testes", "testis", "tests", "tet", "tets", "tie", "ties", "tin", "tine", "tines", "tins", "tint", "tints", "tis", "tit", "tits"] 
-            },
-            { 
-                id: 4, 
-                letters: ["C", "A", "R", "E", "S"], 
-                validWords: ["ace", "aces", "acre", "acres", "arc", "arcs", "arcsec", "are", "areca", "arecas", "arere", "ares", "arres", "arret", "ars", "caeca", "car", "caracara", "caracaras", "carcase", "carcases", "care", "career", "careers", "carer", "carers", "cares", "cars", "case", "cases", "cease", "ceases", "cee", "cees", "cere", "ceres", "cers", "crase", "crease", "creases", "cree", "crees", "ear", "ears", "ease", "easer", "easers", "eases", "era", "eras", "erase", "eraser", "erasers", "erases", "ere", "eres", "err", "errs", "ers", "escar", "escars", "eses", "raca", "race", "racecar", "racecars", "racer", "racers", "races", "rare", "rares", "rarer", "ras", "rase", "raser", "rasers", "rases", "rear", "rearer", "rearers", "rears", "reassess", "reassesses", "rec", "reccce", "recess", "recesses", "recs", "ree", "rees", "res", "resear", "resee", "resees", "sac", "sacer", "sae", "scar", "scarce", "scarcer", "scare", "scarer", "scarers", "scares", "scars", "scree", "screes", "sea", "sear", "sears", "seas", "sease", "sec", "seces", "see", "seer", "seers", "sees", "ser", "serac", "seracs", "sere", "serer", "seres", "serr", "serra", "serras", "sers"] 
-            },
-            { 
-                id: 5, 
-                letters: ["G", "R", "E", "N", "S"], 
-                validWords: ["egg", "egger", "eggers", "eggs", "egress", "egresses", "eng", "engs", "erg", "ergs", "ern", "erne", "ernes", "erns", "err", "errs", "ers", "gee", "gees", "geese", "gen", "gene", "genes", "genre", "genres", "gens", "gere", "gree", "green", "greener", "greeners", "greenness", "greennesses", "greens", "grees", "gresser", "nee", "neg", "negs", "reg", "regress", "regresses", "regs", "renege", "reneger", "renegers", "reneges", "res", "see", "seen", "seer", "seers", "sees", "seg", "segs", "sen", "sense", "senses", "senser", "sensers", "ser", "sere", "serene", "serener", "serenes", "sereneness", "serenenesses", "serer", "seres", "sers", "sneer", "sneerer", "sneerers", "sneers"] 
-            },
-            { 
-                id: 6, 
-                letters: ["M", "A", "I", "L", "N"], 
-                validWords: ["ail", "ails", "aim", "aims", "ain", "ains", "ala", "alan", "alans", "alin", "all", "alls", "alma", "almas", "alms", "ama", "amah", "amahs", "amas", "ami", "amia", "amias", "amin", "amins", "amis", "ana", "anal", "anam", "anas", "ani", "anil", "anils", "animal", "animalia", "animals", "anis", "anna", "annal", "annals", "ill", "ills", "in", "inn", "inns", "la", "lam", "lama", "lamas", "lamia", "lamias", "laminin", "laminins", "lams", "lana", "lanai", "lanas", "liana", "lianas", "liin", "lill", "lima", "liman", "limans", "limn", "limns", "lin", "linn", "linns", "lins", "llama", "llamas", "ma", "mail", "maill", "maills", "mailman", "mails", "main", "mains", "mall", "malls", "mama", "mamas", "mamma", "mammal", "mammalia", "mammalian", "mammalians", "mammals", "mammas", "man", "mana", "manana", "mananas", "manas", "mani", "mania", "manias", "manila", "manilas", "manna", "mannas", "mi", "mil", "mill", "mills", "mim", "mina", "minas", "mini", "minimal", "minimill", "minimills", "minims", "na", "naan", "naans", "nail", "nails", "nala", "nalas", "nam", "nana", "nanas", "nanna", "nannas", "nil", "nill", "nills", "nils", "nim", "nims"] 
-            },
-            { 
-                id: 7, 
-                letters: ["D", "E", "M", "I", "S"], 
-                validWords: ["dee", "deed", "deeds", "deem", "deems", "dees", "deism", "deisms", "deme", "demes", "demi", "demies", "demise", "demises", "demiss", "did", "dides", "didie", "didies", "die", "died", "dies", "dim", "dime", "dimes", "dimmed", "dims", "dis", "dismes", "dismiss", "dismissed", "dismisses", "eds", "ees", "eme", "emes", "emmes", "idem", "ides", "idism", "idisms", "ids", "imide", "imides", "ism", "isms", "med", "meed", "meeds", "mesems", "meses", "mid", "midis", "mids", "mis", "misdeem", "misdeems", "misdid", "mise", "mised", "mises", "miss", "missed", "missee", "misseem", "misses", "missis", "sed", "see", "seed", "seeded", "seeds", "seem", "seemed", "seems", "sei", "seism", "seisms", "semi", "semie", "semies", "semis", "side", "sided", "sides", "sim", "sissi", "smides"] 
+                rounds: [
+                    { letters: ["A", "C", "R"], validWords: ["arc", "car", "raca"] },
+                    { letters: ["C", "A", "R", "E"], validWords: ["ace", "acre", "arc", "are", "areca", "arere", "caeca", "car", "caracara", "care", "career", "carer", "cee", "cere", "cree", "ear", "era", "ere", "err", "raca", "race", "racecar", "racer", "rare", "rear", "rec", "ree"] },
+                    { letters: ["C", "A", "R", "E", "S"], validWords: ["ace", "aces", "acre", "acres", "arc", "arcs", "arcsec", "are", "areca", "arecas", "arere", "ares", "arres", "arret", "ars", "caeca", "car", "caracara", "caracaras", "carcase", "carcases", "care", "career", "careers", "carer", "carers", "cares", "cars", "case", "cases", "cease", "ceases", "cee", "cees", "cere", "ceres", "cers", "crase", "crease", "creases", "cree", "crees", "ear", "ears", "ease", "easer", "easers", "eases", "era", "eras", "erase", "eraser", "erasers", "erases", "ere", "eres", "err", "errs", "ers", "escar", "escars", "eses", "raca", "race", "racecar", "racecars", "racer", "racers", "races", "rare", "rares", "rarer", "ras", "rase", "raser", "rasers", "rases", "rear", "rearer", "rearers", "rears", "reassess", "reassesses", "rec", "reccce", "recess", "recesses", "recs", "ree", "rees", "res", "resear", "resee", "resees", "sac", "sacer", "sae", "scar", "scarce", "scarcer", "scare", "scarer", "scarers", "scares", "scars", "scree", "screes", "sea", "sear", "sears", "seas", "sease", "sec", "seces", "see", "seer", "seers", "sees", "ser", "serac", "seracs", "sere", "serer", "seres", "serr", "serra", "serras", "sers"] }
+                ]
             }
         ];
 
@@ -478,16 +543,16 @@
             { min: 11, title: "Agnes's Equal 👑" }
         ];
 
-        const MAX_LIVES = 3;
-        const STATS_KEY = 'echoes_agnes_stats_v10';
+        const MAX_ROUNDS = 3;
+        const STATS_KEY = 'echoes_agnes_stats_v14';
         
         let currentDayIndex = 0; 
+        let currentRound = 0; 
         let currentInput = ""; 
         let attempts = []; 
-        let livesLeft = MAX_LIVES;
         let dailyData = PUZZLE_DB[0];
         let currentValidSet = new Set();
-        let dailyMaxLen = 0;
+        let currentMaxLen = 0;
         let toastTimeout;
 
         // --- INIT ---
@@ -544,12 +609,10 @@
             toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // --- THE DEV CHEAT MENU ---
         function openCheat() {
             const list = document.getElementById('cheatList');
             list.innerHTML = '';
             
-            // Sort by length descending, then alphabetical
             const sortedWords = Array.from(currentValidSet).sort((a, b) => {
                 if (b.length !== a.length) return b.length - a.length;
                 return a.localeCompare(b);
@@ -559,25 +622,10 @@
             
             top25.forEach((word, idx) => {
                 const div = document.createElement('div');
-                div.style.padding = '8px 5px';
-                div.style.borderBottom = '1px solid #e2e8f0';
-                div.style.display = 'flex';
-                div.style.justifyContent = 'space-between';
-                div.style.fontFamily = "'Varela Round', sans-serif";
-                
-                const wSpan = document.createElement('span');
-                wSpan.style.fontWeight = 'bold';
-                wSpan.style.color = '#4f46e5';
-                wSpan.textContent = `${idx + 1}. ${word.toUpperCase()}`;
-                
-                const lenSpan = document.createElement('span');
-                lenSpan.style.color = '#64748b';
-                lenSpan.style.fontWeight = '800';
-                lenSpan.textContent = `(${word.length})`;
-                
-                div.appendChild(wSpan);
-                div.appendChild(lenSpan);
-                list.appendChild(div);
+                div.style.padding = '8px 5px'; div.style.borderBottom = '1px solid #e2e8f0'; div.style.display = 'flex'; div.style.justifyContent = 'space-between'; div.style.fontFamily = "'Varela Round', sans-serif";
+                const wSpan = document.createElement('span'); wSpan.style.fontWeight = 'bold'; wSpan.style.color = '#4f46e5'; wSpan.textContent = `${idx + 1}. ${word.toUpperCase()}`;
+                const lenSpan = document.createElement('span'); lenSpan.style.color = '#64748b'; lenSpan.style.fontWeight = '800'; lenSpan.textContent = `(${word.length})`;
+                div.appendChild(wSpan); div.appendChild(lenSpan); list.appendChild(div);
             });
 
             document.getElementById('cheatModal').classList.remove('hidden');
@@ -585,19 +633,17 @@
 
         // --- LOCAL STORAGE ---
         function getStats() {
-            const defaults = { played: 0, streak: 0, maxStreak: 0, bestWord: 0, dist: {} };
-            RANKS.forEach(r => defaults.dist[r.title] = 0);
+            const defaults = { played: 0, streak: 0, maxStreak: 0, bestWord: 0 };
             const stored = localStorage.getItem(STATS_KEY);
             return stored ? { ...defaults, ...JSON.parse(stored) } : defaults;
         }
 
-        function saveGameStats(finalRank, finalLen) {
+        function saveGameStats(finalLen) {
             let stats = getStats();
             stats.played++;
             stats.streak++; 
             if (stats.streak > stats.maxStreak) stats.maxStreak = stats.streak;
             if (finalLen > stats.bestWord) stats.bestWord = finalLen;
-            if (stats.dist[finalRank] !== undefined) stats.dist[finalRank]++;
             localStorage.setItem(STATS_KEY, JSON.stringify(stats));
         }
 
@@ -607,15 +653,9 @@
             if(index >= PUZZLE_DB.length) index = 0;
             currentDayIndex = index;
             dailyData = PUZZLE_DB[index];
-            currentValidSet = new Set(dailyData.validWords); 
-            dailyMaxLen = Math.max(...Array.from(currentValidSet).map(w => w.length));
-
-            resetGameState();
+            
             document.getElementById('dayIndicator').innerText = `DAY ${dailyData.id}`;
-            renderLetters();
-            renderHistory();
-            updateLivesUI();
-            updateBestDisplay();
+            resetGameState();
         }
 
         function prevDay() { loadDay(currentDayIndex - 1); }
@@ -623,25 +663,55 @@
         function resetDay() { loadDay(currentDayIndex); }
 
         function resetGameState() {
-            currentInput = "";
+            currentRound = 0;
             attempts = [];
-            livesLeft = MAX_LIVES;
-            updateDisplay();
+            
+            // Un-hide game area if restarting from ad screen
+            document.getElementById('mainGameArea').classList.remove('hidden');
+            document.getElementById('fullScreenAd').classList.add('hidden');
+            
             document.getElementById('submitBtn').disabled = false;
             document.getElementById('submitBtn').innerText = "Submit";
             document.getElementById('gameOverModal').classList.add('hidden');
+            document.getElementById('statsModal').classList.add('hidden');
             document.getElementById('dictHint').style.display = 'none';
+            loadRound(currentRound);
+        }
+
+        function loadRound(roundIndex) {
+            currentInput = "";
+            const roundData = dailyData.rounds[roundIndex];
+            currentValidSet = new Set(roundData.validWords); 
+            currentMaxLen = Math.max(...Array.from(currentValidSet).map(w => w.length));
+
+            document.getElementById('roundIndicator').innerText = `ROUND ${roundIndex + 1} / 3`;
+            
+            const container = document.getElementById('lettersGrid');
+            container.classList.add('fade-out');
+            
+            setTimeout(() => {
+                renderLetters(roundData.letters);
+                container.classList.remove('fade-out');
+            }, 400);
+
+            renderHistory();
+            updateDisplay();
             updateBestDisplay();
         }
 
-        // --- RENDER ARC LAYOUT ---
-        function renderLetters() {
+        // --- GEOMETRIC RENDER LOGIC ---
+        function renderLetters(letters) {
             const container = document.getElementById('lettersGrid');
             container.innerHTML = '';
             
-            dailyData.letters.forEach((letter) => {
+            container.className = 'shape-container';
+            if (letters.length === 3) container.classList.add('shape-triangle');
+            else if (letters.length === 4) container.classList.add('shape-square');
+            else if (letters.length === 5) container.classList.add('shape-pentagon');
+            
+            letters.forEach((letter, idx) => {
                 const btn = document.createElement('button');
-                btn.className = 'letter-btn';
+                btn.className = `shape-tile tile-${idx}`;
                 btn.innerText = letter;
                 btn.setAttribute('data-val', letter); 
                 btn.onclick = () => typeChar(letter);
@@ -650,10 +720,10 @@
         }
 
         function typeChar(char) {
-            if (livesLeft <= 0) return;
+            if (currentRound >= MAX_ROUNDS) return;
             currentInput += char;
             
-            const btns = document.querySelectorAll('.premium-rack .letter-btn');
+            const btns = document.querySelectorAll('.shape-tile');
             btns.forEach(btn => {
                 if (btn.getAttribute('data-val') === char) {
                     btn.classList.add('active-sim');
@@ -683,7 +753,7 @@
             else if (currentInput.length >= 3) box.classList.add('pulse-low');
 
             const fill = document.getElementById('meterFill');
-            let percentage = dailyMaxLen > 0 ? (currentInput.length / dailyMaxLen) * 100 : 0;
+            let percentage = currentMaxLen > 0 ? (currentInput.length / currentMaxLen) * 100 : 0;
             if (percentage > 100) percentage = 100;
             
             fill.style.width = `${percentage}%`;
@@ -709,26 +779,23 @@
         }
 
         function submitWord() {
-            if (livesLeft <= 0) return;
+            if (currentRound >= MAX_ROUNDS) return;
             const word = currentInput.toLowerCase();
             const displayEl = document.getElementById('inputDisplay');
 
             if (word.length < 3) { shakeAndFail(); return; }
             if (!currentValidSet.has(word)) { shakeAndFail(); return; }
-            if (attempts.some(a => a.word === word)) { showToast("You've already submitted that word!", "🚫"); return; }
 
             displayEl.classList.add('valid');
             
             if (word.length >= 9) {
                 confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#6366f1', '#10b981', '#fbbf24'] });
-            } else if (word.length >= 7) {
+            } else if (word.length >= 5) {
                 confetti({ particleCount: 50, spread: 50, origin: { y: 0.6 } });
             }
 
-            attempts.push({ word: word, len: word.length });
-            livesLeft--;
+            attempts.push({ word: word, len: word.length, round: currentRound + 1 });
             
-            updateLivesUI();
             renderHistory();
             updateBestDisplay();
             
@@ -737,11 +804,13 @@
             }
 
             setTimeout(() => {
-                currentInput = "";
-                updateDisplay();
-                updateAgnesCommentary();
-                if (livesLeft === 0) endGame();
-            }, 400);
+                currentRound++;
+                if (currentRound >= MAX_ROUNDS) {
+                    endGame();
+                } else {
+                    loadRound(currentRound);
+                }
+            }, 800);
         }
 
         function shakeAndFail() {
@@ -750,19 +819,10 @@
             setTimeout(() => el.classList.remove('invalid'), 400);
         }
 
-        function updateLivesUI() {
-            const container = document.getElementById('livesContainer');
-            const hearts = container.children;
-            for(let h of hearts) h.classList.remove('lost');
-            for (let i = 0; i < MAX_LIVES; i++) {
-                if (i >= livesLeft) hearts[MAX_LIVES - 1 - i].classList.add('lost');
-            }
-        }
-
         function renderHistory() {
             const list = document.getElementById('historyList');
             list.innerHTML = '';
-            for(let i=0; i<MAX_LIVES; i++) {
+            for(let i=0; i<MAX_ROUNDS; i++) {
                 const attempt = attempts[i];
                 const div = document.createElement('div');
                 
@@ -770,23 +830,22 @@
                     div.className = 'attempt-row clickable';
                     div.onclick = () => fetchDefinition(attempt.word);
                     
+                    const badge = document.createElement('span');
+                    badge.className = 'round-badge';
+                    badge.textContent = `R${i+1}`;
+                    
                     const wordSpan = document.createElement('span');
-                    wordSpan.style.fontFamily = "'Lora',serif";
-                    wordSpan.style.fontWeight = "700";
-                    wordSpan.style.fontSize = "1.3rem";
-                    wordSpan.style.letterSpacing = "1px";
-                    wordSpan.style.color = "#4f46e5";
+                    wordSpan.style.fontFamily = "'Lora',serif"; wordSpan.style.fontWeight = "700"; wordSpan.style.fontSize = "1.2rem";
+                    wordSpan.style.color = "#4f46e5"; wordSpan.style.flexGrow = "1"; wordSpan.style.textAlign = "center";
                     wordSpan.textContent = attempt.word.toUpperCase();
                     
                     const scoreSpan = document.createElement('span');
-                    scoreSpan.className = 'attempt-score';
-                    scoreSpan.textContent = `+${attempt.len} pts`;
+                    scoreSpan.className = 'attempt-score'; scoreSpan.textContent = `+${attempt.len} pts`;
 
-                    div.appendChild(wordSpan);
-                    div.appendChild(scoreSpan);
+                    div.appendChild(badge); div.appendChild(wordSpan); div.appendChild(scoreSpan);
                 } else {
                     div.className = 'attempt-row empty-slot';
-                    div.textContent = `Play ${i+1}`;
+                    div.textContent = `Round ${i+1}`;
                 }
                 list.appendChild(div);
             }
@@ -811,6 +870,7 @@
             document.addEventListener('keydown', (e) => {
                 const isModalOpen = document.querySelector('.modal-overlay:not(.hidden)');
                 if (isModalOpen) {
+                    // Check for tutorial input
                     if (document.getElementById('introModal') && !document.getElementById('introModal').classList.contains('hidden')) {
                         if (e.key === 'Backspace') tutDel();
                         else if (['T','E','S'].includes(e.key.toUpperCase())) tutType(e.key.toUpperCase());
@@ -832,7 +892,7 @@
                 } 
                 else {
                     const keyUpper = e.key.toUpperCase();
-                    if (dailyData.letters.map(l => l.toUpperCase()).includes(keyUpper)) {
+                    if (dailyData.rounds[currentRound].letters.map(l => l.toUpperCase()).includes(keyUpper)) {
                         typeChar(keyUpper);
                     }
                 }
@@ -846,8 +906,7 @@
             
             content.innerHTML = '';
             const loader = document.createElement('div');
-            loader.className = 'dict-loader';
-            loader.textContent = `Consulting Dictionary Corner for "${word.toUpperCase()}"...`;
+            loader.className = 'dict-loader'; loader.textContent = `Consulting Dictionary Corner for "${word.toUpperCase()}"...`;
             content.appendChild(loader);
 
             try {
@@ -856,65 +915,32 @@
                 
                 const data = await response.json();
                 const entry = data[0];
-                
                 const phonetics = Array.isArray(entry.phonetics) ? entry.phonetics : [];
                 let phoneticText = entry.phonetic || (phonetics.find(p => p && p.text)?.text) || '';
                 
                 content.innerHTML = '';
 
-                const wordEl = document.createElement('div');
-                wordEl.className = 'dict-word';
-                wordEl.textContent = word;
-                content.appendChild(wordEl);
-
-                if (phoneticText) {
-                    const phonEl = document.createElement('div');
-                    phonEl.className = 'dict-phonetic';
-                    phonEl.textContent = phoneticText;
-                    content.appendChild(phonEl);
-                }
+                const wordEl = document.createElement('div'); wordEl.className = 'dict-word'; wordEl.textContent = word; content.appendChild(wordEl);
+                if (phoneticText) { const phonEl = document.createElement('div'); phonEl.className = 'dict-phonetic'; phonEl.textContent = phoneticText; content.appendChild(phonEl); }
                 
                 entry.meanings.slice(0, 2).forEach(meaning => {
                     const defText = meaning.definitions[0]?.definition;
                     if (!defText) return;
-
-                    const meaningContainer = document.createElement('div');
-                    meaningContainer.className = 'dict-meaning';
-
-                    const posEl = document.createElement('div');
-                    posEl.className = 'dict-pos';
-                    posEl.textContent = meaning.partOfSpeech;
-
-                    const defEl = document.createElement('div');
-                    defEl.className = 'dict-def';
-                    defEl.textContent = defText;
-
-                    meaningContainer.appendChild(posEl);
-                    meaningContainer.appendChild(defEl);
-                    content.appendChild(meaningContainer);
+                    const meaningContainer = document.createElement('div'); meaningContainer.className = 'dict-meaning';
+                    const posEl = document.createElement('div'); posEl.className = 'dict-pos'; posEl.textContent = meaning.partOfSpeech;
+                    const defEl = document.createElement('div'); defEl.className = 'dict-def'; defEl.textContent = defText;
+                    meaningContainer.appendChild(posEl); meaningContainer.appendChild(defEl); content.appendChild(meaningContainer);
                 });
-
             } catch (error) {
                 content.innerHTML = '';
-                const wordEl = document.createElement('div');
-                wordEl.className = 'dict-word';
-                wordEl.textContent = word;
-
-                const failBox = document.createElement('div');
-                failBox.className = 'dict-meaning';
-                failBox.style.borderColor = '#fbbf24';
-                failBox.style.background = '#fffbeb';
-                
-                const failText = document.createElement('div');
-                failText.className = 'dict-def';
-                failText.textContent = "Agnes confirms it's valid in today's puzzle, but we couldn't fetch a live definition right now.";
-                
-                failBox.appendChild(failText);
-                content.appendChild(wordEl);
-                content.appendChild(failBox);
+                const wordEl = document.createElement('div'); wordEl.className = 'dict-word'; wordEl.textContent = word;
+                const failBox = document.createElement('div'); failBox.className = 'dict-meaning'; failBox.style.borderColor = '#fbbf24'; failBox.style.background = '#fffbeb';
+                const failText = document.createElement('div'); failText.className = 'dict-def'; failText.textContent = "Agnes confirms it's valid in today's puzzle, but we couldn't fetch a live definition right now.";
+                failBox.appendChild(failText); content.appendChild(wordEl); content.appendChild(failBox);
             }
         }
 
+        // --- END GAME & AD FUNNEL LOGIC ---
         function endGame() {
             document.getElementById('submitBtn').disabled = true;
             document.getElementById('submitBtn').innerText = "DONE";
@@ -924,11 +950,48 @@
             let rankTitle = RANKS[0].title;
             for (let r of RANKS) { if (best.len >= r.min) rankTitle = r.title; }
 
-            saveGameStats(rankTitle, best.len);
+            saveGameStats(best.len);
 
             document.getElementById('finalScore').innerText = best.len;
             document.getElementById('finalRank').innerText = rankTitle;
-            setTimeout(() => document.getElementById('gameOverModal').classList.remove('hidden'), 1000);
+
+            // Generate "You vs Best" Comparison dynamically
+            const compContainer = document.getElementById('endGameComparison');
+            compContainer.innerHTML = '';
+
+            for(let i = 0; i < MAX_ROUNDS; i++) {
+                const playerAttempt = attempts[i];
+                
+                const bestWordObj = dailyData.rounds[i].validWords.reduce((longest, current) => {
+                    return current.length > longest.length ? current : longest;
+                }, "");
+                
+                const pWord = playerAttempt ? playerAttempt.word.toUpperCase() : '---';
+                const pLen = playerAttempt ? playerAttempt.len : 0;
+                const bWord = bestWordObj.toUpperCase();
+                const bLen = bestWordObj.length;
+
+                const row = document.createElement('div');
+                row.className = 'comp-row';
+                row.innerHTML = `
+                    <div class="comp-stage">R${i+1}</div>
+                    <div class="comp-player">${pWord} <span style="font-size:0.75rem; color:#94a3b8;">(${pLen})</span></div>
+                    <div class="comp-best">${bWord} <span style="font-size:0.75rem; color:#10b981; opacity: 0.8;">(${bLen})</span></div>
+                `;
+                compContainer.appendChild(row);
+            }
+
+            setTimeout(() => document.getElementById('gameOverModal').classList.remove('hidden'), 500);
+        }
+
+        function showFullScreenAd() {
+            // Hide the active modals and main game area
+            document.getElementById('gameOverModal').classList.add('hidden');
+            document.getElementById('statsModal').classList.add('hidden');
+            document.getElementById('mainGameArea').classList.add('hidden');
+            
+            // Show the Full Screen Advert
+            document.getElementById('fullScreenAd').classList.remove('hidden');
         }
 
         function openStats() {
@@ -938,47 +1001,6 @@
             document.getElementById('statStreak').innerText = stats.streak;
             document.getElementById('statMaxStreak').innerText = stats.maxStreak;
             document.getElementById('statBestWord').innerText = stats.bestWord;
-
-            const container = document.getElementById('chartContainer');
-            container.innerHTML = '';
-
-            let maxCount = 0;
-            for (let r in stats.dist) { if(stats.dist[r] > maxCount) maxCount = stats.dist[r]; }
-
-            for (let r of RANKS) {
-                const title = r.title;
-                const count = stats.dist[title] || 0;
-                const percent = maxCount > 0 ? (count / maxCount) * 100 : 0;
-                const cleanLabel = title.split(' ')[0]; 
-
-                const row = document.createElement('div');
-                row.className = 'chart-row';
-                
-                const labelDiv = document.createElement('div');
-                labelDiv.className = 'chart-label';
-                labelDiv.textContent = cleanLabel;
-
-                const barBg = document.createElement('div');
-                barBg.className = 'chart-bar-bg';
-                
-                const barFill = document.createElement('div');
-                barFill.className = 'chart-bar-fill';
-                barFill.style.width = '0%';
-
-                const valDiv = document.createElement('div');
-                valDiv.className = 'chart-val';
-                valDiv.textContent = count;
-
-                barBg.appendChild(barFill);
-                row.appendChild(labelDiv);
-                row.appendChild(barBg);
-                row.appendChild(valDiv);
-                
-                container.appendChild(row);
-
-                setTimeout(() => { barFill.style.width = `${percent}%`; }, 100);
-            }
-
             document.getElementById('statsModal').classList.remove('hidden');
         }
 
@@ -986,10 +1008,10 @@
             let gridText = "";
             attempts.forEach(a => {
                 const icon = a.len >= 9 ? '🟪' : (a.len >= 6 ? '🟦' : '⬜');
-                gridText += `${icon.repeat(Math.min(a.len, 10))} (${a.len})\n`;
+                gridText += `S${a.round}: ${icon.repeat(Math.min(a.len, 10))} (${a.len})\n`;
             });
             const best = attempts.reduce((max, p) => p.len > max.len ? p : max, {len:0});
-            const shareText = `Echoes with Agnes T-V #${dailyData.id}\n${gridText}\n🏆 Best: ${best.len}\nPlay here: https://yourgame.com`;
+            const shareText = `Echoes with Agnes T-V #${dailyData.id}\n${gridText}\n🏆 Best: ${best.len}\nPlay here: hhttps://venvoit.github.io/echoes`;
             navigator.clipboard.writeText(shareText).then(() => showToast("Result copied! Paste it to challenge friends.", "📋"));
         }
 

@@ -1011,7 +1011,7 @@
                 gridText += `S${a.round}: ${icon.repeat(Math.min(a.len, 10))} (${a.len})\n`;
             });
             const best = attempts.reduce((max, p) => p.len > max.len ? p : max, {len:0});
-            const shareText = `Echoes with Agnes T-V #${dailyData.id}\n${gridText}\n🏆 Best: ${best.len}\nPlay here: hhttps://venvoit.github.io/echoes`;
+            const shareText = `Echoes with Agnes T-V #${dailyData.id}\n${gridText}\n🏆 Best: ${best.len}\nPlay here: https://venvoit.github.io/echoes`;
             navigator.clipboard.writeText(shareText).then(() => showToast("Result copied! Paste it to challenge friends.", "📋"));
         }
 

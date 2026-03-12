@@ -8,16 +8,13 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            /* BRANDING PALETTE: Bright, Relaxing, Tactile */
             --bg-gradient: linear-gradient(135deg, #0ea5e9 0%, #6366f1 50%, #8b5cf6 100%);
             --glass-panel: rgba(255, 255, 255, 0.96);
-            
             --tile-color-top: #ffffff;
             --tile-color-bottom: #f8f4e6;
             --tile-border: #e6dfce;
             --tile-shadow-3d: #d1c8b4;
             --tile-text: #3730a3; 
-            
             --primary-btn: #6366f1;
             --accent: #10b981;
             --text-main: #334155;
@@ -29,78 +26,57 @@
         * { box-sizing: border-box; touch-action: manipulation; }
         
         body {
-            font-family: 'Varela Round', sans-serif;
-            background: var(--bg-gradient);
-            background-attachment: fixed;
-            color: var(--text-main);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-            padding-bottom: 90px;
+            font-family: 'Varela Round', sans-serif; background: var(--bg-gradient); background-attachment: fixed;
+            color: var(--text-main); margin: 0; display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; overflow-x: hidden; padding-bottom: 90px;
         }
+
+        /* LOADING SCREEN */
+        #loadingScreen {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg-gradient); z-index: 9999; display: flex;
+            flex-direction: column; align-items: center; justify-content: center; color: white;
+            transition: opacity 0.5s ease;
+        }
+        .spinner {
+            width: 50px; height: 50px; border: 5px solid rgba(255,255,255,0.3);
+            border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; margin-bottom: 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         /* HEADER */
         header {
-            width: 100%; max-width: 500px; padding: 15px 20px;
-            display: flex; justify-content: space-between; align-items: center;
-            color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            width: 100%; max-width: 500px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.15);
         }
         .header-left { display: flex; align-items: center; gap: 15px; }
         .logo-container { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
         .logo-main { font-size: 1.8rem; letter-spacing: 0.5px; font-weight: 800; }
-        .logo-sub { font-size: 0.85rem; opacity: 0.9; font-weight: 400; }
+        .logo-sub { font-size: 0.85rem; opacity: 0.9; font-weight: 400; text-transform: uppercase; letter-spacing: 0.5px;}
 
         .stats-btn {
-            background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.4);
-            color: white; font-size: 1.2rem; width: 42px; height: 42px;
-            border-radius: 50%; cursor: pointer; backdrop-filter: blur(8px);
-            display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+            background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.4); color: white; font-size: 1.2rem; width: 42px; height: 42px; border-radius: 50%; cursor: pointer; backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; transition: all 0.2s;
         }
         .stats-btn:active { transform: scale(0.95); }
-        .stats-btn:hover { background: rgba(255,255,255,0.4); border-color: white; }
         
-        /* ROUND INDICATOR */
         .round-indicator {
-            background: rgba(255,255,255,0.25);
-            padding: 8px 16px; border-radius: 20px; backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            font-weight: 800; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase;
+            background: rgba(255,255,255,0.25); padding: 8px 16px; border-radius: 20px; backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 6px rgba(0,0,0,0.05); font-weight: 800; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase;
         }
 
-        /* MAIN GAME AREA WRAPPER */
-        #mainGameArea {
-            width: 100%; display: flex; flex-direction: column; align-items: center;
-        }
+        #mainGameArea { width: 100%; display: flex; flex-direction: column; align-items: center; }
 
         /* MAIN CARD */
         .game-card {
-            background: var(--glass-panel); width: 94%; max-width: 450px;
-            border-radius: 28px; padding: 25px 25px 35px 25px; margin-bottom: 20px; margin-top: 10px;
-            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.25), inset 0 2px 0 rgba(255,255,255,1);
-            display: flex; flex-direction: column; align-items: center;
+            background: var(--glass-panel); width: 94%; max-width: 450px; border-radius: 28px; padding: 25px 25px 35px 25px; margin-bottom: 20px; margin-top: 10px; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.25), inset 0 2px 0 rgba(255,255,255,1); display: flex; flex-direction: column; align-items: center;
         }
 
-        /* AGNES COMMENTARY */
         .rank-banner {
-            font-size: 0.9rem; color: var(--text-light); margin-bottom: 20px;
-            background: #f8fafc; padding: 10px 20px; border-radius: 20px;
-            font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
-            display: flex; align-items: center; gap: 8px; min-height: 42px;
-            transition: all 0.3s ease; border: 1px solid #e2e8f0;
-        }
-        .rank-banner.speaking {
-            background: #eef2ff; color: #4f46e5; border-color: #c7d2fe;
-            transform: translateY(-2px); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
+            font-size: 0.9rem; color: var(--text-light); margin-bottom: 20px; background: #f8fafc; padding: 10px 20px; border-radius: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; min-height: 42px; border: 1px solid #e2e8f0;
         }
 
         /* INPUT DISPLAY */
         .input-display {
-            font-size: 2.5rem; color: var(--text-main); height: 55px; margin-bottom: 15px;
-            letter-spacing: 3px; text-align: center; border-bottom: 4px solid #e2e8f0;
-            min-width: 220px; transition: all 0.2s; font-weight: 800; white-space: nowrap;
+            font-size: 2.5rem; color: var(--text-main); height: 55px; margin-bottom: 15px; letter-spacing: 3px; text-align: center; border-bottom: 4px solid #e2e8f0; min-width: 220px; transition: all 0.2s; font-weight: 800; white-space: nowrap;
         }
         .input-display.pulse-low { border-color: #a5b4fc; }
         .input-display.pulse-med { border-color: #818cf8; transform: scale(1.02); color: #4f46e5; }
@@ -109,47 +85,23 @@
         .input-display.invalid { color: #ef4444; border-color: #ef4444; animation: shake 0.4s; }
         .cursor { animation: blink 1s steps(2) infinite; border-right: 3px solid #6366f1; margin-left: 2px; }
 
-        /* --- STRENGTH METER --- */
+        /* STRENGTH METER */
         .meter-wrapper { width: 100%; max-width: 280px; margin-bottom: 25px; }
-        .meter-labels {
-            display: flex; justify-content: space-between; font-size: 0.7rem;
-            text-transform: uppercase; font-weight: 800; color: #94a3b8;
-            margin-bottom: 6px; letter-spacing: 0.5px;
-        }
-        .strength-meter-bg {
-            width: 100%; height: 10px; background: #e2e8f0; border-radius: 5px;
-            overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .strength-meter-fill {
-            height: 100%; width: 0%; background: #6366f1; border-radius: 5px;
-            transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.4s;
-        }
-        .strength-meter-fill.maxed {
-            background: linear-gradient(90deg, #10b981, #0ea5e9, #6366f1, #8b5cf6, #d946ef);
-            background-size: 200% 200%; animation: gradientShift 2s ease infinite;
-        }
+        .meter-labels { display: flex; justify-content: space-between; font-size: 0.7rem; text-transform: uppercase; font-weight: 800; color: #94a3b8; margin-bottom: 6px; letter-spacing: 0.5px; }
+        .strength-meter-bg { width: 100%; height: 10px; background: #e2e8f0; border-radius: 5px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+        .strength-meter-fill { height: 100%; width: 0%; background: #6366f1; border-radius: 5px; transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.4s; }
+        .strength-meter-fill.maxed { background: linear-gradient(90deg, #10b981, #0ea5e9, #6366f1, #8b5cf6, #d946ef); background-size: 200% 200%; animation: gradientShift 2s ease infinite; }
 
-        /* --- GEOMETRIC SHAPE LAYOUTS --- */
-        .shape-container {
-            position: relative; width: 220px; height: 220px; 
-            margin: 10px auto 30px; transition: opacity 0.4s ease;
-        }
+        /* GEOMETRIC SHAPE LAYOUTS */
+        .shape-container { position: relative; width: 220px; height: 220px; margin: 10px auto 30px; transition: opacity 0.4s ease; }
         .shape-container.fade-out { opacity: 0; pointer-events: none; }
         
         .shape-tile {
             width: 66px; height: 74px; border-radius: 16px; position: absolute;
-            background: linear-gradient(180deg, var(--tile-color-top) 0%, var(--tile-color-bottom) 100%);
-            border: 1px solid var(--tile-border); color: var(--tile-text);
-            font-size: 2.3rem; font-family: 'Varela Round', sans-serif; font-weight: 900; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent;
-            text-shadow: 0 1px 1px rgba(255,255,255,0.9), 0 -1px 1px rgba(0,0,0,0.1);
-            box-shadow: 0 8px 0 var(--tile-shadow-3d), 0 15px 20px rgba(0,0,0,0.15), inset 0 2px 0 rgba(255,255,255,1);
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1), top 0.5s ease, left 0.5s ease;
+            background: linear-gradient(180deg, var(--tile-color-top) 0%, var(--tile-color-bottom) 100%); border: 1px solid var(--tile-border); color: var(--tile-text); font-size: 2.3rem; font-family: 'Varela Round', sans-serif; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; text-shadow: 0 1px 1px rgba(255,255,255,0.9), 0 -1px 1px rgba(0,0,0,0.1); box-shadow: 0 8px 0 var(--tile-shadow-3d), 0 15px 20px rgba(0,0,0,0.15), inset 0 2px 0 rgba(255,255,255,1); transform: translate(-50%, -50%); transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1), top 0.5s ease, left 0.5s ease;
         }
         .shape-tile:active, .shape-tile.active-sim {
-            transform: translate(-50%, calc(-50% + 8px)) !important;
-            box-shadow: 0 0px 0 var(--tile-shadow-3d), 0 5px 10px rgba(0,0,0,0.1), inset 0 2px 4px rgba(0,0,0,0.05);
+            transform: translate(-50%, calc(-50% + 8px)) !important; box-shadow: 0 0px 0 var(--tile-shadow-3d), 0 5px 10px rgba(0,0,0,0.1), inset 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .shape-triangle .tile-0 { top: 15%; left: 50%; }
@@ -171,54 +123,29 @@
         .controls { display: flex; gap: 14px; width: 100%; max-width: 320px; }
         .control-btn {
             padding: 16px; border-radius: 18px; border: none; font-weight: 800; font-size: 1.05rem;
-            font-family: 'Varela Round', sans-serif; cursor: pointer; text-transform: uppercase;
-            letter-spacing: 1px; box-shadow: 0 5px 0 rgba(0,0,0,0.1); transition: transform 0.1s, filter 0.2s, opacity 0.2s;
+            font-family: 'Varela Round', sans-serif; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 5px 0 rgba(0,0,0,0.1); transition: transform 0.1s, filter 0.2s, opacity 0.2s;
         }
         .control-btn:active, .control-btn.active-sim { transform: translateY(5px); box-shadow: none !important; }
         .btn-del { background: #f1f5f9; color: var(--text-light); flex: 1; border: 1px solid #e2e8f0; }
-        .btn-submit { 
-            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color: white; flex: 2; 
-            box-shadow: 0 5px 0 #3730a3, 0 10px 20px rgba(99, 102, 241, 0.3);
-        }
+        .btn-submit { background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color: white; flex: 2; box-shadow: 0 5px 0 #3730a3, 0 10px 20px rgba(99, 102, 241, 0.3); }
         .btn-submit:disabled { filter: grayscale(1); opacity: 0.5; cursor: not-allowed; }
 
         /* HISTORY CARD */
-        .history-card {
-            background: var(--glass-panel); width: 94%; max-width: 450px;
-            border-radius: 28px; padding: 20px 25px; margin-bottom: 20px;
-            box-shadow: 0 10px 30px -5px rgba(0,0,0,0.15), inset 0 2px 0 rgba(255,255,255,1);
-        }
+        .history-card { background: var(--glass-panel); width: 94%; max-width: 450px; border-radius: 28px; padding: 20px 25px; margin-bottom: 20px; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.15), inset 0 2px 0 rgba(255,255,255,1); }
         .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .history-title { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px; }
-        .history-hint {
-            font-size: 0.75rem; color: var(--primary-btn); background: #eef2ff;
-            padding: 4px 10px; border-radius: 12px; font-weight: 600; animation: pulseHint 2s infinite;
-        }
-        .attempt-row {
-            display: flex; justify-content: space-between; align-items: center; padding: 16px 15px; margin-bottom: 8px;
-            background: white; border: 1px solid #e2e8f0; border-radius: 16px; font-size: 1.15rem; color: var(--text-main);
-            font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: all 0.2s; opacity: 0; animation: slideIn 0.4s forwards; cursor: pointer;
-        }
+        .history-hint { font-size: 0.75rem; color: var(--primary-btn); background: #eef2ff; padding: 4px 10px; border-radius: 12px; font-weight: 600; animation: pulseHint 2s infinite; }
+        .attempt-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 15px; margin-bottom: 8px; background: white; border: 1px solid #e2e8f0; border-radius: 16px; font-size: 1.15rem; color: var(--text-main); font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: all 0.2s; opacity: 0; animation: slideIn 0.4s forwards; cursor: pointer; }
         .attempt-row.clickable:hover { border-color: #c7d2fe; background: #f8fafc; transform: translateX(4px); }
         .attempt-row.clickable:active { transform: scale(0.98); }
-        .attempt-row:last-child { margin-bottom: 0; }
         .round-badge { font-size: 0.75rem; background:#f1f5f9; color:#64748b; padding:4px 8px; border-radius:8px; text-transform:uppercase; font-weight:800; }
         .attempt-score { background: #eef2ff; color: #4f46e5; padding: 4px 12px; border-radius: 12px; font-weight: 800; font-size: 1rem; }
         .empty-slot { background: transparent; border: 2px dashed #cbd5e1; color: #94a3b8; font-weight: 600; box-shadow: none; opacity: 1; animation: none; cursor: default; }
 
         /* END GAME COMPARISON UI */
-        .comparison-container {
-            background: #f8fafc; border-radius: 16px; padding: 15px;
-            margin-bottom: 20px; border: 1px solid #e2e8f0; text-align: left;
-        }
-        .comp-label {
-            font-size: 0.7rem; color: #64748b; text-transform: uppercase;
-            font-weight: bold; display: flex; justify-content: space-between; margin-bottom: 10px;
-        }
-        .comp-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 10px 0; border-bottom: 1px dashed #cbd5e1;
-        }
+        .comparison-container { background: #f8fafc; border-radius: 16px; padding: 15px; margin-bottom: 20px; border: 1px solid #e2e8f0; text-align: left; }
+        .comp-label { font-size: 0.7rem; color: #64748b; text-transform: uppercase; font-weight: bold; display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .comp-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed #cbd5e1; }
         .comp-row:last-child { border-bottom: none; }
         .comp-stage { font-size: 0.75rem; color: #94a3b8; font-weight: 800; text-transform: uppercase; width: 40px; }
         .comp-player { color: #4f46e5; font-weight: 700; flex: 1; text-align: center; }
@@ -226,14 +153,11 @@
 
         /* FULL SCREEN ADVERT */
         .full-screen-ad {
-            background: var(--glass-panel); width: 94%; max-width: 450px;
-            border-radius: 28px; padding: 40px 25px; margin-top: 20px;
-            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.25), inset 0 2px 0 rgba(255,255,255,1);
-            display: flex; flex-direction: column; align-items: center; text-align: center;
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: var(--glass-panel); width: 94%; max-width: 450px; border-radius: 28px; padding: 40px 25px; margin-top: 20px;
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.25), inset 0 2px 0 rgba(255,255,255,1); display: flex; flex-direction: column; align-items: center; text-align: center; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* INTERACTIVE TUTORIAL STYLES */
+        /* TUTORIAL STYLES */
         .tut-board { background: #f8fafc; padding: 25px 20px; border-radius: 24px; border: 2px solid #e2e8f0; margin: 20px 0; }
         .tut-input { font-size: 2.2rem; font-weight: 800; letter-spacing: 5px; color: #4f46e5; border-bottom: 3px solid #cbd5e1; margin-bottom: 25px; min-height: 50px; display: flex; justify-content: center; align-items: center; transition: all 0.3s; }
         .tut-input.invalid { color: #ef4444; border-color: #ef4444; animation: shake 0.4s; }
@@ -246,74 +170,43 @@
         }
         .tut-tile:active { transform: translateY(6px); box-shadow: 0 0 0 var(--tile-shadow-3d); }
 
-        /* CUSTOM TOAST */
+        /* TOAST */
         .toast-container {
-            position: fixed; top: 20px; left: 50%; transform: translate(-50%, -20px);
-            background: #1e293b; color: white; padding: 14px 24px; border-radius: 30px;
-            font-weight: 700; font-size: 0.95rem; box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-            z-index: 3000; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex; align-items: center; gap: 10px;
+            position: fixed; top: 20px; left: 50%; transform: translate(-50%, -20px); background: #1e293b; color: white; padding: 14px 24px; border-radius: 30px; font-weight: 700; font-size: 0.95rem; box-shadow: 0 10px 25px rgba(0,0,0,0.25); z-index: 3000; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; gap: 10px;
         }
         .toast-container.show { opacity: 1; transform: translate(-50%, 0); }
 
-        /* COLLAPSIBLE DEV PANEL */
-        .dev-wrapper {
-            position: fixed; bottom: 15px; right: 15px; display: flex; align-items: center; gap: 10px; z-index: 2000;
-        }
-        .dev-toggle {
-            background: rgba(30, 41, 59, 0.3); border: 1px solid rgba(255,255,255,0.2); color: white; width: 36px; height: 36px; 
-            border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);
-            opacity: 0.6; transition: all 0.2s; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+        /* DEV PANEL */
+        .dev-wrapper { position: fixed; bottom: 15px; right: 15px; display: flex; align-items: center; gap: 10px; z-index: 2000; }
+        .dev-toggle { background: rgba(30, 41, 59, 0.3); border: 1px solid rgba(255,255,255,0.2); color: white; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); opacity: 0.6; transition: all 0.2s; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .dev-toggle:hover { opacity: 1; background: rgba(30, 41, 59, 0.8); transform: scale(1.05); }
-        .dev-panel {
-            background: var(--dev-bg); color: var(--dev-text); padding: 8px 12px; border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            display: flex; gap: 8px; align-items: center; backdrop-filter: blur(10px); transition: opacity 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform-origin: right center;
-        }
+        .dev-panel { background: var(--dev-bg); color: var(--dev-text); padding: 8px 12px; border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); display: flex; gap: 8px; align-items: center; backdrop-filter: blur(10px); transition: opacity 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-origin: right center; }
         .dev-panel.collapsed { opacity: 0; transform: scaleX(0.8) translateX(20px); pointer-events: none; }
         .dev-btn { background: rgba(255,255,255,0.1); border: none; color: white; width: 28px; height: 28px; border-radius: 8px; cursor: pointer; font-weight: bold; }
         .dev-label { font-size: 0.75rem; font-weight: bold; font-family: monospace; }
 
         /* MODALS */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.85);
-            display: flex; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(5px);
-        }
-        .modal {
-            background: #fff; padding: 35px 30px; border-radius: 32px; max-width: 90%; width: 380px; text-align: center;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative; max-height: 90vh; overflow-y: auto;
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.85); display: flex; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(5px); }
+        .modal { background: #fff; padding: 35px 30px; border-radius: 32px; max-width: 90%; width: 380px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; max-height: 90vh; overflow-y: auto; }
         .modal h2 { margin-top: 0; color: #1e293b; font-size: 1.6rem; font-weight: 800; }
         .hidden { display: none !important; }
 
-        /* DICTIONARY & STATS STYLES */
+        /* DICTIONARY & STATS */
         .dict-word { font-family: 'Lora', serif; font-size: 2.2rem; color: #4f46e5; font-weight: 700; margin-bottom: 5px; text-transform: lowercase; }
         .dict-phonetic { font-family: 'Varela Round', sans-serif; color: #64748b; font-size: 1rem; margin-bottom: 20px; }
         .dict-meaning { text-align: left; background: #f8fafc; padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid #e2e8f0; }
         .dict-pos { font-style: italic; color: #10b981; font-weight: 700; margin-bottom: 8px; font-size: 0.9rem; }
         .dict-def { font-family: 'Lora', serif; font-size: 1.05rem; color: #334155; line-height: 1.5; }
-        
-        .big-rank { font-size: 4rem; margin: 10px 0; font-weight: 800; color: #6366f1; line-height: 1;}
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
         .stat-box { background: #f8fafc; padding: 12px; border-radius: 16px; text-align: center; border: 1px solid #e2e8f0; }
         .stat-val { font-size: 1.8rem; font-weight: 800; color: #4f46e5; }
         .stat-label { font-size: 0.75rem; text-transform: uppercase; color: #64748b; font-weight: bold; margin-top: 5px;}
-
-        /* --- AD BANNER STYLES --- */
-        .ad-banner {
-            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
-            border: 2px solid #c7d2fe; border-radius: 20px; padding: 20px 15px; margin-top: 25px;
-        }
+        
+        .ad-banner { background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); border: 2px solid #c7d2fe; border-radius: 20px; padding: 20px 15px; margin-top: 25px; }
         .ad-title { color: #4f46e5; font-weight: 800; font-size: 1.1rem; margin-bottom: 5px; }
         .ad-desc { font-size: 0.85rem; color: #64748b; margin-bottom: 15px; line-height: 1.4; }
         .ad-buttons { display: flex; gap: 10px; justify-content: center; }
-        .ad-btn {
-            flex: 1; padding: 12px 5px; border-radius: 12px; text-decoration: none;
-            font-weight: 800; font-size: 0.85rem; color: white; transition: transform 0.1s;
-            text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+        .ad-btn { flex: 1; padding: 12px 5px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 0.85rem; color: white; transition: transform 0.1s; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .ad-btn:active { transform: scale(0.95); box-shadow: none; }
         .apple-btn { background: #1e293b; }
         .google-btn { background: #10b981; }
@@ -329,6 +222,12 @@
 </head>
 <body>
 
+    <div id="loadingScreen">
+        <div class="spinner"></div>
+        <h2 style="margin:0; font-weight: 800;">Consulting Dictionary Corner...</h2>
+        <p style="opacity: 0.8; font-size: 0.9rem;">Loading official UK Scrabble database</p>
+    </div>
+
     <div id="toast" class="toast-container">
         <span id="toastIcon">⚠️</span>
         <span id="toastMessage">Message</span>
@@ -337,19 +236,19 @@
     <header>
         <div class="logo-container">
             <div class="logo-main">ECHOES</div>
-            <div class="logo-sub">with Agnes T-V</div>
+            <div class="logo-sub" id="headerDayLabel">with Agnes T-V</div>
         </div>
         <div class="header-left">
-            <div class="round-indicator" id="roundIndicator">ROUND 1 / 3</div>
+            <div class="round-indicator" id="roundIndicator">STAGE 1 / 3</div>
             <button class="stats-btn" onclick="openStats()" title="View Stats">📊</button>
         </div>
     </header>
 
-    <div id="mainGameArea">
+    <div id="mainGameArea" class="hidden">
         <div class="game-card">
             <div class="rank-banner" id="agnesBanner">
-                <span style="opacity:0.6;">AGNES SAYS:</span>
-                <span id="bestWordDisplay" style="color: #4f46e5; font-weight:800;">WAITING...</span>
+                <span style="opacity:0.6;">CURRENT RANK:</span>
+                <span id="bestWordDisplay" style="color: #4f46e5; font-weight:800; margin-left: 5px;">WAITING...</span>
             </div>
             
             <div class="input-display" id="inputDisplay">
@@ -380,9 +279,9 @@
                 <div class="history-hint" id="dictHint" style="display:none;">Tap a word for definition!</div>
             </div>
             <div id="historyList">
-                <div class="attempt-row empty-slot">Round 1</div>
-                <div class="attempt-row empty-slot">Round 2</div>
-                <div class="attempt-row empty-slot">Round 3</div>
+                <div class="attempt-row empty-slot">Stage 1</div>
+                <div class="attempt-row empty-slot">Stage 2</div>
+                <div class="attempt-row empty-slot">Stage 3</div>
             </div>
         </div>
     </div>
@@ -391,7 +290,7 @@
         <img src="susie-icon.png" alt="Two Words with Susie Dent" style="width: 120px; height: 120px; border-radius: 24px; box-shadow: 0 12px 25px rgba(0,0,0,0.2); margin-bottom: 20px;">
         <h1 style="color: #4f46e5; margin-top: 0; font-weight: 800;">Enjoying Echoes?</h1>
         <p style="color: #64748b; font-size: 1.1rem; line-height: 1.5; margin-bottom: 35px;">
-            Take your vocabulary to the next level <br>in our hit game <br><strong style="color: #334155;">Two Words with Susie Dent</strong>!
+            Take your vocabulary to the next level in our hit game <br><strong style="color: #334155;">Two Words with Susie Dent</strong>!
         </p>
         <div style="width: 100%; max-width: 300px;">
             <a href="https://apps.apple.com/by/app/two-words-with-susie-dent/id1514156691" target="_blank" class="control-btn" style="width: 100%; background: #1e293b; color: white; margin-bottom: 15px; text-decoration: none; display: block; box-shadow: 0 6px 0 #0f172a;"> App Store</a>
@@ -403,7 +302,7 @@
         <div class="dev-panel collapsed" id="devPanel">
             <div class="dev-label">DEV:</div>
             <button class="dev-btn" onclick="prevDay()"> &lt; </button>
-            <div class="dev-label" id="dayIndicator">DAY 1</div>
+            <div class="dev-label" id="dayIndicator" style="width:70px; text-align:center;">DAY 1</div>
             <button class="dev-btn" onclick="nextDay()"> &gt; </button>
             <button class="dev-btn" style="background:#8b5cf6;" onclick="openCheat()" title="Cheat Menu"> 💡 </button>
             <button class="dev-btn" style="background:#b91c1c;" onclick="resetDay()" title="Reset Day"> ↻ </button>
@@ -411,12 +310,12 @@
         <button class="dev-toggle" onclick="toggleDev()" title="Toggle Dev Menu">⚙️</button>
     </div>
 
-    <div class="modal-overlay" id="introModal" role="dialog" aria-modal="true">
+    <div class="modal-overlay hidden" id="introModal" role="dialog" aria-modal="true">
         <div class="modal">
             <h2>The Golden Rule 🌟</h2>
             <p style="color:#64748b; font-size: 0.95rem; margin-bottom: 10px; line-height: 1.4;">
                 In Echoes, you can use the same tile <strong>as many times as you want!</strong><br>
-                Beat all 3 Rounds by finding the longest words possible.
+                Beat all 3 stages by finding the longest words possible.
             </p>
             <p style="color:#334155; font-weight: 700; margin-bottom: 5px;">
                 Try it! Spell <span style="color:#6366f1; font-weight:800; font-size: 1.1rem;">TEST</span> using only these 3 tiles:
@@ -451,8 +350,8 @@
 
     <div class="modal-overlay hidden" id="cheatModal" role="dialog" aria-modal="true">
         <div class="modal">
-            <h2 style="color: #8b5cf6;">Top Words 🕵️</h2>
-            <p style="color: #64748b; font-size: 0.85rem; margin-top: -10px;">For internal team testing.</p>
+            <h2 style="color: #8b5cf6;">Live Dictionary 🕵️</h2>
+            <p style="color: #64748b; font-size: 0.85rem; margin-top: -10px;">Generated from live UK SOWPODS dictionary.</p>
             <div id="cheatList" style="text-align: left; max-height: 50vh; overflow-y: auto; margin-bottom: 20px; padding: 10px; background: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0;"></div>
             <button class="control-btn btn-submit" style="width:100%; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); box-shadow: 0 5px 0 #5b21b6;" onclick="closeModal('cheatModal')">Hide Secrets</button>
         </div>
@@ -506,65 +405,66 @@
     </div>
 
     <script>
-        // --- MULTI-STAGE PUZZLE DB ---
+        // --- MULTI-STAGE PUZZLE DB (10 DAYS with Curated "Aha!" Round 1s) ---
         const PUZZLE_DB = [
-            { 
-                id: 1, 
-                rounds: [
-                    { letters: ["E", "A", "T"], validWords: ["ate", "eat", "eta", "tat", "tate", "tea", "teat", "tee", "teet"] },
-                    { letters: ["P", "A", "R", "T"], validWords: ["apart", "apparat", "apt", "arp", "art", "pap", "papa", "par", "para", "parr", "parra", "part", "pat", "prat", "rap", "rapt", "rat", "rattrap", "tap", "tapa", "tar", "tarp", "tart", "tartar", "tat", "trap", "trapt"] },
-                    { letters: ["S", "T", "A", "R", "E"], validWords: ["are", "area", "areas", "arrest", "arrester", "arresters", "arrests", "ars", "art", "arts", "asea", "assert", "asserter", "asserters", "asserts", "assess", "assesses", "aster", "asters", "ate", "ates", "ear", "ears", "ease", "easer", "easers", "eases", "east", "easts", "eat", "eater", "eaters", "eats", "era", "eras", "erase", "eraser", "erasers", "erases", "ere", "err", "errs", "ers", "erst", "estate", "estates", "eta", "etas", "rare", "rares", "rarest", "ras", "raster", "rasters", "rat", "rate", "rater", "raters", "rates", "rats", "rear", "rears", "rearer", "rearers", "reassert", "reasserts", "reassess", "reassesses", "res", "reseat", "reseats", "reset", "resets", "rest", "restart", "restarter", "restarters", "restarts", "ret", "retaste", "retastes", "rete", "retear", "retears", "retest", "retests", "retreat", "retreater", "retreaters", "retreats", "rets", "sae", "sat", "sea", "sear", "searer", "seas", "seat", "seater", "seaters", "seats", "see", "seer", "seers", "sees", "ser", "sere", "serer", "serest", "serrate", "serrates", "set", "seta", "setae", "sets", "star", "stare", "starer", "starers", "stares", "start", "starter", "starters", "starts", "stat", "state", "stater", "staters", "states", "stere", "steres", "stet", "stets", "street", "streets", "stress", "stresses", "tar", "tare", "tares", "tars", "tart", "tartar", "tartars", "tarter", "tarts", "tas", "taste", "taster", "tasters", "tastes", "tat", "tater", "taters", "tats", "tea", "tear", "tearer", "tearers", "tears", "teas", "tease", "teaser", "teasers", "teases", "teat", "teats", "tee", "tees", "terra", "terras", "terret", "terrets", "tessera", "tesserae", "test", "testa", "testae", "testee", "testees", "tester", "testers", "testes", "tests", "treat", "treater", "treaters", "treats", "tree", "trees", "tsar", "tsars", "tatt", "tatter", "tatters", "tatts"] }
-                ]
-            },
-            { 
-                id: 2, 
-                rounds: [
-                    { letters: ["I", "N", "T"], validWords: ["inti", "nit", "tin", "tint"] },
-                    { letters: ["S", "E", "N", "T"], validWords: ["ess", "est", "et", "ne", "nee", "ness", "nest", "nests", "net", "nets", "see", "seen", "sees", "sen", "sene", "sennet", "sennets", "sense", "senses", "sent", "set", "sets", "snee", "snees", "stein", "stent", "stents", "teen", "teens", "ten", "tens", "tense", "tenses", "tensest", "tent", "tents", "test", "testes", "tests", "tet", "tets"] },
-                    { letters: ["L", "E", "A", "S", "T"], validWords: ["ale", "ales", "all", "alls", "als", "alt", "alts", "asea", "asset", "assets", "ate", "ates", "atlas", "atlases", "atlatl", "atlatls", "ease", "easel", "easels", "eases", "east", "easts", "eat", "eats", "eel", "eels", "ell", "ells", "else", "estate", "estates", "eta", "etas", "las", "lase", "lases", "lass", "lasses", "last", "lasts", "lat", "late", "latest", "lats", "latte", "lattes", "lea", "leal", "leas", "lease", "leasee", "leasees", "leases", "least", "lee", "lees", "less", "lessee", "lessees", "lessest", "lest", "let", "lets", "sae", "sal", "sale", "sales", "sall", "salt", "saltest", "salts", "sass", "sasses", "sat", "sea", "seas", "seat", "seats", "see", "sees", "sel", "sell", "sells", "sels", "set", "seta", "setae", "sets", "sett", "setts", "slat", "slate", "slates", "slats", "stale", "stales", "stall", "stallest", "stalls", "stat", "state", "stateless", "states", "stats", "steal", "steals", "steel", "steels", "stele", "steles", "stella", "stellas", "tae", "tael", "taels", "tala", "talas", "tale", "tales", "tall", "tallest", "talls", "tas", "tassel", "tassels", "tasteless", "taste", "tastes", "tat", "tates", "tats", "tea", "teal", "teals", "teas", "teasel", "teasels", "teat", "teats", "tee", "tees", "tel", "tela", "telae", "tele", "teles", "tell", "tells", "tels", "test", "testa", "testae", "testee", "testees", "tests", "tets"] }
-                ]
-            },
-            { 
-                id: 3, 
-                rounds: [
-                    { letters: ["A", "C", "R"], validWords: ["arc", "car", "raca"] },
-                    { letters: ["C", "A", "R", "E"], validWords: ["ace", "acre", "arc", "are", "areca", "arere", "caeca", "car", "caracara", "care", "career", "carer", "cee", "cere", "cree", "ear", "era", "ere", "err", "raca", "race", "racecar", "racer", "rare", "rear", "rec", "ree"] },
-                    { letters: ["C", "A", "R", "E", "S"], validWords: ["ace", "aces", "acre", "acres", "arc", "arcs", "arcsec", "are", "areca", "arecas", "arere", "ares", "arres", "arret", "ars", "caeca", "car", "caracara", "caracaras", "carcase", "carcases", "care", "career", "careers", "carer", "carers", "cares", "cars", "case", "cases", "cease", "ceases", "cee", "cees", "cere", "ceres", "cers", "crase", "crease", "creases", "cree", "crees", "ear", "ears", "ease", "easer", "easers", "eases", "era", "eras", "erase", "eraser", "erasers", "erases", "ere", "eres", "err", "errs", "ers", "escar", "escars", "eses", "raca", "race", "racecar", "racecars", "racer", "racers", "races", "rare", "rares", "rarer", "ras", "rase", "raser", "rasers", "rases", "rear", "rearer", "rearers", "rears", "reassess", "reassesses", "rec", "reccce", "recess", "recesses", "recs", "ree", "rees", "res", "resear", "resee", "resees", "sac", "sacer", "sae", "scar", "scarce", "scarcer", "scare", "scarer", "scarers", "scares", "scars", "scree", "screes", "sea", "sear", "sears", "seas", "sease", "sec", "seces", "see", "seer", "seers", "sees", "ser", "serac", "seracs", "sere", "serer", "seres", "serr", "serra", "serras", "sers"] }
-                ]
-            }
+            { id: 0, dayName: "SUNDAY", rounds: [{ letters: ["A", "B", "O"] }, { letters: ["B", "O", "U", "A"] }, { letters: ["A", "B", "O", "U", "T"] }] },
+            { id: 1, dayName: "MONDAY", rounds: [{ letters: ["A", "R", "T"] }, { letters: ["D", "A", "R", "T"] }, { letters: ["T", "R", "A", "D", "E"] }] },
+            { id: 2, dayName: "TUESDAY", rounds: [{ letters: ["S", "E", "T"] }, { letters: ["R", "E", "S", "T"] }, { letters: ["S", "T", "A", "R", "E"] }] },
+            { id: 3, dayName: "WEDNESDAY", rounds: [{ letters: ["E", "A", "R"] }, { letters: ["C", "A", "R", "E"] }, { letters: ["C", "A", "R", "E", "S"] }] },
+            { id: 4, dayName: "THURSDAY", rounds: [{ letters: ["O", "I", "N"] }, { letters: ["P", "I", "N", "O"] }, { letters: ["P", "O", "I", "N", "T"] }] },
+            { id: 5, dayName: "FRIDAY", rounds: [{ letters: ["E", "R", "O"] }, { letters: ["R", "O", "W", "E"] }, { letters: ["O", "W", "N", "E", "R"] }] },
+            { id: 6, dayName: "SATURDAY", rounds: [{ letters: ["P", "E", "R"] }, { letters: ["P", "A", "R", "E"] }, { letters: ["G", "R", "A", "P", "E"] }] },
+            { id: 7, dayName: "DAY 8", rounds: [{ letters: ["L", "E", "S"] }, { letters: ["S", "A", "L", "E"] }, { letters: ["L", "E", "A", "S", "T"] }] },
+            { id: 8, dayName: "DAY 9", rounds: [{ letters: ["F", "L", "U"] }, { letters: ["F", "O", "U", "L"] }, { letters: ["F", "L", "O", "U", "R"] }] },
+            { id: 9, dayName: "DAY 10", rounds: [{ letters: ["T", "H", "E"] }, { letters: ["H", "E", "A", "T"] }, { letters: ["H", "E", "A", "R", "T"] }] }
         ];
 
         const RANKS = [
-            { min: 0, title: "Audience Member 🎟️" },
-            { min: 4, title: "Contestant 🎙️" },
-            { min: 5, title: "Semi-Finalist 🥉" },
-            { min: 7, title: "Finalist 🥈" },
-            { min: 9, title: "Champion 🏆" },
-            { min: 11, title: "Agnes's Equal 👑" }
+            { min: 0, title: "Audience Member 🎟️" }, { min: 4, title: "Contestant 🎙️" },
+            { min: 5, title: "Semi-Finalist 🥉" }, { min: 7, title: "Finalist 🥈" },
+            { min: 9, title: "Champion 🏆" }, { min: 11, title: "Agnes's Equal 👑" }
         ];
 
         const MAX_ROUNDS = 3;
-        const STATS_KEY = 'echoes_agnes_stats_v14';
+        const STATS_KEY = 'echoes_agnes_stats_v20';
         
         let currentDayIndex = 0; 
         let currentRound = 0; 
         let currentInput = ""; 
         let attempts = []; 
         let dailyData = PUZZLE_DB[0];
+        
+        let FULL_DICTIONARY = []; 
         let currentValidSet = new Set();
         let currentMaxLen = 0;
         let toastTimeout;
 
-        // --- INIT ---
+        // --- FETCH SOWPODS DICTIONARY ON LOAD ---
+        window.onload = () => {
+            fetch('https://raw.githubusercontent.com/jesstess/Scrabble/master/scrabble/sowpods.txt')
+                .then(response => response.text())
+                .then(text => {
+                    FULL_DICTIONARY = text.split('\n').map(w => w.trim().toLowerCase()).filter(w => w.length >= 3);
+                    document.getElementById('loadingScreen').style.opacity = '0';
+                    setTimeout(() => {
+                        document.getElementById('loadingScreen').style.display = 'none';
+                        document.getElementById('introModal').classList.remove('hidden');
+                        init();
+                    }, 500);
+                })
+                .catch(err => {
+                    alert("Failed to connect to Dictionary Corner! Please check your internet connection.");
+                });
+        };
+
         function init() { 
-            loadDay(0); 
+            const gmtDate = new Date();
+            const todayIndex = gmtDate.getUTCDay();
+            loadDay(todayIndex); 
             setupKeyboard();
         }
 
-        // --- DEV MENU TOGGLE ---
-        function toggleDev() {
-            document.getElementById('devPanel').classList.toggle('collapsed');
-        }
+        function toggleDev() { document.getElementById('devPanel').classList.toggle('collapsed'); }
 
         // --- INTERACTIVE TUTORIAL LOGIC ---
         let tutInputStr = "";
@@ -583,8 +483,7 @@
             el.innerText = tutInputStr;
             
             if (tutInputStr === "TEST") {
-                el.style.color = "#10b981";
-                el.style.borderColor = "#10b981";
+                el.style.color = "#10b981"; el.style.borderColor = "#10b981";
                 document.getElementById('tutSuccess').style.display = "block";
                 
                 const startBtn = document.getElementById('tutStartBtn');
@@ -631,7 +530,6 @@
             document.getElementById('cheatModal').classList.remove('hidden');
         }
 
-        // --- LOCAL STORAGE ---
         function getStats() {
             const defaults = { played: 0, streak: 0, maxStreak: 0, bestWord: 0 };
             const stored = localStorage.getItem(STATS_KEY);
@@ -640,21 +538,20 @@
 
         function saveGameStats(finalLen) {
             let stats = getStats();
-            stats.played++;
-            stats.streak++; 
+            stats.played++; stats.streak++; 
             if (stats.streak > stats.maxStreak) stats.maxStreak = stats.streak;
             if (finalLen > stats.bestWord) stats.bestWord = finalLen;
             localStorage.setItem(STATS_KEY, JSON.stringify(stats));
         }
 
-        // --- CONTROLS ---
         function loadDay(index) {
             if(index < 0) index = PUZZLE_DB.length - 1;
             if(index >= PUZZLE_DB.length) index = 0;
             currentDayIndex = index;
             dailyData = PUZZLE_DB[index];
             
-            document.getElementById('dayIndicator').innerText = `DAY ${dailyData.id}`;
+            document.getElementById('dayIndicator').innerText = dailyData.dayName;
+            document.getElementById('headerDayLabel').innerHTML = `with Agnes T-V &bull; ${dailyData.dayName}`;
             resetGameState();
         }
 
@@ -663,13 +560,9 @@
         function resetDay() { loadDay(currentDayIndex); }
 
         function resetGameState() {
-            currentRound = 0;
-            attempts = [];
-            
-            // Un-hide game area if restarting from ad screen
+            currentRound = 0; attempts = [];
             document.getElementById('mainGameArea').classList.remove('hidden');
             document.getElementById('fullScreenAd').classList.add('hidden');
-            
             document.getElementById('submitBtn').disabled = false;
             document.getElementById('submitBtn').innerText = "Submit";
             document.getElementById('gameOverModal').classList.add('hidden');
@@ -681,10 +574,17 @@
         function loadRound(roundIndex) {
             currentInput = "";
             const roundData = dailyData.rounds[roundIndex];
-            currentValidSet = new Set(roundData.validWords); 
-            currentMaxLen = Math.max(...Array.from(currentValidSet).map(w => w.length));
+            
+            const allowedLetters = roundData.letters.join('').toLowerCase();
+            const regex = new RegExp('^[' + allowedLetters + ']+$');
+            
+            const matchedWords = FULL_DICTIONARY.filter(word => regex.test(word));
+            
+            currentValidSet = new Set(matchedWords);
+            currentMaxLen = matchedWords.length > 0 ? Math.max(...matchedWords.map(w => w.length)) : 0;
+            roundData.liveLongestWord = matchedWords.reduce((longest, current) => current.length > longest.length ? current : longest, "");
 
-            document.getElementById('roundIndicator').innerText = `ROUND ${roundIndex + 1} / 3`;
+            document.getElementById('roundIndicator').innerText = `STAGE ${roundIndex + 1} / 3`;
             
             const container = document.getElementById('lettersGrid');
             container.classList.add('fade-out');
@@ -699,7 +599,6 @@
             updateBestDisplay();
         }
 
-        // --- GEOMETRIC RENDER LOGIC ---
         function renderLetters(letters) {
             const container = document.getElementById('lettersGrid');
             container.innerHTML = '';
@@ -730,16 +629,13 @@
                     setTimeout(() => btn.classList.remove('active-sim'), 100);
                 }
             });
-
             updateDisplay();
-            updateAgnesCommentary();
         }
 
         function deleteChar() {
             if (currentInput.length === 0) return;
             currentInput = currentInput.slice(0, -1);
             updateDisplay();
-            updateAgnesCommentary();
         }
 
         function updateDisplay() {
@@ -757,25 +653,8 @@
             if (percentage > 100) percentage = 100;
             
             fill.style.width = `${percentage}%`;
-            
             if (percentage === 100) fill.classList.add('maxed');
             else fill.classList.remove('maxed');
-        }
-
-        function updateAgnesCommentary() {
-            const banner = document.getElementById('agnesBanner');
-            const text = document.getElementById('bestWordDisplay');
-            const len = currentInput.length;
-
-            if (len === 0) { updateBestDisplay(); banner.classList.remove('speaking'); return; }
-            banner.classList.add('speaking');
-            
-            if (len <= 2) text.innerText = "Is that it?";
-            else if (len <= 4) text.innerText = "Keep going...";
-            else if (len <= 5) text.innerText = "Getting warmer...";
-            else if (len <= 6) text.innerText = "Now we're talking!";
-            else if (len <= 8) text.innerText = "I'm impressed...";
-            else text.innerText = "I'm holding my breath!";
         }
 
         function submitWord() {
@@ -783,33 +662,25 @@
             const word = currentInput.toLowerCase();
             const displayEl = document.getElementById('inputDisplay');
 
-            if (word.length < 3) { shakeAndFail(); return; }
+            if (word.length < 3) { shakeAndFail(); return; } 
             if (!currentValidSet.has(word)) { shakeAndFail(); return; }
 
             displayEl.classList.add('valid');
             
-            if (word.length >= 9) {
-                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#6366f1', '#10b981', '#fbbf24'] });
-            } else if (word.length >= 5) {
-                confetti({ particleCount: 50, spread: 50, origin: { y: 0.6 } });
-            }
+            if (word.length >= 9) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#6366f1', '#10b981', '#fbbf24'] });
+            else if (word.length >= 5) confetti({ particleCount: 50, spread: 50, origin: { y: 0.6 } });
 
             attempts.push({ word: word, len: word.length, round: currentRound + 1 });
             
             renderHistory();
             updateBestDisplay();
             
-            if(attempts.length === 1) {
-                document.getElementById('dictHint').style.display = 'block'; 
-            }
+            if(attempts.length === 1) document.getElementById('dictHint').style.display = 'block'; 
 
             setTimeout(() => {
                 currentRound++;
-                if (currentRound >= MAX_ROUNDS) {
-                    endGame();
-                } else {
-                    loadRound(currentRound);
-                }
+                if (currentRound >= MAX_ROUNDS) endGame();
+                else loadRound(currentRound);
             }, 800);
         }
 
@@ -830,36 +701,21 @@
                     div.className = 'attempt-row clickable';
                     div.onclick = () => fetchDefinition(attempt.word);
                     
-                    const badge = document.createElement('span');
-                    badge.className = 'round-badge';
-                    badge.textContent = `R${i+1}`;
-                    
-                    const wordSpan = document.createElement('span');
-                    wordSpan.style.fontFamily = "'Lora',serif"; wordSpan.style.fontWeight = "700"; wordSpan.style.fontSize = "1.2rem";
-                    wordSpan.style.color = "#4f46e5"; wordSpan.style.flexGrow = "1"; wordSpan.style.textAlign = "center";
-                    wordSpan.textContent = attempt.word.toUpperCase();
-                    
-                    const scoreSpan = document.createElement('span');
-                    scoreSpan.className = 'attempt-score'; scoreSpan.textContent = `+${attempt.len} pts`;
+                    const badge = document.createElement('span'); badge.className = 'round-badge'; badge.textContent = `S${i+1}`;
+                    const wordSpan = document.createElement('span'); wordSpan.style.fontFamily = "'Lora',serif"; wordSpan.style.fontWeight = "700"; wordSpan.style.fontSize = "1.2rem"; wordSpan.style.color = "#4f46e5"; wordSpan.style.flexGrow = "1"; wordSpan.style.textAlign = "center"; wordSpan.textContent = attempt.word.toUpperCase();
+                    const scoreSpan = document.createElement('span'); scoreSpan.className = 'attempt-score'; scoreSpan.textContent = `+${attempt.len} pts`;
 
                     div.appendChild(badge); div.appendChild(wordSpan); div.appendChild(scoreSpan);
                 } else {
-                    div.className = 'attempt-row empty-slot';
-                    div.textContent = `Round ${i+1}`;
+                    div.className = 'attempt-row empty-slot'; div.textContent = `Stage ${i+1}`;
                 }
                 list.appendChild(div);
             }
         }
 
         function updateBestDisplay() {
-            const banner = document.getElementById('agnesBanner');
             const text = document.getElementById('bestWordDisplay');
-            banner.classList.remove('speaking');
-
-            if (attempts.length === 0) {
-                text.innerText = "WAITING...";
-                return;
-            }
+            if (attempts.length === 0) { text.innerText = "WAITING..."; return; }
             const best = attempts.reduce((max, p) => p.len > max.len ? p : max, attempts[0]);
             let rankTitle = RANKS[0].title;
             for (let r of RANKS) { if (best.len >= r.min) rankTitle = r.title; }
@@ -870,7 +726,6 @@
             document.addEventListener('keydown', (e) => {
                 const isModalOpen = document.querySelector('.modal-overlay:not(.hidden)');
                 if (isModalOpen) {
-                    // Check for tutorial input
                     if (document.getElementById('introModal') && !document.getElementById('introModal').classList.contains('hidden')) {
                         if (e.key === 'Backspace') tutDel();
                         else if (['T','E','S'].includes(e.key.toUpperCase())) tutType(e.key.toUpperCase());
@@ -879,22 +734,16 @@
                 }
 
                 if (e.key === 'Backspace') {
-                    e.preventDefault();
-                    document.getElementById('btnDel').classList.add('active-sim');
-                    deleteChar();
+                    e.preventDefault(); document.getElementById('btnDel').classList.add('active-sim'); deleteChar();
                     setTimeout(() => document.getElementById('btnDel').classList.remove('active-sim'), 100);
                 } 
                 else if (e.key === 'Enter') {
-                    e.preventDefault();
-                    document.getElementById('submitBtn').classList.add('active-sim');
-                    submitWord();
+                    e.preventDefault(); document.getElementById('submitBtn').classList.add('active-sim'); submitWord();
                     setTimeout(() => document.getElementById('submitBtn').classList.remove('active-sim'), 100);
                 } 
                 else {
                     const keyUpper = e.key.toUpperCase();
-                    if (dailyData.rounds[currentRound].letters.map(l => l.toUpperCase()).includes(keyUpper)) {
-                        typeChar(keyUpper);
-                    }
+                    if (dailyData.rounds[currentRound].letters.map(l => l.toUpperCase()).includes(keyUpper)) typeChar(keyUpper);
                 }
             });
         }
@@ -940,7 +789,6 @@
             }
         }
 
-        // --- END GAME & AD FUNNEL LOGIC ---
         function endGame() {
             document.getElementById('submitBtn').disabled = true;
             document.getElementById('submitBtn').innerText = "DONE";
@@ -955,26 +803,22 @@
             document.getElementById('finalScore').innerText = best.len;
             document.getElementById('finalRank').innerText = rankTitle;
 
-            // Generate "You vs Best" Comparison dynamically
             const compContainer = document.getElementById('endGameComparison');
             compContainer.innerHTML = '';
 
             for(let i = 0; i < MAX_ROUNDS; i++) {
                 const playerAttempt = attempts[i];
-                
-                const bestWordObj = dailyData.rounds[i].validWords.reduce((longest, current) => {
-                    return current.length > longest.length ? current : longest;
-                }, "");
+                const bestWordObj = dailyData.rounds[i].liveLongestWord;
                 
                 const pWord = playerAttempt ? playerAttempt.word.toUpperCase() : '---';
                 const pLen = playerAttempt ? playerAttempt.len : 0;
-                const bWord = bestWordObj.toUpperCase();
-                const bLen = bestWordObj.length;
+                const bWord = bestWordObj ? bestWordObj.toUpperCase() : '---';
+                const bLen = bestWordObj ? bestWordObj.length : 0;
 
                 const row = document.createElement('div');
                 row.className = 'comp-row';
                 row.innerHTML = `
-                    <div class="comp-stage">R${i+1}</div>
+                    <div class="comp-stage">S${i+1}</div>
                     <div class="comp-player">${pWord} <span style="font-size:0.75rem; color:#94a3b8;">(${pLen})</span></div>
                     <div class="comp-best">${bWord} <span style="font-size:0.75rem; color:#10b981; opacity: 0.8;">(${bLen})</span></div>
                 `;
@@ -985,12 +829,9 @@
         }
 
         function showFullScreenAd() {
-            // Hide the active modals and main game area
             document.getElementById('gameOverModal').classList.add('hidden');
             document.getElementById('statsModal').classList.add('hidden');
             document.getElementById('mainGameArea').classList.add('hidden');
-            
-            // Show the Full Screen Advert
             document.getElementById('fullScreenAd').classList.remove('hidden');
         }
 
@@ -1004,20 +845,33 @@
             document.getElementById('statsModal').classList.remove('hidden');
         }
 
+        // --- NEW SHARE LOGIC (UNIFORM 5-BLOCK METER) ---
         function shareResult() {
             let gridText = "";
-            attempts.forEach(a => {
-                const icon = a.len >= 9 ? '🟪' : (a.len >= 6 ? '🟦' : '⬜');
-                gridText += `S${a.round}: ${icon.repeat(Math.min(a.len, 10))} (${a.len})\n`;
+            attempts.forEach((a, i) => {
+                const maxLen = dailyData.rounds[i].liveLongestWord ? dailyData.rounds[i].liveLongestWord.length : a.len;
+                const ratio = Math.min(1, a.len / maxLen);
+                
+                const filledCount = Math.round(ratio * 5);
+                const emptyCount = 5 - filledCount;
+                
+                const icon = (a.len === maxLen) ? '🟪' : '🟦';
+                const bar = icon.repeat(filledCount) + '⬜'.repeat(emptyCount);
+                
+                gridText += `S${a.round}: ${bar} (${a.len}/${maxLen})\n`;
             });
+            
             const best = attempts.reduce((max, p) => p.len > max.len ? p : max, {len:0});
-            const shareText = `Echoes with Agnes T-V #${dailyData.id}\n${gridText}\n🏆 Best: ${best.len}\nPlay here: https://venvoit.github.io/echoes`;
+            let rankTitle = RANKS[0].title;
+            for (let r of RANKS) { if (best.len >= r.min) rankTitle = r.title; }
+            
+            const shareText = `Echoes with Agnes🎙️\n${dailyData.dayName}\n\n${gridText}\n🏆 Rank: ${rankTitle}\nPlay here: https://venvoit.github.io/echoes/`;
+            
             navigator.clipboard.writeText(shareText).then(() => showToast("Result copied! Paste it to challenge friends.", "📋"));
         }
 
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
-        init();
     </script>
 </body>
 </html>

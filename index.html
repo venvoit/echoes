@@ -15,26 +15,62 @@
             --primary-btn: #6366f1; --accent: #10b981; --text-main: #334155;
             --text-light: #64748b; --dev-bg: rgba(30, 41, 59, 0.95); --dev-text: #60a5fa;
         }
+
         * { box-sizing: border-box; touch-action: manipulation; }
-        body { font-family: 'Varela Round', sans-serif; background: var(--bg-gradient); background-attachment: fixed; color: var(--text-main); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; padding-bottom: 90px; }
         
-        #loadingScreen { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-gradient); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; transition: opacity 0.5s ease; }
-        .spinner { width: 50px; height: 50px; border: 5px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; margin-bottom: 20px; }
+        body {
+            font-family: 'Varela Round', sans-serif; background: var(--bg-gradient); background-attachment: fixed;
+            color: var(--text-main); margin: 0; display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; overflow-x: hidden; padding-bottom: 90px;
+        }
+
+        /* LOADING SCREEN */
+        #loadingScreen {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-gradient); z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; color: white;
+            transition: opacity 0.5s ease; text-align: center; padding: 20px;
+        }
+        .spinner {
+            width: 50px; height: 50px; border: 5px solid rgba(255,255,255,0.3);
+            border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; margin-bottom: 20px;
+        }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        header { width: 100%; max-width: 500px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.15); }
-        .header-left { display: flex; align-items: center; gap: 15px; }
-        .logo-container { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
-        .logo-main { font-size: 1.8rem; letter-spacing: 0.5px; font-weight: 800; }
-        .logo-sub { font-size: 0.85rem; opacity: 0.9; font-weight: 400; text-transform: uppercase; letter-spacing: 0.5px;}
-        .stats-btn { background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.4); color: white; font-size: 1.2rem; width: 42px; height: 42px; border-radius: 50%; cursor: pointer; backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        /* HEADER UI (FIXED FOR MOBILE WRAPPING) */
+        header { 
+            width: 100%; max-width: 500px; padding: 12px 15px; display: flex; 
+            justify-content: space-between; align-items: center; color: white; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.15); gap: 10px;
+        }
+        .logo-container { 
+            display: flex; flex-direction: column; align-items: flex-start; 
+            line-height: 1.1; min-width: 0; /* Allows flex to shrink child text */
+        }
+        .logo-main { font-size: 1.6rem; letter-spacing: 0.5px; font-weight: 800; white-space: nowrap; }
+        .logo-sub { 
+            font-size: 0.75rem; opacity: 0.9; font-weight: 600; text-transform: uppercase; 
+            letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+        }
+        .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+        .stats-btn {
+            background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.4); color: white; 
+            font-size: 1.1rem; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; 
+            backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+        }
         .stats-btn:active { transform: scale(0.95); }
-        .round-indicator { background: rgba(255,255,255,0.25); padding: 8px 16px; border-radius: 20px; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 6px rgba(0,0,0,0.05); font-weight: 800; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; }
+        .round-indicator {
+            background: rgba(255,255,255,0.25); padding: 6px 12px; border-radius: 20px; backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            font-weight: 800; font-size: 0.8rem; letter-spacing: 0.5px; text-transform: uppercase; white-space: nowrap;
+        }
 
         #mainGameArea { width: 100%; display: flex; flex-direction: column; align-items: center; }
+
+        /* MAIN CARD */
         .game-card { background: var(--glass-panel); width: 94%; max-width: 450px; border-radius: 28px; padding: 25px 25px 35px 25px; margin-bottom: 20px; margin-top: 10px; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.25), inset 0 2px 0 rgba(255,255,255,1); display: flex; flex-direction: column; align-items: center; }
         .rank-banner { font-size: 0.9rem; color: var(--text-light); margin-bottom: 20px; background: #f8fafc; padding: 10px 20px; border-radius: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; min-height: 42px; border: 1px solid #e2e8f0; }
 
+        /* INPUT DISPLAY */
         .input-display { font-size: 2.5rem; color: var(--text-main); height: 55px; margin-bottom: 15px; letter-spacing: 3px; text-align: center; border-bottom: 4px solid #e2e8f0; min-width: 220px; transition: all 0.2s; font-weight: 800; white-space: nowrap; }
         .input-display.pulse-low { border-color: #a5b4fc; }
         .input-display.pulse-med { border-color: #818cf8; transform: scale(1.02); color: #4f46e5; }
@@ -43,12 +79,14 @@
         .input-display.invalid { color: #ef4444; border-color: #ef4444; animation: shake 0.4s; }
         .cursor { animation: blink 1s steps(2) infinite; border-right: 3px solid #6366f1; margin-left: 2px; }
 
+        /* STRENGTH METER */
         .meter-wrapper { width: 100%; max-width: 280px; margin-bottom: 25px; }
         .meter-labels { display: flex; justify-content: space-between; font-size: 0.7rem; text-transform: uppercase; font-weight: 800; color: #94a3b8; margin-bottom: 6px; letter-spacing: 0.5px; }
         .strength-meter-bg { width: 100%; height: 10px; background: #e2e8f0; border-radius: 5px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
         .strength-meter-fill { height: 100%; width: 0%; background: #6366f1; border-radius: 5px; transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.4s; }
         .strength-meter-fill.maxed { background: linear-gradient(90deg, #10b981, #0ea5e9, #6366f1, #8b5cf6, #d946ef); background-size: 200% 200%; animation: gradientShift 2s ease infinite; }
 
+        /* GEOMETRIC SHAPE LAYOUTS */
         .shape-container { position: relative; width: 220px; height: 220px; margin: 10px auto 30px; transition: opacity 0.4s ease; }
         .shape-container.fade-out { opacity: 0; pointer-events: none; }
         .shape-tile { width: 66px; height: 74px; border-radius: 16px; position: absolute; background: linear-gradient(180deg, var(--tile-color-top) 0%, var(--tile-color-bottom) 100%); border: 1px solid var(--tile-border); color: var(--tile-text); font-size: 2.3rem; font-family: 'Varela Round', sans-serif; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; text-shadow: 0 1px 1px rgba(255,255,255,0.9), 0 -1px 1px rgba(0,0,0,0.1); box-shadow: 0 8px 0 var(--tile-shadow-3d), 0 15px 20px rgba(0,0,0,0.15), inset 0 2px 0 rgba(255,255,255,1); transform: translate(-50%, -50%); transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1), top 0.5s ease, left 0.5s ease; }
@@ -58,6 +96,7 @@
         .shape-square .tile-0 { top: 20%; left: 20%; } .shape-square .tile-1 { top: 20%; left: 80%; } .shape-square .tile-2 { top: 80%; left: 20%; } .shape-square .tile-3 { top: 80%; left: 80%; }
         .shape-pentagon .tile-0 { top: 10%; left: 50%; } .shape-pentagon .tile-1 { top: 40%; left: 95%; } .shape-pentagon .tile-2 { top: 90%; left: 75%; } .shape-pentagon .tile-3 { top: 90%; left: 25%; } .shape-pentagon .tile-4 { top: 40%; left: 5%; }
 
+        /* BUTTONS */
         .controls { display: flex; gap: 14px; width: 100%; max-width: 320px; }
         .control-btn { padding: 16px; border-radius: 18px; border: none; font-weight: 800; font-size: 1.05rem; font-family: 'Varela Round', sans-serif; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 5px 0 rgba(0,0,0,0.1); transition: transform 0.1s, filter 0.2s, opacity 0.2s; }
         .control-btn:active, .control-btn.active-sim { transform: translateY(5px); box-shadow: none !important; }
@@ -65,17 +104,19 @@
         .btn-submit { background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color: white; flex: 2; box-shadow: 0 5px 0 #3730a3, 0 10px 20px rgba(99, 102, 241, 0.3); }
         .btn-submit:disabled { filter: grayscale(1); opacity: 0.5; cursor: not-allowed; }
 
+        /* HISTORY CARD */
         .history-card { background: var(--glass-panel); width: 94%; max-width: 450px; border-radius: 28px; padding: 20px 25px; margin-bottom: 20px; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.15), inset 0 2px 0 rgba(255,255,255,1); }
         .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .history-title { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px; }
         .history-hint { font-size: 0.75rem; color: var(--primary-btn); background: #eef2ff; padding: 4px 10px; border-radius: 12px; font-weight: 600; animation: pulseHint 2s infinite; }
-        .attempt-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 15px; margin-bottom: 8px; background: white; border: 1px solid #e2e8f0; border-radius: 16px; font-size: 1.15rem; color: var(--text-main); font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: all 0.2s; cursor: pointer; }
+        .attempt-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 15px; margin-bottom: 8px; background: white; border: 1px solid #e2e8f0; border-radius: 16px; font-size: 1.15rem; color: var(--text-main); font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: all 0.2s; opacity: 0; animation: slideIn 0.4s forwards; cursor: pointer; }
         .attempt-row.clickable:hover { border-color: #c7d2fe; background: #f8fafc; transform: translateX(4px); }
         .attempt-row.clickable:active { transform: scale(0.98); }
         .round-badge { font-size: 0.75rem; background:#f1f5f9; color:#64748b; padding:4px 8px; border-radius:8px; text-transform:uppercase; font-weight:800; }
         .attempt-score { background: #eef2ff; color: #4f46e5; padding: 4px 12px; border-radius: 12px; font-weight: 800; font-size: 1rem; }
-        .empty-slot { background: transparent; border: 2px dashed #cbd5e1; color: #94a3b8; font-weight: 600; box-shadow: none; cursor: default; }
+        .empty-slot { background: transparent; border: 2px dashed #cbd5e1; color: #94a3b8; font-weight: 600; box-shadow: none; opacity: 1; animation: none; cursor: default; }
 
+        /* END GAME COMPARISON UI */
         .comparison-container { background: #f8fafc; border-radius: 16px; padding: 15px; margin-bottom: 20px; border: 1px solid #e2e8f0; text-align: left; }
         .comp-label { font-size: 0.7rem; color: #64748b; text-transform: uppercase; font-weight: bold; display: flex; justify-content: space-between; margin-bottom: 10px; }
         .comp-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed #cbd5e1; }
@@ -84,8 +125,10 @@
         .comp-player { color: #4f46e5; font-weight: 700; flex: 1; text-align: center; }
         .comp-best { color: #10b981; font-weight: 700; flex: 1; text-align: center; }
 
+        /* FULL SCREEN ADVERT */
         .full-screen-ad { background: var(--glass-panel); width: 94%; max-width: 450px; border-radius: 28px; padding: 40px 25px; margin-top: 20px; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.25), inset 0 2px 0 rgba(255,255,255,1); display: flex; flex-direction: column; align-items: center; text-align: center; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
+        /* TUTORIAL STYLES */
         .tut-board { background: #f8fafc; padding: 25px 20px; border-radius: 24px; border: 2px solid #e2e8f0; margin: 20px 0; }
         .tut-input { font-size: 2.2rem; font-weight: 800; letter-spacing: 5px; color: #4f46e5; border-bottom: 3px solid #cbd5e1; margin-bottom: 25px; min-height: 50px; display: flex; justify-content: center; align-items: center; transition: all 0.3s; }
         .tut-input.invalid { color: #ef4444; border-color: #ef4444; animation: shake 0.4s; }
@@ -93,9 +136,11 @@
         .tut-tile { width: 60px; height: 68px; border-radius: 14px; background: linear-gradient(180deg, var(--tile-color-top) 0%, var(--tile-color-bottom) 100%); border: 1px solid var(--tile-border); color: var(--tile-text); font-size: 1.9rem; font-family: 'Varela Round', sans-serif; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; text-shadow: 0 1px 1px rgba(255,255,255,0.9), 0 -1px 1px rgba(0,0,0,0.1); box-shadow: 0 6px 0 var(--tile-shadow-3d), inset 0 2px 0 rgba(255,255,255,1); transition: transform 0.1s, box-shadow 0.1s; -webkit-tap-highlight-color: transparent; }
         .tut-tile:active { transform: translateY(6px); box-shadow: 0 0 0 var(--tile-shadow-3d); }
 
+        /* TOAST */
         .toast-container { position: fixed; top: 20px; left: 50%; transform: translate(-50%, -20px); background: #1e293b; color: white; padding: 14px 24px; border-radius: 30px; font-weight: 700; font-size: 0.95rem; box-shadow: 0 10px 25px rgba(0,0,0,0.25); z-index: 3000; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; gap: 10px; }
         .toast-container.show { opacity: 1; transform: translate(-50%, 0); }
 
+        /* DEV PANEL */
         .dev-wrapper { position: fixed; bottom: 15px; right: 15px; display: flex; align-items: center; gap: 10px; z-index: 2000; }
         .dev-toggle { background: rgba(30, 41, 59, 0.3); border: 1px solid rgba(255,255,255,0.2); color: white; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); opacity: 0.6; transition: all 0.2s; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .dev-toggle:hover { opacity: 1; background: rgba(30, 41, 59, 0.8); transform: scale(1.05); }
@@ -104,11 +149,13 @@
         .dev-btn { background: rgba(255,255,255,0.1); border: none; color: white; width: 28px; height: 28px; border-radius: 8px; cursor: pointer; font-weight: bold; }
         .dev-label { font-size: 0.75rem; font-weight: bold; font-family: monospace; }
 
+        /* MODALS */
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.85); display: flex; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(5px); }
         .modal { background: #fff; padding: 35px 30px; border-radius: 32px; max-width: 90%; width: 380px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; max-height: 90vh; overflow-y: auto; }
         .modal h2 { margin-top: 0; color: #1e293b; font-size: 1.6rem; font-weight: 800; }
         .hidden { display: none !important; }
 
+        /* DICTIONARY & STATS */
         .dict-word { font-family: 'Lora', serif; font-size: 2.2rem; color: #4f46e5; font-weight: 700; margin-bottom: 5px; text-transform: lowercase; }
         .dict-phonetic { font-family: 'Varela Round', sans-serif; color: #64748b; font-size: 1rem; margin-bottom: 20px; }
         .dict-meaning { text-align: left; background: #f8fafc; padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid #e2e8f0; }
@@ -130,7 +177,9 @@
 
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
         @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes slideIn { 0% { opacity: 0; transform: translateY(15px); } 100% { opacity: 1; transform: translateY(0); } }
         @keyframes blink { 50% { opacity: 0; } }
+        @keyframes pulseHint { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         @keyframes gradientShift { 0% { background-position: 0% 50%;} 50% { background-position: 100% 50%;} 100% { background-position: 0% 50%;} }
     </style>
 </head>
@@ -138,19 +187,21 @@
 
     <div id="loadingScreen">
         <div class="spinner"></div>
-        <h2 style="margin:0; font-weight: 800;">Consulting Dictionary...</h2>
+        <h2 style="margin:0; font-weight: 800;">Consulting Dictionary Corner...</h2>
         <p style="opacity: 0.8; font-size: 0.9rem;">Loading official UK Scrabble database</p>
     </div>
 
-    <div id="toast" class="toast-container"><span id="toastIcon">⚠️</span><span id="toastMessage">Message</span></div>
+    <div id="toast" class="toast-container">
+        <span id="toastIcon">⚠️</span><span id="toastMessage">Message</span>
+    </div>
 
     <header>
         <div class="logo-container">
             <div class="logo-main">ECHOES</div>
-            <div class="logo-sub" id="headerDayLabel">with Agnes T-V</div>
+            <div class="logo-sub">Agnes T-V &bull; <span id="headerDayLabel"></span></div>
         </div>
-        <div class="header-left">
-            <div class="round-indicator" id="roundIndicator">STAGE 1 / 3</div>
+        <div class="header-right">
+            <div class="round-indicator" id="roundIndicator">S 1/3</div>
             <button class="stats-btn" onclick="openStats()" title="View Stats">📊</button>
         </div>
     </header>
@@ -161,12 +212,23 @@
                 <span style="opacity:0.6;">CURRENT RANK:</span>
                 <span id="bestWordDisplay" style="color: #4f46e5; font-weight:800; margin-left: 5px;">WAITING...</span>
             </div>
-            <div class="input-display" id="inputDisplay"><span id="currentWord"></span><span class="cursor"></span></div>
-            <div class="meter-wrapper">
-                <div class="meter-labels"><span>Strength</span><span>Max Possible</span></div>
-                <div class="strength-meter-bg"><div class="strength-meter-fill" id="meterFill"></div></div>
+            
+            <div class="input-display" id="inputDisplay">
+                <span id="currentWord"></span><span class="cursor"></span>
             </div>
+
+            <div class="meter-wrapper">
+                <div class="meter-labels">
+                    <span>Strength</span>
+                    <span>Max Possible</span>
+                </div>
+                <div class="strength-meter-bg">
+                    <div class="strength-meter-fill" id="meterFill"></div>
+                </div>
+            </div>
+
             <div class="shape-container shape-triangle" id="lettersGrid"></div>
+            
             <div class="controls">
                 <button class="control-btn btn-del" id="btnDel" onclick="deleteChar()">Del</button>
                 <button class="control-btn btn-submit" id="submitBtn" onclick="submitWord()">Submit</button>
@@ -187,7 +249,7 @@
     </div>
 
     <div class="full-screen-ad hidden" id="fullScreenAd">
-        <img src="susie-icon.png" alt="Susie Dent" style="width: 120px; height: 120px; border-radius: 24px; box-shadow: 0 12px 25px rgba(0,0,0,0.2); margin-bottom: 20px;">
+        <img src="susie-icon.png" alt="Two Words with Susie Dent" style="width: 120px; height: 120px; border-radius: 24px; box-shadow: 0 12px 25px rgba(0,0,0,0.2); margin-bottom: 20px;">
         <h1 style="color: #4f46e5; margin-top: 0; font-weight: 800;">Enjoying Echoes?</h1>
         <p style="color: #64748b; font-size: 1.1rem; line-height: 1.5; margin-bottom: 35px;">
             Take your vocabulary to the next level in our hit game <br><strong style="color: #334155;">Two Words with Susie Dent</strong>!
@@ -213,17 +275,31 @@
     <div class="modal-overlay hidden" id="introModal" role="dialog" aria-modal="true">
         <div class="modal">
             <h2>The Golden Rule 🌟</h2>
-            <p style="color:#64748b; font-size: 0.95rem; margin-bottom: 10px; line-height: 1.4;">In Echoes, you can use the same tile <strong>as many times as you want!</strong><br>Beat all 3 stages by finding the longest words possible.</p>
-            <p style="color:#334155; font-weight: 700; margin-bottom: 5px;">Prove it! Spell <span style="color:#6366f1; font-weight:800; font-size: 1.1rem;">TEST</span> using only these 3 tiles:</p>
+            <p style="color:#64748b; font-size: 0.95rem; margin-bottom: 10px; line-height: 1.4;">
+                In Echoes, you can use the same tile <strong>as many times as you want!</strong><br>
+                Beat all 3 stages by finding the longest words possible.
+            </p>
+            <p style="color:#334155; font-weight: 700; margin-bottom: 5px;">
+                Try it! Spell <span style="color:#6366f1; font-weight:800; font-size: 1.1rem;">TEST</span> using only these 3 tiles:
+            </p>
+            
             <div class="tut-board">
                 <div class="tut-input" id="tutInput"></div>
                 <div class="tut-tiles">
-                    <button class="tut-tile" onclick="tutType('T')">T</button><button class="tut-tile" onclick="tutType('E')">E</button><button class="tut-tile" onclick="tutType('S')">S</button>
+                    <button class="tut-tile" onclick="tutType('T')">T</button>
+                    <button class="tut-tile" onclick="tutType('E')">E</button>
+                    <button class="tut-tile" onclick="tutType('S')">S</button>
                 </div>
                 <button class="control-btn btn-del" style="width: 100%; margin-top: 25px; padding: 12px; box-shadow: 0 4px 0 rgba(0,0,0,0.1);" onclick="tutDel()">Delete</button>
             </div>
-            <div id="tutSuccess" style="display:none; color: #10b981; font-weight: 800; margin-bottom: 20px; font-size: 1.1rem; animation: popIn 0.3s;">Perfect! You tapped 'T' twice.</div>
-            <button class="control-btn btn-submit" id="tutStartBtn" style="width:100%; opacity: 0.5; pointer-events: none; transition: all 0.3s;" onclick="closeModal('introModal')">Spell TEST to Continue</button>
+
+            <div id="tutSuccess" style="display:none; color: #10b981; font-weight: 800; margin-bottom: 20px; font-size: 1.1rem; animation: popIn 0.3s;">
+                Perfect! You tapped 'T' twice.
+            </div>
+
+            <button class="control-btn btn-submit" id="tutStartBtn" style="width:100%; opacity: 0.5; pointer-events: none; transition: all 0.3s;" onclick="closeModal('introModal')">
+                Spell TEST to Continue
+            </button>
         </div>
     </div>
 
@@ -249,10 +325,16 @@
             <p style="color:#64748b; margin-bottom:0; font-size:0.9rem;">Your longest word length</p>
             <div class="big-rank" id="finalScore">0</div>
             <div style="font-size: 1.3rem; color: #4f46e5; font-weight:800; margin-bottom: 20px;" id="finalRank">Rank</div>
+
             <div class="comparison-container">
-                <div class="comp-label"><span style="width:40px;"></span><span style="flex:1; text-align:center;">You</span><span style="flex:1; text-align:center; color:#10b981;">Agnes's Best</span></div>
+                <div class="comp-label">
+                    <span style="width:40px;"></span>
+                    <span style="flex:1; text-align:center;">You</span>
+                    <span style="flex:1; text-align:center; color:#10b981;">Agnes's Best</span>
+                </div>
                 <div id="endGameComparison"></div>
             </div>
+
             <button class="control-btn btn-submit" style="width:100%; margin-bottom: 12px;" onclick="shareResult()">Share Score 📤</button>
             <button class="control-btn" style="width:100%; background: #f1f5f9; color: #4f46e5; margin-bottom: 15px; box-shadow: 0 4px 0 #cbd5e1;" onclick="showFullScreenAd()">Continue ➡️</button>
             <button class="control-btn btn-del" style="background:transparent; border:none; box-shadow:none; padding: 0; font-size: 0.9rem;" onclick="openStats()">View Ratings 📊</button>
@@ -268,24 +350,31 @@
                 <div class="stat-box"><div class="stat-val" id="statMaxStreak">0</div><div class="stat-label">Max Streak</div></div>
                 <div class="stat-box"><div class="stat-val" id="statBestWord">0</div><div class="stat-label">Best Len</div></div>
             </div>
+            
             <div class="ad-banner">
                 <div class="ad-title">Enjoying Echoes?</div>
-                <div class="ad-desc">Test your vocabulary further in our hit game <strong>Two Words with Susie Dent</strong>!</div>
+                <div class="ad-desc">
+                    Test your vocabulary further in our hit game <strong>Two Words with Susie Dent</strong>!
+                </div>
                 <div class="ad-buttons">
                     <a href="https://apps.apple.com/by/app/two-words-with-susie-dent/id1514156691" target="_blank" class="ad-btn apple-btn"> App Store</a>
                     <a href="https://play.google.com/store/apps/details?id=uk.co.twowaymedia.twowords2" target="_blank" class="ad-btn google-btn">▶ Google Play</a>
                 </div>
             </div>
+
             <button class="control-btn btn-del" style="width:100%; margin-top:15px; background: transparent; border: none; box-shadow: none; color: #94a3b8;" onclick="showFullScreenAd()">Close Window</button>
         </div>
     </div>
 
     <script>
+        // --- MULTI-STAGE PUZZLE DB (10 DAYS with Curated "Aha!" Round 1s) ---
+        // Notice we REMOVED the hardcoded validWords arrays entirely. 
+        // This prevents the AI from truncating the code, and prevents hallucinations!
         const PUZZLE_DB = [
             { id: 0, dayName: "SUNDAY", rounds: [{ letters: ["A", "B", "O"] }, { letters: ["B", "O", "U", "A"] }, { letters: ["A", "B", "O", "U", "T"] }] },
             { id: 1, dayName: "MONDAY", rounds: [{ letters: ["A", "R", "T"] }, { letters: ["D", "A", "R", "T"] }, { letters: ["T", "R", "A", "D", "E"] }] },
             { id: 2, dayName: "TUESDAY", rounds: [{ letters: ["S", "E", "T"] }, { letters: ["R", "E", "S", "T"] }, { letters: ["S", "T", "A", "R", "E"] }] },
-            { id: 3, dayName: "WEDNESDAY", rounds: [{ letters: ["A", "C", "R"] }, { letters: ["C", "A", "R", "E"] }, { letters: ["S", "C", "A", "R", "E"] }] },
+            { id: 3, dayName: "WEDNESDAY", rounds: [{ letters: ["E", "A", "R"] }, { letters: ["C", "A", "R", "E"] }, { letters: ["C", "A", "R", "E", "S"] }] },
             { id: 4, dayName: "THURSDAY", rounds: [{ letters: ["O", "I", "N"] }, { letters: ["P", "I", "N", "O"] }, { letters: ["P", "O", "I", "N", "T"] }] },
             { id: 5, dayName: "FRIDAY", rounds: [{ letters: ["E", "R", "O"] }, { letters: ["R", "O", "W", "E"] }, { letters: ["O", "W", "N", "E", "R"] }] },
             { id: 6, dayName: "SATURDAY", rounds: [{ letters: ["P", "E", "R"] }, { letters: ["P", "A", "R", "E"] }, { letters: ["G", "R", "A", "P", "E"] }] },
@@ -301,16 +390,23 @@
         ];
 
         const MAX_ROUNDS = 3;
-        const STATS_KEY = 'echoes_agnes_stats_v20';
+        const STATS_KEY = 'echoes_agnes_stats_v21';
         
-        let currentDayIndex = 0; let currentRound = 0; let currentInput = ""; 
-        let attempts = []; let dailyData = PUZZLE_DB[0];
-        let FULL_DICTIONARY = []; let currentValidSet = new Set();
-        let currentMaxLen = 0; let toastTimeout;
+        let currentDayIndex = 0; 
+        let currentRound = 0; 
+        let currentInput = ""; 
+        let attempts = []; 
+        let dailyData = PUZZLE_DB[0];
+        
+        let FULL_DICTIONARY = []; 
+        let currentValidSet = new Set();
+        let currentMaxLen = 0;
+        let toastTimeout;
 
+        // --- FETCH SOWPODS DICTIONARY ON LOAD ---
         window.onload = () => {
             fetch('https://raw.githubusercontent.com/jesstess/Scrabble/master/scrabble/sowpods.txt')
-                .then(r => r.text())
+                .then(response => response.text())
                 .then(text => {
                     FULL_DICTIONARY = text.split('\n').map(w => w.trim().toLowerCase()).filter(w => w.length >= 3);
                     document.getElementById('loadingScreen').style.opacity = '0';
@@ -320,16 +416,21 @@
                         init();
                     }, 500);
                 })
-                .catch(() => alert("Failed to connect to Dictionary Corner! Please check internet."));
+                .catch(err => {
+                    alert("Failed to connect to Dictionary Corner! Please check your internet connection.");
+                });
         };
 
         function init() { 
-            const todayIndex = new Date().getUTCDay();
-            loadDay(todayIndex); setupKeyboard();
+            const gmtDate = new Date();
+            const todayIndex = gmtDate.getUTCDay();
+            loadDay(todayIndex); 
+            setupKeyboard();
         }
 
         function toggleDev() { document.getElementById('devPanel').classList.toggle('collapsed'); }
 
+        // --- INTERACTIVE TUTORIAL LOGIC ---
         let tutInputStr = "";
         function tutType(char) {
             if (tutInputStr === "TEST" || tutInputStr.length >= 4) return;
@@ -340,48 +441,76 @@
             tutInputStr = tutInputStr.slice(0, -1); updateTutDisplay();
         }
         function updateTutDisplay() {
-            const el = document.getElementById('tutInput'); el.innerText = tutInputStr;
+            const el = document.getElementById('tutInput');
+            el.innerText = tutInputStr;
+            
             if (tutInputStr === "TEST") {
                 el.style.color = "#10b981"; el.style.borderColor = "#10b981";
                 document.getElementById('tutSuccess').style.display = "block";
-                const btn = document.getElementById('tutStartBtn'); btn.style.opacity = "1"; btn.style.pointerEvents = "auto";
-                btn.innerText = "Start The Show!"; btn.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
+                const startBtn = document.getElementById('tutStartBtn');
+                startBtn.style.opacity = "1"; startBtn.style.pointerEvents = "auto";
+                startBtn.innerText = "Start The Show!";
+                startBtn.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
                 confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
             } else if (tutInputStr.length === 4) {
-                el.classList.add('invalid'); setTimeout(() => el.classList.remove('invalid'), 400);
+                el.classList.add('invalid');
+                setTimeout(() => el.classList.remove('invalid'), 400);
             }
         }
 
         function showToast(message, icon = "⚠️") {
-            const t = document.getElementById('toast'); document.getElementById('toastMessage').innerText = message;
-            document.getElementById('toastIcon').innerText = icon; t.classList.add('show');
-            clearTimeout(toastTimeout); toastTimeout = setTimeout(() => t.classList.remove('show'), 3000);
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = message;
+            document.getElementById('toastIcon').innerText = icon;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
         function openCheat() {
-            const list = document.getElementById('cheatList'); list.innerHTML = '';
-            const sorted = Array.from(currentValidSet).sort((a, b) => b.length !== a.length ? b.length - a.length : a.localeCompare(b));
-            sorted.slice(0, 25).forEach((w, i) => {
-                const div = document.createElement('div'); div.style.padding = '8px 5px'; div.style.borderBottom = '1px solid #e2e8f0'; div.style.display = 'flex'; div.style.justifyContent = 'space-between'; div.style.fontFamily = "'Varela Round', sans-serif";
-                div.innerHTML = `<span style="font-weight:bold;color:#4f46e5;">${i+1}. ${w.toUpperCase()}</span><span style="color:#64748b;font-weight:800;">(${w.length})</span>`;
-                list.appendChild(div);
+            const list = document.getElementById('cheatList');
+            list.innerHTML = '';
+            
+            const sortedWords = Array.from(currentValidSet).sort((a, b) => {
+                if (b.length !== a.length) return b.length - a.length;
+                return a.localeCompare(b);
             });
+
+            const top25 = sortedWords.slice(0, 25);
+            
+            top25.forEach((word, idx) => {
+                const div = document.createElement('div');
+                div.style.padding = '8px 5px'; div.style.borderBottom = '1px solid #e2e8f0'; div.style.display = 'flex'; div.style.justifyContent = 'space-between'; div.style.fontFamily = "'Varela Round', sans-serif";
+                const wSpan = document.createElement('span'); wSpan.style.fontWeight = 'bold'; wSpan.style.color = '#4f46e5'; wSpan.textContent = `${idx + 1}. ${word.toUpperCase()}`;
+                const lenSpan = document.createElement('span'); lenSpan.style.color = '#64748b'; lenSpan.style.fontWeight = '800'; lenSpan.textContent = `(${word.length})`;
+                div.appendChild(wSpan); div.appendChild(lenSpan); list.appendChild(div);
+            });
+
             document.getElementById('cheatModal').classList.remove('hidden');
         }
 
-        function getStats() { return JSON.parse(localStorage.getItem(STATS_KEY)) || { played:0, streak:0, maxStreak:0, bestWord:0 }; }
-        function saveGameStats(finalLen) {
-            let s = getStats(); s.played++; s.streak++; 
-            if (s.streak > s.maxStreak) s.maxStreak = s.streak;
-            if (finalLen > s.bestWord) s.bestWord = finalLen;
-            localStorage.setItem(STATS_KEY, JSON.stringify(s));
+        function getStats() {
+            const defaults = { played: 0, streak: 0, maxStreak: 0, bestWord: 0 };
+            const stored = localStorage.getItem(STATS_KEY);
+            return stored ? { ...defaults, ...JSON.parse(stored) } : defaults;
         }
 
-        function loadDay(idx) {
-            if(idx < 0) idx = PUZZLE_DB.length - 1; if(idx >= PUZZLE_DB.length) idx = 0;
-            currentDayIndex = idx; dailyData = PUZZLE_DB[idx];
+        function saveGameStats(finalLen) {
+            let stats = getStats();
+            stats.played++; stats.streak++; 
+            if (stats.streak > stats.maxStreak) stats.maxStreak = stats.streak;
+            if (finalLen > stats.bestWord) stats.bestWord = finalLen;
+            localStorage.setItem(STATS_KEY, JSON.stringify(stats));
+        }
+
+        function loadDay(index) {
+            if(index < 0) index = PUZZLE_DB.length - 1;
+            if(index >= PUZZLE_DB.length) index = 0;
+            currentDayIndex = index;
+            dailyData = PUZZLE_DB[index];
+            
             document.getElementById('dayIndicator').innerText = dailyData.dayName;
-            document.getElementById('headerDayLabel').innerHTML = `with Agnes T-V &bull; ${dailyData.dayName}`;
+            document.getElementById('headerDayLabel').innerText = dailyData.dayName;
             resetGameState();
         }
 
@@ -391,94 +520,153 @@
 
         function resetGameState() {
             currentRound = 0; attempts = [];
+            
             document.getElementById('mainGameArea').classList.remove('hidden');
             document.getElementById('fullScreenAd').classList.add('hidden');
-            const btn = document.getElementById('submitBtn'); btn.disabled = false; btn.innerText = "Submit";
+            document.getElementById('submitBtn').disabled = false;
+            document.getElementById('submitBtn').innerText = "Submit";
             document.getElementById('gameOverModal').classList.add('hidden');
             document.getElementById('statsModal').classList.add('hidden');
             document.getElementById('dictHint').style.display = 'none';
             loadRound(currentRound);
         }
 
-        function loadRound(idx) {
-            currentInput = ""; const rData = dailyData.rounds[idx];
-            const regex = new RegExp('^[' + rData.letters.join('').toLowerCase() + ']+$');
-            const matched = FULL_DICTIONARY.filter(w => regex.test(w));
-            currentValidSet = new Set(matched);
-            currentMaxLen = matched.length > 0 ? Math.max(...matched.map(w => w.length)) : 0;
-            rData.liveLongestWord = matched.reduce((l, c) => c.length > l.length ? c : l, "");
+        function loadRound(roundIndex) {
+            currentInput = "";
+            const roundData = dailyData.rounds[roundIndex];
+            
+            // --- THE LIVE DICTIONARY MATH ---
+            const allowedLetters = roundData.letters.join('').toLowerCase();
+            const regex = new RegExp('^[' + allowedLetters + ']+$');
+            
+            const matchedWords = FULL_DICTIONARY.filter(word => regex.test(word));
+            
+            currentValidSet = new Set(matchedWords);
+            currentMaxLen = matchedWords.length > 0 ? Math.max(...matchedWords.map(w => w.length)) : 0;
+            roundData.liveLongestWord = matchedWords.reduce((longest, current) => current.length > longest.length ? current : longest, "");
 
-            document.getElementById('roundIndicator').innerText = `STAGE ${idx + 1} / 3`;
-            const grid = document.getElementById('lettersGrid'); grid.classList.add('fade-out');
-            setTimeout(() => { renderLetters(rData.letters); grid.classList.remove('fade-out'); }, 400);
-            renderHistory(); updateDisplay(); updateBestDisplay();
+            document.getElementById('roundIndicator').innerText = `STAGE ${roundIndex + 1}/3`;
+            
+            const container = document.getElementById('lettersGrid');
+            container.classList.add('fade-out');
+            
+            setTimeout(() => {
+                renderLetters(roundData.letters);
+                container.classList.remove('fade-out');
+            }, 400);
+
+            renderHistory();
+            updateDisplay();
+            updateBestDisplay();
         }
 
         function renderLetters(letters) {
-            const grid = document.getElementById('lettersGrid'); grid.innerHTML = '';
-            grid.className = 'shape-container ' + (letters.length===3 ? 'shape-triangle' : letters.length===4 ? 'shape-square' : 'shape-pentagon');
-            letters.forEach((l, i) => {
-                const btn = document.createElement('button'); btn.className = `shape-tile tile-${i}`;
-                btn.innerText = l; btn.setAttribute('data-val', l); btn.onclick = () => typeChar(l);
-                grid.appendChild(btn);
+            const container = document.getElementById('lettersGrid');
+            container.innerHTML = '';
+            
+            container.className = 'shape-container';
+            if (letters.length === 3) container.classList.add('shape-triangle');
+            else if (letters.length === 4) container.classList.add('shape-square');
+            else if (letters.length === 5) container.classList.add('shape-pentagon');
+            
+            letters.forEach((letter, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `shape-tile tile-${idx}`;
+                btn.innerText = letter;
+                btn.setAttribute('data-val', letter); 
+                btn.onclick = () => typeChar(letter);
+                container.appendChild(btn);
             });
         }
 
-        function typeChar(c) {
+        function typeChar(char) {
             if (currentRound >= MAX_ROUNDS) return;
-            currentInput += c;
-            document.querySelectorAll('.shape-tile').forEach(b => {
-                if (b.getAttribute('data-val') === c) {
-                    b.classList.add('active-sim'); setTimeout(() => b.classList.remove('active-sim'), 100);
+            currentInput += char;
+            
+            const btns = document.querySelectorAll('.shape-tile');
+            btns.forEach(btn => {
+                if (btn.getAttribute('data-val') === char) {
+                    btn.classList.add('active-sim');
+                    setTimeout(() => btn.classList.remove('active-sim'), 100);
                 }
             });
             updateDisplay();
         }
 
-        function deleteChar() { if (currentInput.length === 0) return; currentInput = currentInput.slice(0, -1); updateDisplay(); }
+        function deleteChar() {
+            if (currentInput.length === 0) return;
+            currentInput = currentInput.slice(0, -1);
+            updateDisplay();
+        }
 
         function updateDisplay() {
-            document.getElementById('currentWord').innerText = currentInput;
+            const display = document.getElementById('currentWord');
+            display.innerText = currentInput;
             const box = document.getElementById('inputDisplay');
             box.classList.remove('invalid', 'valid', 'pulse-low', 'pulse-med', 'pulse-high');
+
             if (currentInput.length >= 9) box.classList.add('pulse-high');
             else if (currentInput.length >= 6) box.classList.add('pulse-med');
             else if (currentInput.length >= 3) box.classList.add('pulse-low');
 
             const fill = document.getElementById('meterFill');
-            let pct = currentMaxLen > 0 ? (currentInput.length / currentMaxLen) * 100 : 0;
-            if (pct > 100) pct = 100;
-            fill.style.width = `${pct}%`;
-            if (pct === 100) fill.classList.add('maxed'); else fill.classList.remove('maxed');
+            let percentage = currentMaxLen > 0 ? (currentInput.length / currentMaxLen) * 100 : 0;
+            if (percentage > 100) percentage = 100;
+            
+            fill.style.width = `${percentage}%`;
+            if (percentage === 100) fill.classList.add('maxed');
+            else fill.classList.remove('maxed');
         }
 
         function submitWord() {
             if (currentRound >= MAX_ROUNDS) return;
-            const w = currentInput.toLowerCase(); const box = document.getElementById('inputDisplay');
-            if (w.length < 3 || !currentValidSet.has(w)) {
-                box.classList.add('invalid'); setTimeout(() => box.classList.remove('invalid'), 400); return;
-            }
-            box.classList.add('valid');
-            if (w.length >= 9) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#6366f1','#10b981','#fbbf24'] });
-            else if (w.length >= 5) confetti({ particleCount: 50, spread: 50, origin: { y: 0.6 } });
+            const word = currentInput.toLowerCase();
+            const displayEl = document.getElementById('inputDisplay');
 
-            attempts.push({ word: w, len: w.length, round: currentRound + 1 });
-            renderHistory(); updateBestDisplay();
+            if (word.length < 3) { shakeAndFail(); return; } 
+            if (!currentValidSet.has(word)) { shakeAndFail(); return; }
+
+            displayEl.classList.add('valid');
+            
+            if (word.length >= 9) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#6366f1', '#10b981', '#fbbf24'] });
+            else if (word.length >= 5) confetti({ particleCount: 50, spread: 50, origin: { y: 0.6 } });
+
+            attempts.push({ word: word, len: word.length, round: currentRound + 1 });
+            
+            renderHistory();
+            updateBestDisplay();
+            
             if(attempts.length === 1) document.getElementById('dictHint').style.display = 'block'; 
 
             setTimeout(() => {
                 currentRound++;
-                if (currentRound >= MAX_ROUNDS) endGame(); else loadRound(currentRound);
+                if (currentRound >= MAX_ROUNDS) endGame();
+                else loadRound(currentRound);
             }, 800);
         }
 
+        function shakeAndFail() {
+            const el = document.getElementById('inputDisplay');
+            el.classList.add('invalid');
+            setTimeout(() => el.classList.remove('invalid'), 400);
+        }
+
         function renderHistory() {
-            const list = document.getElementById('historyList'); list.innerHTML = '';
+            const list = document.getElementById('historyList');
+            list.innerHTML = '';
             for(let i=0; i<MAX_ROUNDS; i++) {
-                const a = attempts[i]; const div = document.createElement('div');
-                if(a) {
-                    div.className = 'attempt-row clickable'; div.onclick = () => fetchDefinition(a.word);
-                    div.innerHTML = `<span class="round-badge">S${i+1}</span><span style="font-family:'Lora',serif;font-weight:700;font-size:1.2rem;color:#4f46e5;flex-grow:1;text-align:center;">${a.word.toUpperCase()}</span><span class="attempt-score">+${a.len} pts</span>`;
+                const attempt = attempts[i];
+                const div = document.createElement('div');
+                
+                if(attempt) {
+                    div.className = 'attempt-row clickable';
+                    div.onclick = () => fetchDefinition(attempt.word);
+                    
+                    const badge = document.createElement('span'); badge.className = 'round-badge'; badge.textContent = `S${i+1}`;
+                    const wordSpan = document.createElement('span'); wordSpan.style.fontFamily = "'Lora',serif"; wordSpan.style.fontWeight = "700"; wordSpan.style.fontSize = "1.2rem"; wordSpan.style.color = "#4f46e5"; wordSpan.style.flexGrow = "1"; wordSpan.style.textAlign = "center"; wordSpan.textContent = attempt.word.toUpperCase();
+                    const scoreSpan = document.createElement('span'); scoreSpan.className = 'attempt-score'; scoreSpan.textContent = `+${attempt.len} pts`;
+
+                    div.appendChild(badge); div.appendChild(wordSpan); div.appendChild(scoreSpan);
                 } else {
                     div.className = 'attempt-row empty-slot'; div.textContent = `Stage ${i+1}`;
                 }
@@ -487,93 +675,165 @@
         }
 
         function updateBestDisplay() {
-            const el = document.getElementById('bestWordDisplay');
-            if (attempts.length === 0) { el.innerText = "WAITING..."; return; }
-            const best = attempts.reduce((m, p) => p.len > m.len ? p : m, attempts[0]);
-            let rt = RANKS[0].title; for (let r of RANKS) if (best.len >= r.min) rt = r.title;
-            el.innerText = rt;
+            const text = document.getElementById('bestWordDisplay');
+            if (attempts.length === 0) { text.innerText = "WAITING..."; return; }
+            const best = attempts.reduce((max, p) => p.len > max.len ? p : max, attempts[0]);
+            let rankTitle = RANKS[0].title;
+            for (let r of RANKS) { if (best.len >= r.min) rankTitle = r.title; }
+            text.innerText = rankTitle;
         }
 
         function setupKeyboard() {
             document.addEventListener('keydown', (e) => {
-                if (document.querySelector('.modal-overlay:not(.hidden)')) {
-                    if (!document.getElementById('introModal').classList.contains('hidden')) {
-                        if (e.key === 'Backspace') tutDel(); else if (['T','E','S'].includes(e.key.toUpperCase())) tutType(e.key.toUpperCase());
+                const isModalOpen = document.querySelector('.modal-overlay:not(.hidden)');
+                if (isModalOpen) {
+                    if (document.getElementById('introModal') && !document.getElementById('introModal').classList.contains('hidden')) {
+                        if (e.key === 'Backspace') tutDel();
+                        else if (['T','E','S'].includes(e.key.toUpperCase())) tutType(e.key.toUpperCase());
                     }
                     return; 
                 }
+
                 if (e.key === 'Backspace') {
                     e.preventDefault(); document.getElementById('btnDel').classList.add('active-sim'); deleteChar();
                     setTimeout(() => document.getElementById('btnDel').classList.remove('active-sim'), 100);
-                } else if (e.key === 'Enter') {
+                } 
+                else if (e.key === 'Enter') {
                     e.preventDefault(); document.getElementById('submitBtn').classList.add('active-sim'); submitWord();
                     setTimeout(() => document.getElementById('submitBtn').classList.remove('active-sim'), 100);
-                } else {
-                    const up = e.key.toUpperCase();
-                    if (dailyData.rounds[currentRound].letters.map(l => l.toUpperCase()).includes(up)) typeChar(up);
+                } 
+                else {
+                    const keyUpper = e.key.toUpperCase();
+                    if (dailyData.rounds[currentRound].letters.map(l => l.toUpperCase()).includes(keyUpper)) typeChar(keyUpper);
                 }
             });
         }
 
-        async function fetchDefinition(w) {
-            const m = document.getElementById('dictModal'); const c = document.getElementById('dictContent');
-            m.classList.remove('hidden'); c.innerHTML = `<div class="dict-loader">Consulting Dictionary Corner for "${w.toUpperCase()}"...</div>`;
+        async function fetchDefinition(word) {
+            const modal = document.getElementById('dictModal');
+            const content = document.getElementById('dictContent');
+            modal.classList.remove('hidden');
+            
+            content.innerHTML = '';
+            const loader = document.createElement('div');
+            loader.className = 'dict-loader'; loader.textContent = `Consulting Dictionary Corner for "${word.toUpperCase()}"...`;
+            content.appendChild(loader);
+
             try {
-                const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${w}`);
-                if (!res.ok) throw new Error("NF");
-                const d = await res.json(); const e = d[0]; const pText = e.phonetic || ((e.phonetics||[]).find(p => p && p.text)?.text) || '';
-                c.innerHTML = `<div class="dict-word">${w}</div>` + (pText ? `<div class="dict-phonetic">${pText}</div>` : '');
-                e.meanings.slice(0, 2).forEach(m => {
-                    const t = m.definitions[0]?.definition; if (!t) return;
-                    c.innerHTML += `<div class="dict-meaning"><div class="dict-pos">${m.partOfSpeech}</div><div class="dict-def">${t}</div></div>`;
+                const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+                if (!response.ok) throw new Error("Not found");
+                
+                const data = await response.json();
+                const entry = data[0];
+                const phonetics = Array.isArray(entry.phonetics) ? entry.phonetics : [];
+                let phoneticText = entry.phonetic || (phonetics.find(p => p && p.text)?.text) || '';
+                
+                content.innerHTML = '';
+
+                const wordEl = document.createElement('div'); wordEl.className = 'dict-word'; wordEl.textContent = word; content.appendChild(wordEl);
+                if (phoneticText) { const phonEl = document.createElement('div'); phonEl.className = 'dict-phonetic'; phonEl.textContent = phoneticText; content.appendChild(phonEl); }
+                
+                entry.meanings.slice(0, 2).forEach(meaning => {
+                    const defText = meaning.definitions[0]?.definition;
+                    if (!defText) return;
+                    const meaningContainer = document.createElement('div'); meaningContainer.className = 'dict-meaning';
+                    const posEl = document.createElement('div'); posEl.className = 'dict-pos'; posEl.textContent = meaning.partOfSpeech;
+                    const defEl = document.createElement('div'); defEl.className = 'dict-def'; defEl.textContent = defText;
+                    meaningContainer.appendChild(posEl); meaningContainer.appendChild(defEl); content.appendChild(meaningContainer);
                 });
-            } catch (err) {
-                c.innerHTML = `<div class="dict-word">${w}</div><div class="dict-meaning" style="border-color:#fbbf24;background:#fffbeb;"><div class="dict-def">Agnes confirms it's valid, but we couldn't fetch a live definition.</div></div>`;
+            } catch (error) {
+                content.innerHTML = '';
+                const wordEl = document.createElement('div'); wordEl.className = 'dict-word'; wordEl.textContent = word;
+                const failBox = document.createElement('div'); failBox.className = 'dict-meaning'; failBox.style.borderColor = '#fbbf24'; failBox.style.background = '#fffbeb';
+                const failText = document.createElement('div'); failText.className = 'dict-def'; failText.textContent = "Agnes confirms it's valid in today's puzzle, but we couldn't fetch a live definition right now.";
+                failBox.appendChild(failText); content.appendChild(wordEl); content.appendChild(failBox);
             }
         }
 
+        // --- END GAME COMPARISON LOGIC ---
         function endGame() {
-            document.getElementById('submitBtn').disabled = true; document.getElementById('submitBtn').innerText = "DONE";
-            const best = attempts.reduce((m, p) => p.len > m.len ? p : m, {len:0});
-            let rt = RANKS[0].title; for (let r of RANKS) if (best.len >= r.min) rt = r.title;
-            saveGameStats(best.len);
-            document.getElementById('finalScore').innerText = best.len; document.getElementById('finalRank').innerText = rt;
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submitBtn').innerText = "DONE";
+            document.getElementById('dictHint').innerText = "Tap words to see definitions!"; 
             
-            const cc = document.getElementById('endGameComparison'); cc.innerHTML = '';
+            const best = attempts.reduce((max, p) => p.len > max.len ? p : max, {len:0});
+            let rankTitle = RANKS[0].title;
+            for (let r of RANKS) { if (best.len >= r.min) rankTitle = r.title; }
+
+            saveGameStats(best.len);
+
+            document.getElementById('finalScore').innerText = best.len;
+            document.getElementById('finalRank').innerText = rankTitle;
+
+            const compContainer = document.getElementById('endGameComparison');
+            compContainer.innerHTML = '';
+
             for(let i = 0; i < MAX_ROUNDS; i++) {
-                const a = attempts[i]; const bWord = dailyData.rounds[i].liveLongestWord;
-                const pW = a ? a.word.toUpperCase() : '---'; const pL = a ? a.len : 0;
-                const bW = bWord ? bWord.toUpperCase() : '---'; const bL = bWord ? bWord.length : 0;
-                cc.innerHTML += `<div class="comp-row"><div class="comp-stage">S${i+1}</div><div class="comp-player">${pW} <span style="font-size:0.75rem;color:#94a3b8;">(${pL})</span></div><div class="comp-best">${bW} <span style="font-size:0.75rem;color:#10b981;opacity:0.8;">(${bL})</span></div></div>`;
+                const playerAttempt = attempts[i];
+                const bestWordObj = dailyData.rounds[i].liveLongestWord;
+                
+                const pWord = playerAttempt ? playerAttempt.word.toUpperCase() : '---';
+                const pLen = playerAttempt ? playerAttempt.len : 0;
+                const bWord = bestWordObj ? bestWordObj.toUpperCase() : '---';
+                const bLen = bestWordObj ? bestWordObj.length : 0;
+
+                const row = document.createElement('div');
+                row.className = 'comp-row';
+                row.innerHTML = `
+                    <div class="comp-stage">S${i+1}</div>
+                    <div class="comp-player">${pWord} <span style="font-size:0.75rem; color:#94a3b8;">(${pLen})</span></div>
+                    <div class="comp-best">${bWord} <span style="font-size:0.75rem; color:#10b981; opacity: 0.8;">(${bLen})</span></div>
+                `;
+                compContainer.appendChild(row);
             }
+
             setTimeout(() => document.getElementById('gameOverModal').classList.remove('hidden'), 500);
         }
 
         function showFullScreenAd() {
-            document.getElementById('gameOverModal').classList.add('hidden'); document.getElementById('statsModal').classList.add('hidden');
-            document.getElementById('mainGameArea').classList.add('hidden'); document.getElementById('fullScreenAd').classList.remove('hidden');
+            document.getElementById('gameOverModal').classList.add('hidden');
+            document.getElementById('statsModal').classList.add('hidden');
+            document.getElementById('mainGameArea').classList.add('hidden');
+            document.getElementById('fullScreenAd').classList.remove('hidden');
         }
 
         function openStats() {
-            document.getElementById('gameOverModal').classList.add('hidden'); const s = getStats();
-            document.getElementById('statPlayed').innerText = s.played; document.getElementById('statStreak').innerText = s.streak;
-            document.getElementById('statMaxStreak').innerText = s.maxStreak; document.getElementById('statBestWord').innerText = s.bestWord;
+            document.getElementById('gameOverModal').classList.add('hidden');
+            const stats = getStats();
+            document.getElementById('statPlayed').innerText = stats.played;
+            document.getElementById('statStreak').innerText = stats.streak;
+            document.getElementById('statMaxStreak').innerText = stats.maxStreak;
+            document.getElementById('statBestWord').innerText = stats.bestWord;
             document.getElementById('statsModal').classList.remove('hidden');
         }
 
+        // --- NEW SHARE LOGIC (UNIFORM 5-BLOCK METER) ---
         function shareResult() {
-            let txt = "";
+            let gridText = "";
             attempts.forEach((a, i) => {
-                const mL = dailyData.rounds[i].liveLongestWord ? dailyData.rounds[i].liveLongestWord.length : a.len;
-                const f = Math.round(Math.min(1, a.len / mL) * 5);
-                txt += `S${a.round}: ${a.len===mL?'🟪':'🟦'}`.repeat(f/2+1).slice(0, f*2+4) + `${'⬜'.repeat(5-f)} (${a.len}/${mL})\n`;
+                const maxLen = dailyData.rounds[i].liveLongestWord ? dailyData.rounds[i].liveLongestWord.length : a.len;
+                const ratio = Math.min(1, a.len / maxLen);
+                
+                const filledCount = Math.round(ratio * 5);
+                const emptyCount = 5 - filledCount;
+                
+                const icon = (a.len === maxLen) ? '🟪' : '🟦';
+                const bar = icon.repeat(filledCount) + '⬜'.repeat(emptyCount);
+                
+                gridText += `S${a.round}: ${bar} (${a.len}/${maxLen})\n`;
             });
-            const b = attempts.reduce((m, p) => p.len > m.len ? p : m, {len:0});
-            let rt = RANKS[0].title; for (let r of RANKS) if (b.len >= r.min) rt = r.title;
-            navigator.clipboard.writeText(`Echoes with Agnes T-V 🎙️\n${dailyData.dayName}\n\n${txt}\n🏆 Rank: ${rt}\nPlay here: https://yourgame.com`).then(() => showToast("Result copied! Paste it to challenge friends.", "📋"));
+            
+            const best = attempts.reduce((max, p) => p.len > max.len ? p : max, {len:0});
+            let rankTitle = RANKS[0].title;
+            for (let r of RANKS) { if (best.len >= r.min) rankTitle = r.title; }
+            
+            const shareText = `Echoes with Agnes T-V 🎙️\n${dailyData.dayName}\n\n${gridText}\n🏆 Rank: ${rankTitle}\nPlay here: https://venvoit.github.io/echoes/`;
+            
+            navigator.clipboard.writeText(shareText).then(() => showToast("Result copied! Paste it to challenge friends.", "📋"));
         }
 
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
     </script>
 </body>
 </html>

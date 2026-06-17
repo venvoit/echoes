@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Echoes with Agnes T-V</title>
+    <title>Echoes with Susie</title>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Varela+Round&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
@@ -198,7 +198,7 @@
     <header>
         <div class="logo-container">
             <div class="logo-main">ECHOES</div>
-            <div class="logo-sub">Agnes T-V &bull; <span id="headerDayLabel"></span></div>
+            <div class="logo-sub">Susie&bull; <span id="headerDayLabel"></span></div>
         </div>
         <div class="header-right">
             <div class="round-indicator" id="roundIndicator">S 1/3</div>
@@ -208,7 +208,7 @@
 
     <div id="mainGameArea" class="hidden">
         <div class="game-card">
-            <div class="rank-banner" id="agnesBanner">
+            <div class="rank-banner" id="SusieBanner">
                 <span style="opacity:0.6;">CURRENT RANK:</span>
                 <span id="bestWordDisplay" style="color: #4f46e5; font-weight:800; margin-left: 5px;">WAITING...</span>
             </div>
@@ -249,13 +249,13 @@
     </div>
 
     <div class="full-screen-ad hidden" id="fullScreenAd">
-        <img src="susie-icon.png" alt="Two Words with Susie Dent" style="width: 120px; height: 120px; border-radius: 24px; box-shadow: 0 12px 25px rgba(0,0,0,0.2); margin-bottom: 20px;">
+        <img src="Susie-icon.png" alt="Two Words with Susie Dent" style="width: 120px; height: 120px; border-radius: 24px; box-shadow: 0 12px 25px rgba(0,0,0,0.2); margin-bottom: 20px;">
         <h1 style="color: #4f46e5; margin-top: 0; font-weight: 800;">Come back tomorrow!</h1>
         <p style="color: #64748b; font-size: 1.1rem; line-height: 1.5; margin-bottom: 35px;">
             In the meantime test your vocabulary in our hit game <br><strong style="color: #334155;">Two Words with Susie Dent</strong>!
         </p>
         <div style="width: 100%; max-width: 300px;">
-            <a href="https://apps.apple.com/by/app/two-words-with-susie-dent/id1514156691" target="_blank" class="control-btn" style="width: 100%; background: #1e293b; color: white; margin-bottom: 15px; text-decoration: none; display: block; box-shadow: 0 6px 0 #0f172a;"> App Store</a>
+            <a href="https://apps.apple.com/by/app/two-words-with-Susie-dent/id1514156691" target="_blank" class="control-btn" style="width: 100%; background: #1e293b; color: white; margin-bottom: 15px; text-decoration: none; display: block; box-shadow: 0 6px 0 #0f172a;"> App Store</a>
             <a href="https://play.google.com/store/apps/details?id=uk.co.twowaymedia.twowords2" target="_blank" class="control-btn" style="width: 100%; background: #10b981; color: white; text-decoration: none; display: block; box-shadow: 0 6px 0 #059669;">▶ Google Play</a>
         </div>
     </div>
@@ -330,7 +330,7 @@
                 <div class="comp-label">
                     <span style="width:40px;"></span>
                     <span style="flex:1; text-align:center;">You</span>
-                    <span style="flex:1; text-align:center; color:#10b981;">Agnes's Best</span>
+                    <span style="flex:1; text-align:center; color:#10b981;">Susie's Best</span>
                 </div>
                 <div id="endGameComparison"></div>
             </div>
@@ -357,7 +357,7 @@
                     In the meantime test your vocabulary further in our hit game <strong>Two Words with Susie Dent</strong>!
                 </div>
                 <div class="ad-buttons">
-                    <a href="https://apps.apple.com/by/app/two-words-with-susie-dent/id1514156691" target="_blank" class="ad-btn apple-btn"> App Store</a>
+                    <a href="https://apps.apple.com/by/app/two-words-with-Susie-dent/id1514156691" target="_blank" class="ad-btn apple-btn"> App Store</a>
                     <a href="https://play.google.com/store/apps/details?id=uk.co.twowaymedia.twowords2" target="_blank" class="ad-btn google-btn">▶ Google Play</a>
                 </div>
             </div>
@@ -386,11 +386,11 @@
         const RANKS = [
             { min: 0, title: "Audience Member 🎟️" }, { min: 4, title: "Contestant 🎙️" },
             { min: 5, title: "Semi-Finalist 🥉" }, { min: 7, title: "Finalist 🥈" },
-            { min: 9, title: "Champion 🏆" }, { min: 11, title: "Agnes's Equal 👑" }
+            { min: 9, title: "Champion 🏆" }, { min: 11, title: "Susie's Equal 👑" }
         ];
 
         const MAX_ROUNDS = 3;
-        const STATS_KEY = 'echoes_agnes_stats_v21';
+        const STATS_KEY = 'echoes_Susie_stats_v21';
         
         let currentDayIndex = 0; 
         let currentRound = 0; 
@@ -745,7 +745,7 @@
                 content.innerHTML = '';
                 const wordEl = document.createElement('div'); wordEl.className = 'dict-word'; wordEl.textContent = word;
                 const failBox = document.createElement('div'); failBox.className = 'dict-meaning'; failBox.style.borderColor = '#fbbf24'; failBox.style.background = '#fffbeb';
-                const failText = document.createElement('div'); failText.className = 'dict-def'; failText.textContent = "Agnes confirms it's valid in today's puzzle, but we couldn't fetch a live definition right now.";
+                const failText = document.createElement('div'); failText.className = 'dict-def'; failText.textContent = "Susie confirms it's valid in today's puzzle, but we couldn't fetch a live definition right now.";
                 failBox.appendChild(failText); content.appendChild(wordEl); content.appendChild(failBox);
             }
         }
@@ -827,7 +827,7 @@
             let rankTitle = RANKS[0].title;
             for (let r of RANKS) { if (best.len >= r.min) rankTitle = r.title; }
             
-            const shareText = `Echoes with Agnes T-V 🎙️\n${dailyData.dayName}\n\n${gridText}\n🏆 Rank: ${rankTitle}\nPlay here: https://venvoit.github.io/echoes/`;
+            const shareText = `Echoes with Susie 🎙️\n${dailyData.dayName}\n\n${gridText}\n🏆 Rank: ${rankTitle}\nPlay here: https://venvoit.github.io/echoes/`;
             
             navigator.clipboard.writeText(shareText).then(() => showToast("Result copied! Paste it to challenge friends.", "📋"));
         }

@@ -385,7 +385,7 @@
         const RANKS = [
             { min: 0, title: "Audience Member 🎟️" }, { min: 4, title: "Contestant 🎙️" },
             { min: 5, title: "Semi-Finalist 🥉" }, { min: 7, title: "Finalist 🥈" },
-            { min: 9, title: "Champion 🏆" }, { min: 11, title: "Susie's Equal 👑" }
+            { min: 9, title: "Champion 🏆" }, { min: 11, title: "Susie Dent's Equal 👑" }
         ];
 
         const MAX_ROUNDS = 3;
@@ -744,7 +744,7 @@
                 content.innerHTML = '';
                 const wordEl = document.createElement('div'); wordEl.className = 'dict-word'; wordEl.textContent = word;
                 const failBox = document.createElement('div'); failBox.className = 'dict-meaning'; failBox.style.borderColor = '#fbbf24'; failBox.style.background = '#fffbeb';
-                const failText = document.createElement('div'); failText.className = 'dict-def'; failText.textContent = "Susie confirms it's valid in today's puzzle, but we couldn't fetch a live definition right now.";
+                const failText = document.createElement('div'); failText.className = 'dict-def'; failText.textContent = "It's valid in today's puzzle, but we couldn't fetch a live definition right now.";
                 failBox.appendChild(failText); content.appendChild(wordEl); content.appendChild(failBox);
             }
         }

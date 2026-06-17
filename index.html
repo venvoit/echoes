@@ -370,14 +370,14 @@
         // --- MULTI-STAGE PUZZLE DB (10 DAYS with Curated "Aha!" Round 1s) ---
         // Notice we REMOVED the hardcoded validWords arrays entirely. 
         // This prevents the AI from truncating the code, and prevents hallucinations!
-        const PUZZLE_DB = [
-            { id: 0, dayName: "SUNDAY", rounds: [{ letters: ["A", "B", "O"] }, { letters: ["B", "O", "U", "A"] }, { letters: ["A", "B", "O", "U", "T"] }] },
-            { id: 1, dayName: "MONDAY", rounds: [{ letters: ["A", "R", "T"] }, { letters: ["D", "A", "R", "T"] }, { letters: ["T", "R", "A", "D", "E"] }] },
-            { id: 2, dayName: "TUESDAY", rounds: [{ letters: ["S", "E", "T"] }, { letters: ["R", "E", "S", "T"] }, { letters: ["S", "T", "A", "R", "E"] }] },
-            { id: 3, dayName: "WEDNESDAY", rounds: [{ letters: ["E", "A", "R"] }, { letters: ["C", "A", "R", "E"] }, { letters: ["C", "A", "R", "E", "S"] }] },
-            { id: 4, dayName: "THURSDAY", rounds: [{ letters: ["O", "I", "N"] }, { letters: ["P", "I", "N", "O"] }, { letters: ["P", "O", "I", "N", "T"] }] },
-            { id: 5, dayName: "FRIDAY", rounds: [{ letters: ["E", "R", "O"] }, { letters: ["R", "O", "W", "E"] }, { letters: ["O", "W", "N", "E", "R"] }] },
-            { id: 6, dayName: "SATURDAY", rounds: [{ letters: ["P", "E", "R"] }, { letters: ["P", "A", "R", "E"] }, { letters: ["G", "R", "A", "P", "E"] }] },
+	const PUZZLE_DB = [
+            { id: 0, dayName: "SUNDAY", rounds: [{ letters: ["A", "R", "T"] }, { letters: ["G", "A", "I", "N"] }, { letters: ["G", "R", "E", "A", "T"] }] },
+            { id: 1, dayName: "MONDAY", rounds: [{ letters: ["T", "I", "G", "E", "R"] }, { letters: ["M", "E", "L", "S"] }, { letters: ["R", "E", "N", "T"] }] },
+            { id: 2, dayName: "TUESDAY", rounds: [{ letters: ["G", "A", "M", "E", "S"] }, { letters: ["T", "A", "B", "L", "E"] }, { letters: ["S", "H", "O", "T"] }] },
+            { id: 3, dayName: "WEDNESDAY", rounds: [{ letters: ["H", "E", "A", "D"] }, { letters: ["S", "C", "O", "R", "E"] }, { letters: ["R", "E", "F"] }] },
+            { id: 4, dayName: "THURSDAY", rounds: [{ letters: ["W", "E", "S", "T"] }, { letters: ["E", "A", "S", "T"] }, { letters: ["S", "O", "U", "T", "H"] }] },
+            { id: 5, dayName: "FRIDAY", rounds: [{ letters: ["V", "O", "T", "E", "R"] }, { letters:  ["A", "I", "R", "E", "S"] }, { letters: ["T", "U", "N", "A", "S"] }] },
+            { id: 6, dayName: "SATURDAY", rounds: [{ letters: ["E", "D", "I", "T", "S"] }, { letters: ["A", "B", "L", "E"] }, { letters: ["G", "R", "A", "P", "E"] }] },
             { id: 7, dayName: "DAY 8", rounds: [{ letters: ["L", "E", "S"] }, { letters: ["S", "A", "L", "E"] }, { letters: ["L", "E", "A", "S", "T"] }] },
             { id: 8, dayName: "DAY 9", rounds: [{ letters: ["F", "L", "U"] }, { letters: ["F", "O", "U", "L"] }, { letters: ["F", "L", "O", "U", "R"] }] },
             { id: 9, dayName: "DAY 10", rounds: [{ letters: ["T", "H", "E"] }, { letters: ["H", "E", "A", "T"] }, { letters: ["H", "E", "A", "R", "T"] }] }
